@@ -1,0 +1,34 @@
+---
+- hosts: all
+
+  vars_files:
+    - config.yml
+
+  roles:
+    - { role: kitty, tags: [kitty] }
+
+  tasks:
+    - name: Include bash task
+      ansible.builtin.include_tasks: tasks/bash.yml
+      tags: [bash]
+
+    - name: Include bat task
+      ansible.builtin.include_tasks: tasks/bat.yml
+      tags: [bat]
+
+    - name: Include git task
+      ansible.builtin.include_tasks: tasks/git.yml
+      tags: [git]
+
+    - name: Include neovim task
+      ansible.builtin.include_tasks: tasks/neovim.yml
+      tags: [neovim]
+
+    - name: Include sway task
+      ansible.builtin.include_tasks: tasks/sway.yml
+      tags: [sway]
+
+    - name: Include vault task
+      ansible.builtin.include_tasks: tasks/vault.yml
+      tags: [vault]
+

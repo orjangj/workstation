@@ -1,0 +1,1 @@
+arch ansible_ssh_host=192.168.56.21 ansible_ssh_port=22

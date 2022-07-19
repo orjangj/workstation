@@ -1,0 +1,13 @@
+- name: "fonts : Ensure fonts directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/share/fonts"
+    state: directory
+
+- name: "fonts : Install fonts"
+  ansible.builtin.unarchive:
+    src: "{{ item }}" 
+    dest: "{{ ansible_user_dir }}/.local/share/fonts/"
+    remote_src: yes
+  with_items:
+    - https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Hack.zip
+

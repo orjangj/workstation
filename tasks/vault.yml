@@ -1,0 +1,4 @@
+- name: "vault : install command line utility"
+  become: true
+  ansible.builtin.package:
+    name: vault

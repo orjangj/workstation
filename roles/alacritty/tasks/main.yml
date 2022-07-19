@@ -1,0 +1,56 @@
+---
+
+# TODO: Check if Rust is already installed, if not -> then include task to install rust
+# TODO: Install alacritty build dependencies based on OS -> i.e. include task for Debian/Ubuntu, etc..
+
+- name: Install Rust
+  ansible.builtin.shell: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y" 
+
+- name: Make sure the right Rust compiler is installed
+  ansible.builtin.shell: "source {{ ansible_user_dir }}/.profile && rustup override set stable && rustup update stable"
+  args:
+    executable: /bin/bash
+
+- name: Ensure build dependencies
+  become: yes
+  ansible.builtin.apt:
+    name:
+      - cmake 
+      - pkg-config 
+      - libfreetype6-dev 
+      - libfontconfig1-dev 
+      - libxcb-xfixes0-dev 
+      - libxkbcommon-dev 
+      - python3
+
+- name: Clone vim repository
+  ansible.builtin.git:
+    repo: https://github.com/alacritty/alacritty.git
+    depth: 1
+    dest: "{{ alacritty_clone_path }}"
+    version: "{{ alacritty_version }}"
+  register: clone
+
+- name: Compile Alacritty
+  ansible.builtin.shell:
+    cmd: "source {{ansible_user_dir}}/.profile && cargo build --release"
+    chdir: "{{ alacritty_clone_path }}/alacritty"
+  args:
+    executable: /bin/bash
+  when: clone.changed
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: "{{ alacritty_clone_path }}/target/release/alacritty"
+    dest: "{{ ansible_user_dir }}/.local/bin/alacritty"
+    state: link
+
+- name: Ensure alacritty config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/alacritty"
+    state: directory
+
+- name: Copy config in place
+  ansible.builtin.copy:
+    src: "{{ alacritty_config }}"
+    dest: "{{ ansible_user_dir }}/.config/alacritty/alacritty.yml"

@@ -1,0 +1,9 @@
+---
+- name: Chromium | Install Chromium
+  become: true
+  ansible.builtin.apt:
+    state: present
+    update_cache: yes
+    cache_valid_time: "86400" # One day
+    name:
+      - chromium-browser

@@ -1,0 +1,10 @@
+- name: "bash : Copy configuration files in place"
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_user_dir }}/{{ item | basename }}"
+  with_items:
+    - "{{ playbook_dir }}/files/bash/.bashrc"
+    - "{{ playbook_dir }}/files/bash/.bash_profile"
+    - "{{ playbook_dir }}/files/bash/.bash_aliases"
+    - "{{ playbook_dir }}/files/bash/.bash_functions"
+

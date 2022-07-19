@@ -1,0 +1,38 @@
+---
+#############
+# Terminals #
+#############
+
+kitty_version: "0.25.2"
+kitty_configs:
+  - "{{ playbook_dir }}/files/kitty/kitty.conf"
+  - "{{ playbook_dir }}/files/kitty/font.conf"
+  - "{{ playbook_dir }}/files/kitty/colorscheme.conf"
+  - "{{ playbook_dir }}/files/kitty/window.conf"
+  - "{{ playbook_dir }}/files/kitty/keymaps.conf"
+  - "{{ playbook_dir }}/files/kitty/cursor.conf"
+
+##############
+# Python/Pip #
+##############
+
+pip_install_packages:
+  - ansible-lint
+  - black
+  - flake8
+  - docker
+  - molecule[docker]
+  - python-language-server  # Used for LSP in Vim
+  - neovim
+
+##################
+# Virtualization #
+##################
+
+docker_users:
+  - "{{ ansible_user_id }}"
+
+vagrant_plugins:
+  - vagrant-disksize
+  - vagrant-libvirt
+

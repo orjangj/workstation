@@ -1,0 +1,27 @@
+- name: "sway : Install sway"
+  become: yes
+  ansible.builtin.package:
+    name: sway
+
+- name: "sway : Copy sway configuration in place"
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/sway"
+    dest: "{{ ansible_user_dir }}/.config"
+
+- name: "sway : Install additional dependencies"
+  become: yes
+  ansible.builtin.package:
+    name: "{{ item }}"
+  with_items:
+    - swaylock
+    - waybar
+    - fonts-font-awesome
+    - brightnessclt
+
+- name: "sway : Copy additional configurations in place"
+  ansible.builtin.copy:
+    src: " {{ item.src }}"
+    dest: " {{ item.dest }}"
+  with_items:
+    - { src: "{{ playbook_dir }}files/waybar" , dest: "{{ ansible_user_dir }}/.config" }
+

@@ -1,0 +1,9 @@
+- name: "bat : Install bat"
+  become: yes
+  ansible.builtin.package:
+    name: bat
+
+- name: "bat : Copy configuration file in place"
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/files/bat"
+    dest: "{{ ansible_user_dir }}/.config/"
