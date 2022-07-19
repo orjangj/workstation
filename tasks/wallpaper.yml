@@ -1,0 +1,6 @@
+---
+- name: "wallpaper : Copy desktop wallpaper in place"
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/nordic-wallpaper.png"
+    dest: "{{ ansible_user_dir }}/.wallpaper.png"
+

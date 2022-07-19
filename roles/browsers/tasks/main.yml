@@ -1,8 +1,0 @@
----
-- name: Install Chromium
-  include_tasks:
-    file: chromium.yml
-    apply:
-      tags: chromium
-  when: browsers_chromium_do_install == true
-  tags: chromium

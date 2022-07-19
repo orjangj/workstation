@@ -32,3 +32,7 @@
       ansible.builtin.include_tasks: tasks/vault.yml
       tags: [vault]
 
+    - name: Include wallpaper task
+      ansible.builtin.include_tasks: tasks/wallpaper.yml
+      tags: [wallpaper]
+
