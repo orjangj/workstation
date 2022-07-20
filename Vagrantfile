@@ -19,6 +19,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     # Required when using more than one virtual CPU
     v.customize ["modifyvm", :id, "--ioapic", "on"]
+    # Sway compatibility requirements
+    v.customize ['modifyvm', :id, "--graphicscontroller", "vmsvga"]
+    v.customize ["modifyvm", :id, "--vram", "128"]
+    v.customize ["modifyvm", :id, "--accelerate3d", "on"]
+    # Nice to have
+    v.customize ['modifyvm', :id, "--clipboard", "bidirectional"]
+    v.customize ['modifyvm', :id, "--mouse", "usbtablet"]
   end
 
   config.vm.hostname = "arch"
@@ -28,7 +35,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :arch do |arch|
   end
 
-  #config.vm.provision "shell", inline: "loadkeys no"
+  config.vm.provision "shell", inline: "loadkeys no"
+  config.vm.provision "shell", inline: <<-SHELL
+    FILE=/etc/environment
+    LINE="export WLR_NO_HARDWARE_CURSORS=1"
+    grep -qxF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+  SHELL
+  
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
     ansible.playbook = playbook
