@@ -6,7 +6,6 @@
   with_items:
     - "{{ ansible_user_dir }}/.local/bin"
     - "{{ ansible_user_dir }}/.local/share/applications"
-    - "{{ ansible_user_dir }}/.config/kitty"
     - "{{ kitty_install_dest }}"
 
 - name: Install tarball from release page
@@ -40,11 +39,4 @@
   loop: "{{ files['results'] }}"
   loop_control:
     label: "{{ ansible_user_dir }}/.local/share/applications/{{ item['source'] | basename }}"
-
-
-- name: Copy configuration files in place
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ ansible_user_dir }}/.config/kitty/"
-  with_items: "{{ kitty_configs }}"
 
