@@ -7,4 +7,5 @@
     - "{{ playbook_dir }}/files/bash/.bash_profile"
     - "{{ playbook_dir }}/files/bash/.bash_aliases"
     - "{{ playbook_dir }}/files/bash/.bash_functions"
+  tags: [bash]
 

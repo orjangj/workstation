@@ -7,7 +7,27 @@
   roles:
     - { role: kitty, tags: [kitty] }
 
+  pre_tasks:
+    - name: Update package cache
+      become: yes
+      community.general.pacman:
+        update_cache: yes
+      tags: [always]
+
+    - name: Install base 
+      ansible.builtin.include_tasks: tasks/base.yml
+      tags: [base]
+
   tasks:
+    - name: Install packages
+      become: yes
+      community.general.pacman:
+        name: "{{ item }}"
+      with_items:
+        - unzip
+        - gpm  # general purpose mouse
+      tags: [base, packages]
+      
     - name: Include bash task
       ansible.builtin.include_tasks: tasks/bash.yml
       tags: [bash]
@@ -19,6 +39,10 @@
     - name: Include git task
       ansible.builtin.include_tasks: tasks/git.yml
       tags: [git]
+
+    - name: Include fonts task
+      ansible.builtin.include_tasks: tasks/fonts.yml
+      tags: [fonts]
 
     - name: Include neovim task
       ansible.builtin.include_tasks: tasks/neovim.yml
