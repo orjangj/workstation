@@ -1,8 +1,7 @@
 ### Startup configuration
 
 xwayland enable
-# Need to be installed from AUR (not sure how to do that with ansible yet)
-#exec --no-startup-id autotiling
+exec --no-startup-id autotiling
 
 ### Basic configuration
 
