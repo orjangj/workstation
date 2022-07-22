@@ -8,7 +8,7 @@ case $- in
       *) return;;
 esac
 
-# History configuration 
+### History configuration 
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -18,17 +18,15 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Local functions
-_git_branch() {
-    if type git sed &> /dev/null;  then
-        git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-    fi
+### Prompt configuration
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-# Prompt configuration
 USERNAME="\u"
 HOSTNAME="\h"
 WORKDIR="\W"
+RESET="\[\033[0m"
 RED="\[\033[00;31m\]"
 RED_BOLD="\[\033[01;31m\]"
 GREEN="\[\033[00;32m\]"
@@ -40,8 +38,8 @@ BLUE_BOLD="\[\033[01;34m\]"
 WHITE="\[\033[00;37m\]"
 WHITE_BOLD="\[\033[01;37m\]"
 
-PS1="${GREEN_BOLD}┌ ${USERNAME}@${HOSTNAME}${BLUE_BOLD} ➜ ${WORKDIR} ${YELLOW_BOLD}\$(_git_branch)\n${GREEN_BOLD}└┄${WHITE} "
-PS2="${YELLOW_BOLD}➜${WHITE} "
+PS1="${GREEN_BOLD}┌ ${USERNAME}@${HOSTNAME}${BLUE_BOLD} ➜ ${WORKDIR} ${YELLOW_BOLD}\$(parse_git_branch)\n${GREEN_BOLD}└┄ ${RESET}"
+PS2="${YELLOW_BOLD}➜ ${RESET}"
 
 # Source aliases
 if [ -f ~/.bash_aliases ]; then
@@ -63,22 +61,22 @@ if ! shopt -oq posix; then
 fi
 
 # Add paths
-_path_prepend() {
+path_prepend() {
     # Only adds path if it exists and isn't already included in PATH
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
         PATH="$1${PATH:+":$PATH"}"
     fi
 }
 
-_path_append() {
+path_append() {
     # Only adds path if it exists and isn't already included in PATH
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
 
-_path_prepend ~/.local/bin
-_path_prepend ~/bin
+path_prepend ~/.local/bin
+path_prepend ~/bin
 
 # Environment variables
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'

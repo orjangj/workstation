@@ -11,7 +11,7 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu wofi --show run
 
 ### Display/window configuration
 gaps inner 5

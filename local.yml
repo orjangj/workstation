@@ -29,7 +29,6 @@
         - unzip
         - git
         - gpm  # general purpose mouse
-        - dmenu
         - intel-ucode
         - firefox
         - chromium
