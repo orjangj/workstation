@@ -1,0 +1,17 @@
+---
+- name: Ensure clone path exists
+  ansible.builtin.file:
+    path: "{{ aur_helper_clone_path }}"
+    state: directory
+
+- include_tasks: install-paru.yml
+  when: aur_helper == 'paru'
+
+# community.general.pacman has poor compatibility with AUR helpers
+# (i.e. yay and paru), so we just use command instead.
+# Consider using kewlfft.aur ansible collection instead.
+- name: Install AUR packages
+  ansible.builtin.command:
+    cmd: "{{ aur_helper }} -S --needed --noconfirm --cleanafter {{ item }}"
+  changed_when: false
+  with_items: "{{ aur_packages }}"

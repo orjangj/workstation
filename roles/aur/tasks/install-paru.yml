@@ -1,0 +1,16 @@
+---
+- name: Install paru AUR helper
+  block:
+    - name: Checkout paru git repository
+      ansible.builtin.git:
+        repo: "https://aur.archlinux.org/paru.git"
+        dest: "{{ aur_helper_clone_path }}/paru"
+        depth: 1
+      register: clone
+
+    - name: Install paru
+      ansible.builtin.command:
+        cmd: "makepkg --syncdeps --install --needed --noconfirm PKGBUILD"
+        chdir: "{{ aur_helper_clone_path }}/paru"
+      when: clone.changed
+

@@ -1,7 +1,8 @@
 ### Startup configuration
 
 xwayland enable
-exec --no-startup-id autotiling
+# Need to be installed from AUR (not sure how to do that with ansible yet)
+#exec --no-startup-id autotiling
 
 ### Basic configuration
 
@@ -10,15 +11,16 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term $HOME/.local/bin/kitty
+set $term foot
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-### Display configuration
-
-output * background '~/.wallpaper.png' fill
-
+### Display/window configuration
 gaps inner 5
 default_border pixel 0
+default_floating_border normal
+
+# Randomize wallpaper selection (depends on the nordic-wallpapers AUR package)
+output * background `find /usr/share/backgrounds/nordic-wallpapers/ -type f | shuf -n 1` fill
 
 workspace 3
 exec chromium
@@ -28,6 +30,13 @@ exec firefox
 
 workspace 1
 exec $term
+
+### --> Need to set cl_blabla values to nord theme
+### Colors              border   bg       text     indi     childborder
+#client.focused          $cl_high $cl_high $cl_fore $cl_indi $cl_high
+#client.focused_inactive $cl_back $cl_back $cl_fore $cl_back $cl_back
+#client.unfocused        $cl_back $cl_back $cl_fore $cl_back $cl_back
+#client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 ### Idle configuration
 

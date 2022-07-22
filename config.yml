@@ -1,4 +1,13 @@
 ---
+#######
+# AUR #
+#######
+
+aur_helper: "paru"
+aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
+aur_packages:
+  - "nordic-wallpapers"
+
 #############
 # Terminals #
 #############
@@ -11,6 +20,8 @@ kitty_configs:
   - "{{ playbook_dir }}/files/kitty/window.conf"
   - "{{ playbook_dir }}/files/kitty/keymaps.conf"
   - "{{ playbook_dir }}/files/kitty/cursor.conf"
+
+foot_configs: "{{ playbook_dir }}/files/foot"
 
 ##############
 # Python/Pip #

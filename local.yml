@@ -5,6 +5,8 @@
     - config.yml
 
   roles:
+    - { role: aur, tags: [base, aur] }
+    - { role: foot, tags: [base, foot] }
     - { role: kitty, tags: [kitty] }
 
   pre_tasks:
@@ -25,7 +27,13 @@
         name: "{{ item }}"
       with_items:
         - unzip
+        - git
         - gpm  # general purpose mouse
+        - dmenu
+        - intel-ucode
+        - firefox
+        - chromium
+        - ttf-hack
       tags: [base, packages]
       
     - name: Include bash task
@@ -55,8 +63,4 @@
     - name: Include vault task
       ansible.builtin.include_tasks: tasks/vault.yml
       tags: [vault]
-
-    - name: Include wallpaper task
-      ansible.builtin.include_tasks: tasks/wallpaper.yml
-      tags: [wallpaper]
 

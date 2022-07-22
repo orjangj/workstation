@@ -1,6 +1,7 @@
 - name: "neovim : Install neovim"
+  become: yes
   ansible.builtin.package:
-    name: nvim
+    name: neovim
 
 - name: "neovim : Copy configuration in place"
   ansible.builtin.copy:

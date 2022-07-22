@@ -10,9 +10,11 @@
     - linux
     - linux-firmware
     - linux-headers
+    - intel-ucode  # Is this necessary?
     - git
     - python3
     - vim
+    - bash-completion
   tags: [base]
 
 - name: "base : Ensure networking packages are installed"
@@ -26,6 +28,8 @@
     - openssh
     - bluez
     - bluez-utils
+    - dnsmasq  # Needed?
+    - wpa_supplicant  # Needed?
   tags: [base]
 
 - name: "base : Ensure audio packages are installed"
@@ -34,6 +38,7 @@
     name: "{{ item }}"
   with_items:
     - pulseaudio
+    - sof-firmware
   tags: [base]
 
 - name: "base : Ensure display packages are installed"
@@ -42,15 +47,24 @@
     name: "{{ item }}"
   with_items:
     - brightnessctl
-  tags: [base]
+  tags: [base, display]
 
 - name: "base : Ensure video/gpu packages are installed"
   become: yes
   community.general.pacman:
     name: "{{ item }}"
   with_items:
+    - mesa
     - mesa-utils
-  tags: [base]
+  tags: [base, gpu]
+
+- name: "base : Ensure security packages are installed"
+  become: yes
+  community.general.pacman:
+    name: "{{ item }}"
+  with_items:
+    - firewalld
+  tags: [base, security]
 
 - name: "base : Add {{ ansible_env.USER }} user to selected groups"
   become: yes

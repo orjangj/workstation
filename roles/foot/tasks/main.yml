@@ -1,0 +1,9 @@
+---
+- include_tasks: install-arch.yml
+  when: ansible_os_family == 'Archlinux'
+
+- name: Copy configuration in place
+  ansible.builtin.copy:
+    src: "{{ foot_configs }}"
+    dest: "{{ ansible_user_dir }}/.config"
+
