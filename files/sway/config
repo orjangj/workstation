@@ -40,7 +40,7 @@ exec $term
 ### Idle configuration
 
 exec swayidle -w \
-        timeout 300 'swaylock -f -c 000000' \
+        timeout 300 'swaylock -f' \
         timeout 3000 'swaymsg "output * dpms off"' \
         resume 'swaymsg "output * dpms on"' \
         before-sleep 'swaylock -f -c 000000'
@@ -73,7 +73,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 floating_modifier $mod normal
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+shift+e exec 'sh $HOME/.config/wofi/logout.sh'
 
 # Navigation
 bindsym $mod+$left focus left

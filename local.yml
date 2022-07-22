@@ -33,6 +33,13 @@
         - firefox
         - chromium
         - ttf-hack
+        - curl
+        - openssl
+        - wget
+        - wl-clipboard  # Will this work with nvim? Alternatives? slurp, ...?
+        - man-db
+        - ripgrep
+        - fzf
       tags: [base, packages]
       
     - name: Include bash task
