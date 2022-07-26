@@ -4,10 +4,8 @@
   vars_files:
     - config.yml
 
-  roles:
-    - { role: aur, tags: [base, aur] }
-    - { role: foot, tags: [base, foot] }
-    - { role: kitty, tags: [kitty] }
+  vars:
+    configs: "{{ playbook_dir }}/files"
 
   pre_tasks:
     - name: Update package cache
@@ -17,56 +15,126 @@
       tags: [always]
 
     - name: Install base 
-      ansible.builtin.include_tasks: tasks/base.yml
+      ansible.builtin.import_tasks: tasks/base.yml
       tags: [base]
 
-  tasks:
-    - name: Install packages
-      become: yes
-      community.general.pacman:
-        name: "{{ item }}"
-      with_items:
-        - unzip
-        - git
-        - gpm  # general purpose mouse
-        - intel-ucode
-        - firefox
-        - chromium
-        - ttf-hack
-        - curl
-        - openssl
-        - wget
-        - wl-clipboard  # Will this work with nvim? Alternatives? slurp, ...?
-        - man-db
-        - ripgrep
-        - fzf
-      tags: [base, packages]
-      
-    - name: Include bash task
-      ansible.builtin.include_tasks: tasks/bash.yml
-      tags: [bash]
+  # Re-using roles with different parameters allow for more
+  # fine-grained control of which roles are executed based
+  # on tags
+  roles:
+    # ---- AUR ---- #
+    - role: aur
+      tags: [base, aur]
+    # ---- Pacman ---- #
+    - role: package
+      tags: [foot, base, terminals]
+      vars:
+        package_names:
+          - foot
+        package_configs:
+          - src: "{{ configs }}/foot"
+    - role: package
+      tags: [kitty, terminals]
+      vars:
+        package_names:
+          - kitty
+          - imagemagic
+        package_configs:
+          - src: "{{ configs }}/kitty"
+    - role: package
+      tags: [alacritty, terminals]
+      vars:
+        package_names:
+          - alacritty
+        package_configs:
+          - src: "{{ configs }}/alacritty"
+    - role: package
+      tags: [fonts, base]
+      vars:
+        package_names:
+          - ttf-hack
+          - otf-font-awesome
+    - role: package
+      tags: [tools]
+      vars:
+        package_names:
+          - bat
+          - curl
+          - fzf
+          - gtk3  # Probably installed as dependency from other packages.
+          - htop
+          - man-db
+          - neofetch
+          - ripgrep
+          - unzip
+          - vault
+          - wget
+          - wl-clipboard  # Should go into sway dependency?
+        package_configs:
+          - src: "{{ configs }}/bat"
+          - src: "{{ configs }}/gtk-3.0"
+          - srC: "{{ configs }}/neofetch"
+    - role: package
+      tags: [browsers]
+      vars:
+        package_names:
+          - firefox
+          - chromium
+    - role: package
+      tags: [bash, base]
+      vars:
+        package_names:
+          - bash
+          - bash-completion
+        package_configs:
+          - src: "{{ configs }}/bash/"
+            dest: "{{ ansible_user_dir }}/"
+    - role: package
+      tags: [ranger, tools]
+      vars:
+        package_names:
+          - ranger
+          - dragon-drop
+        package_configs:
+          - src: "{{ configs }}/ranger"
+    - role: package
+      tags: [vim, base, editors]
+      vars:
+        package_names:
+          - vim
+    - role: package
+      tags: [neovim, editors]
+      vars:
+        package_names:
+          - neovim
+          - python-pynvim
+          - ripgrep
+        package_configs:
+          - src: "{{ configs }}/nvim"
+    - role: package
+      tags: [git, base, tools]
+      vars:
+        package_names:
+          - git
+        package_configs:
+          - src: "{{ configs }}/git"
+    - role: package
+      tags: [sway, base, wm]
+      vars:
+        package_names:
+          - sway
+          - swaybg
+          - swaylock
+          - swayidle
+          - waybar
+          - wofi
+          - otf-font-awesome
+          - xorg-xwayland
+        package_configs:
+          - src: "{{ configs }}/sway"
+          - src: "{{ configs }}/waybar"
+          - src: "{{ configs }}/wofi"
+          - src: "{{ configs }}/swaylock"
 
-    - name: Include bat task
-      ansible.builtin.include_tasks: tasks/bat.yml
-      tags: [bat]
-
-    - name: Include git task
-      ansible.builtin.include_tasks: tasks/git.yml
-      tags: [git]
-
-    - name: Include fonts task
-      ansible.builtin.include_tasks: tasks/fonts.yml
-      tags: [fonts]
-
-    - name: Include neovim task
-      ansible.builtin.include_tasks: tasks/neovim.yml
-      tags: [neovim]
-
-    - name: Include sway task
-      ansible.builtin.include_tasks: tasks/sway.yml
-      tags: [sway]
-
-    - name: Include vault task
-      ansible.builtin.include_tasks: tasks/vault.yml
-      tags: [vault]
-
+    # TODO: Include service tasks/roles
+    

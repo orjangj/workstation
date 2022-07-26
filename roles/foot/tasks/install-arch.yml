@@ -1,6 +1,0 @@
----
-- name: Install foot
-  become: yes
-  community.general.pacman:
-    name: foot
-

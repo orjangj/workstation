@@ -1,5 +1,0 @@
----
-- name: Install kitty
-  become: yes
-  community.general.pacman:
-    name: kitty

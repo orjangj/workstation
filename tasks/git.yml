@@ -1,8 +1,0 @@
-- name: "git : Install git"
-  ansible.builtin.package:
-    name: git
-
-- name: "git : Copy git configuration files in place"
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/files/git"
-    dest: "{{ ansible_user_dir }}/.config/"

@@ -93,3 +93,8 @@ else
     export VISUAL=vim
 fi
 export EDITOR="$VISUAL"
+
+if type neofetch &> /dev/null; then
+    neofetch
+fi
+

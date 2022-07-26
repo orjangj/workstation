@@ -1,4 +1,0 @@
----
-alacritty_version: "master"
-alacritty_config: ""
-alacritty_clone_path: "{{ ansible_user_dir }}"

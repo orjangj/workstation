@@ -14,8 +14,6 @@
     - git
     - python3
     - vim
-    - bash-completion
-  tags: [base]
 
 - name: "base : Ensure networking packages are installed"
   become: yes
@@ -30,16 +28,14 @@
     - bluez-utils
     - dnsmasq  # Needed?
     - wpa_supplicant  # Needed?
-  tags: [base]
 
 - name: "base : Ensure audio packages are installed"
   become: yes
   community.general.pacman:
     name: "{{ item }}"
   with_items:
-    - pulseaudio
+    - pulseaudio  # vs pipewire?
     - sof-firmware
-  tags: [base]
 
 - name: "base : Ensure display packages are installed"
   become: yes
@@ -47,7 +43,6 @@
     name: "{{ item }}"
   with_items:
     - brightnessctl
-  tags: [base, display]
 
 - name: "base : Ensure video/gpu packages are installed"
   become: yes
@@ -56,7 +51,6 @@
   with_items:
     - mesa
     - mesa-utils
-  tags: [base, gpu]
 
 - name: "base : Ensure security packages are installed"
   become: yes
@@ -64,7 +58,6 @@
     name: "{{ item }}"
   with_items:
     - firewalld
-  tags: [base, security]
 
 - name: "base : Add {{ ansible_env.USER }} user to selected groups"
   become: yes
@@ -76,4 +69,3 @@
     - adm
     - wheel
     - video
-  tags: [base]

@@ -1,4 +1,0 @@
----
-kitty_version: ""
-kitty_configs: ""
-kitty_install_dest: "{{ ansible_user_dir }}/.local/kitty.app"

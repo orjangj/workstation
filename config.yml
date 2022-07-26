@@ -7,22 +7,8 @@ aur_helper: "paru"
 aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
 aur_packages:
   - "nordic-wallpapers"
+  - "nordic-darker-theme"
   - "autotiling"
-
-#############
-# Terminals #
-#############
-
-kitty_version: "0.25.2"
-kitty_configs:
-  - "{{ playbook_dir }}/files/kitty/kitty.conf"
-  - "{{ playbook_dir }}/files/kitty/font.conf"
-  - "{{ playbook_dir }}/files/kitty/colorscheme.conf"
-  - "{{ playbook_dir }}/files/kitty/window.conf"
-  - "{{ playbook_dir }}/files/kitty/keymaps.conf"
-  - "{{ playbook_dir }}/files/kitty/cursor.conf"
-
-foot_configs: "{{ playbook_dir }}/files/foot"
 
 ##############
 # Python/Pip #
@@ -40,9 +26,6 @@ pip_install_packages:
 ##################
 # Virtualization #
 ##################
-
-docker_users:
-  - "{{ ansible_user_id }}"
 
 vagrant_plugins:
   - vagrant-disksize
