@@ -1,18 +1,80 @@
 ---
-#######
-# AUR #
-#######
+# {{{ Login manager
+
+#sddm_configs: "{{ playbook_dir }}/files/sddm"
+
+# }}}
+
+xorg_dependencies:
+  - "glibc>=2.36"
+  - "xf86-video-intel"
+  - "xf86-input-synaptics"
+
+# {{{ File Manager
+ranger_name: ranger
+ranger_dependencies:
+  - dragon  # X11
+ranger_configs:
+  - "{{ playbook_dir }}/files/ranger"
+# }}}
+
+# {{{ Window Manager
+sway_dependencies:
+  - swaybg
+  - swaylock
+  - swayidle
+  - waybar
+  - wofi
+  - otf-font-awesome
+  - xorg-xwayland
+  - wl-clipboard
+sway_configs:
+  - "{{ playbook_dir }}/files/sway"
+  - "{{ playbook_dir }}/files/swaylock"
+  - "{{ playbook_dir }}/files/waybar"
+  - "{{ playbook_dir }}/files/wofi"
+
+awesome_dependencies:
+  - picom
+  - feh
+  - rofi
+awesome_configs:
+  - "{{ playbook_dir }}/files/awesome"
+  #  - "{{ playbook_dir }}/files/rofi"
+# }}}
+
+### Arch User Repository (AUR) ###
 
 aur_helper: "paru"
 aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
 aur_packages:
   - "nordic-wallpapers"
   - "nordic-darker-theme"
-  - "autotiling"
+  - "dragon-drop"
+  - "autotiling"  # Not sure if this will conflict with awesome
 
-##############
-# Python/Pip #
-##############
+########
+# Base #
+########
+
+base_utilities:
+  - bat
+  - curl
+  - fzf
+  - gtk3
+  - htop
+  - man-db
+  - neofetch
+  - ripgrep
+  - unzip
+  - vault
+  - wget
+base_configs:
+  - src: "{{ playbook_dir }}/files/bat"
+  - src: "{{ playbook_dir }}/files/gtk-3.0"
+  - srC: "{{ playbook_dir }}/files/neofetch" 
+
+# {{{ Python
 
 pip_install_packages:
   - ansible-lint
@@ -23,9 +85,24 @@ pip_install_packages:
   - python-language-server  # Used for LSP in Vim
   - neovim
 
-##################
-# Virtualization #
-##################
+# }}}
+
+### Terminal emulators ###
+
+alacritty_dependencies: []
+alacritty_configs:
+  - "{{ playbook_dir }}/files/alacritty"
+
+kitty_dependencies:
+  - imagemagick
+kitty_configs:
+  - "{{ playbook_dir }}/files/kitty"
+
+foot_dependencies: []
+foot_configs:
+  - "{{ playbook_dir }}/files/foot"
+
+### Virtualization ###
 
 vagrant_plugins:
   - vagrant-disksize

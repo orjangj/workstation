@@ -1,0 +1,76 @@
+- foot -- fallback font (to default) if preferred font is not installed
+
+- region/language -- see base install recommendations
+- bash profile -- how should it be used, best practices
+- sway client focused nord theme colors
+- sway startup -- bash, logind vs seatd vs greetd vs vs elogind vs sddm vs lightdm vs systemd vs xinit
+- swaylock vs lightdm
+- file manager (see distrotube)
+- nord dircolors
+- fonts -- Hack vs Fira vs Awesome (nerd fonts?)? compatibility with nvim.
+
+- What is XDG all about?
+
+- sway -- current desktop not set (ignoring) -- exit sway to see message
+- sway -- screenshots/printscreen
+- wofi -- configure hjkl as left, down, up and right 
+- wofi logout script
+  - Can it be done differently? should I use systemctl?
+  - Gracefully shut down open applications/processes
+- swaybar -- look into errors, and set time to hh:mm instead of hh:mm:ss, add day of week
+
+- Look into errors from dmesg, sway etc..
+
+- mako -- Wayland notification daemon
+- base -- ensure time-date is set correctly (ntp?)
+. docker -- update collection so it can install on arch
+- bootstrap
+    - See https://github.com/4km3/archify/blob/master/bootstrap.yml
+    - bootstrap a new installation
+        - partitioning
+        - installing base packages
+        - setting up encrypted fs
+        - etc..
+
+- ranger
+  - learn keybindings
+  - how to integrate dragon-drop?
+  - image preview with kitty when using foot/alacritty as terminal?
+
+- Terminals
+ - alacritty
+ - kitty
+ - foot
+
+- WHY do I have gnome in org.gnome when using gsettings? Is gnome installed?
+
+- Create machine bootstrap playbook for partitioning/setup machine over SSH
+- Go through Arch general recommendations
+
+- Services that needs to be enabled
+  - avahi
+  - firewalld
+  - NetworkManager
+  - bluetooth
+  - dnsmasq
+  - ntp?
+
+- Add driver/service role?
+  - ssh
+  - bluetooth
+  - network/wifi
+  - video/gpu
+  - usb
+  - hdmi
+  - thunderbolt?
+  - input devices
+    - mouse
+    - keyboard
+    - touchpad
+    - laptop?
+  - power management
+  - security
+    - firewall
+  - vpn
+  - printers?
+

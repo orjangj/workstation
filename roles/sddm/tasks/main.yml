@@ -1,0 +1,18 @@
+---
+- name: "Ensure sddm and dependencies are installed"
+  become: yes
+  community.general.pacman:
+    name: "{{ ['sddm'] + sddm_dependencies }}"
+
+- name: Copy configuration files in place
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_user_dir }}/.config"
+  with_items: "{{ sddm_configs }}"
+
+- name: "Ensure sddm is {{ 'enabled' if sddm_enable else 'disabled' }} on boot"
+  become: yes
+  ansible.builtin.service:
+    name: sddm
+    enabled: "{{ 'yes' if sddm_enable else 'no' }}"
+

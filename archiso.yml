@@ -1,0 +1,10 @@
+---
+- hosts: all
+
+  vars:
+    archiso_hostname: "LT-OG02"
+    archiso_username: "og"
+    archiso_userpass: ""  # Vault encrypted variable
+    archiso_encryption_enable: true
+    archiso_encryption_password: ""  # Vault encrypted variable
+

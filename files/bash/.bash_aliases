@@ -28,7 +28,7 @@ alias ...='cd ..; cd ..'
 alias ....='cd ..; cd ..; cd ..'
 
 # Editor aliases
-alias v='vim'
+alias v='nvim'
 
 # Ansible aliases
 alias play='ansible-playbook'

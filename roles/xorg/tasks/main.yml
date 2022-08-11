@@ -1,0 +1,6 @@
+---
+- name: Install xorg-server and dependencies
+  become: yes
+  community.general.pacman:
+    name: "{{ ['xorg-server', 'xorg-xinit'] + xorg_dependencies }}"
+

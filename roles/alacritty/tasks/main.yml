@@ -1,0 +1,14 @@
+---
+- name: "Ensure alacritty and dependencies are installed"
+  become: yes
+  community.general.pacman:
+    name: "{{ item }}"
+  with_items:
+    - alacritty
+    - "{{ alacritty_dependencies }}"
+
+- name: Copy configurations in place
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_user_dir }}/.config"
+  with_items: "{{ alacritty_configs }}"

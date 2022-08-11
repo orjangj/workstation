@@ -10,24 +10,26 @@
     - linux
     - linux-firmware
     - linux-headers
-    - intel-ucode  # Is this necessary?
     - git
     - python3
     - vim
+    #    - intel-ucode  # Is this necessary?
+
+- name: Ensure glibc is latest
+  become: yes
+  community.general.pacman:
+    name: glibc
+    state: latest
 
 - name: "base : Ensure networking packages are installed"
   become: yes
   community.general.pacman:
     name: "{{ item }}"
   with_items:
-    - networkmanager
-    - network-manager-applet
     - avahi
     - openssh
     - bluez
     - bluez-utils
-    - dnsmasq  # Needed?
-    - wpa_supplicant  # Needed?
 
 - name: "base : Ensure audio packages are installed"
   become: yes
