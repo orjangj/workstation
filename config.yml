@@ -1,14 +1,36 @@
 ---
-# {{{ Login manager
+# {{{ Globals
+window_manager: "awesome"
+display_manager: "sddm"
+file_manager: "ranger"
+display_server: "{{ 'wayland' if window_manager == 'sway' else 'xorg' }} ]"
+desktop_environment: ""
+editor: "nvim"
+shell: "bash"
+terminal: "kitty"
+theme: "nord"
+font: "Fira Code"
+lang: "en_US.UTF-8"
+locale: "lang?"
+timezone: "Europe/Oslo"
+browser: firefox
+network_manager: "networkmanager"
+bluetooth_manager: "bluez"
+sound_manager: "pulseaudio"
 
-#sddm_configs: "{{ playbook_dir }}/files/sddm"
+#TODO - backlight
 
 # }}}
 
+# {{{ Display manager
+#sddm_configs: "{{ playbook_dir }}/files/sddm"
+# }}}
+
+# {{{ Display server
 xorg_dependencies:
-  - "glibc>=2.36"
   - "xf86-video-intel"
   - "xf86-input-synaptics"
+# }}}
 
 # {{{ File Manager
 ranger_name: ranger
@@ -50,8 +72,8 @@ aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
 aur_packages:
   - "nordic-wallpapers"
   - "nordic-darker-theme"
-  - "dragon-drop"
-  - "autotiling"  # Not sure if this will conflict with awesome
+  - "dragon-drop"  # for sway
+  - "autotiling"  # for sway
 
 ########
 # Base #

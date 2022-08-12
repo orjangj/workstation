@@ -19,20 +19,53 @@
       tags: [base]
 
   roles:
-    - { role: alacritty, tags: [alacritty, terminals] }
+    # {{{ Window Managers
+    - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
+    - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
+    # }}}
+    # {{{ Display Servers
+    - { role: xorg, tags: [xorg, ds], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
+    # }}}
+    # {{{ Display Managers
+    - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
+    # }}}
+    # {{{ File Managers
+    - { role: ranger, tags: [ranger, fm], when: file_manager == 'ranger' or 'ranger' in ansible_run_tags}
+    # }}}
+    # {{{ Terminal emulators
+    - { role: alacritty, tags: [alacritty, terminal], when: terminal == 'alacritty' or 'alacritty' in ansible_run_tags }
+    - { role: kitty, tags: [kitty, terminal], when: terminal == 'kitty' or 'kitty' in ansible_run_tags }
+    - { role: foot, tags: [foot, terminal], when: terminal == 'foot' or 'foot' in ansible_run_tags }
+    # }}}
+    # {{{ Editors
+    #- { role: nvim, tags: [nvim, editor], when: editor == 'nvim' or 'nvim' in ansible_run_tags }
+    #- { role: vim, tags: [vim, editor], when: editor == 'vim' or 'vim' in ansible_run_tags }
+    #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
+    # }}}
+    # {{{ Shells
+    #- { role: bash, tags: [bash, shell], when: shell == 'bash' or 'bash' in ansible_run_tags }
+    #- { role: zsh, tags: [zsh, shell], when: shell == 'zsh' or 'zsh' in ansible_run_tags }
+    #- { role: fish, tags: [fish, shell], when: shell == 'fish' or 'fish' in ansible_run_tags }
+    # }}}
+    # {{{ Security
+    # { role: firewalld, tags: [firewall, security] }
+    # { role: firejail, tags: [firejail, security] }
+    # }}}
+    # {{{ Browsers
+    # { role: firefox, tags: [firefox, browser], when: browser == 'firefox' or 'firefox' in ansible_run_tags }
+    # { role: chromium, tags: [chromium, browser], when: browser == 'chromium' or 'chromium' in ansible_run_tags }
+    # { role: brave, tags: [brave, browser], when: browser == 'brave' or 'brave' in ansible_run_tags }
+    # }}}
+    # {{{ Other
     - { role: aur, tags: [aur] }
-    - { role: awesome, tags: [awesome] }
-    - { role: kitty, tags: [kitty, terminals] }
-    - { role: ranger, tags: [ranger] }
-    - { role: sddm, tags: [sddm] }
-    - { role: xorg, tags: [xorg] }
+    # }}}
 
     # ---- Services ---- #
     - role: service
       tags: [network]
       vars:
         service_packages:
-          - "networkmanager"
+          - networkmanager
           - dnsmasq  # Needed?
           - wpa_supplicant  # Needed?
         service_name: "NetworkManager"
