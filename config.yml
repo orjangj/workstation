@@ -70,7 +70,6 @@ awesome_configs:
 aur_helper: "paru"
 aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
 aur_packages:
-  - "nordic-wallpapers"
   - "nordic-darker-theme"
   - "dragon-drop"  # for sway
   - "autotiling"  # for sway
@@ -130,3 +129,7 @@ vagrant_plugins:
   - vagrant-disksize
   - vagrant-libvirt
 
+# {{{ Wallpapers
+wallpaper_sources:
+  - https://github.com/linuxdotexe/nordic-wallpapers
+# }}}

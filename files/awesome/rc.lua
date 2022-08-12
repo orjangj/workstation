@@ -6,7 +6,6 @@
 --      ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 
 -- TODO
--- 1) Transparency (may require compton or picom as compositor .. not sure why it's not working in VirtualBox, but might be because of missing 3D accelleration)
 -- 2) Keybindings
 -- 3) Cleanup code (i.e. wallpaper code (using feh instead), etc.. )
 -- 4) Polybar vs customizing awesome bar?
@@ -14,6 +13,7 @@
 -- 6) Organize configurations/settings into other files
 -- 7) Screen tearing (not sure if it's due to running inside VirtualBox)
 -- 8) Dynamic tags (workspaces)
+-- 9) Wallpaper directory shouldn't be specific to arch
 
 -- Standard awesome library
 local gears = require("gears")
@@ -518,5 +518,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- Autostart
 awful.util.spawn("picom --no-vsync")  -- no-vsync is required inside VM (not sure if it should be used otherwise)
-awful.spawn.with_shell("feh --randomize --bg-fill /usr/share/backgrounds/nordic-wallpapers/")
+awful.spawn.with_shell("feh --randomize --bg-fill ~/.local/share/backgrounds/nordic-wallpapers/wallpapers")
 

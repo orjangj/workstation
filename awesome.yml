@@ -58,6 +58,7 @@
     # }}}
     # {{{ Other
     - { role: aur, tags: [aur] }
+    - { role: wallpaper, tags: [wallpaper] }
     # }}}
 
     # ---- Services ---- #
