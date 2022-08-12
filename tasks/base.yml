@@ -68,6 +68,8 @@
     groups: "{{ item }}"
     append: yes
   with_items:
-    - adm
+    - adm  # What does this do?
     - wheel
     - video
+    - audio
+

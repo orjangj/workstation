@@ -14,6 +14,9 @@
 -- 7) Screen tearing (not sure if it's due to running inside VirtualBox)
 -- 8) Dynamic tags (workspaces)
 -- 9) Wallpaper directory shouldn't be specific to arch
+-- 10) Vim keybindings when navigating between tags/windows
+-- 11) Tile everything ... But how to move around if necessary?
+-- 12) Use rofi as application launcher
 
 -- Standard awesome library
 local gears = require("gears")
@@ -261,8 +264,9 @@ local globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+    -- TODO: Seems to trigger loading cursor when hovered on wallpaper background?
+    awful.key({ modkey },            "r",     function () awful.util.spawn("dmenu_run") end,
+              {description = "launch dmenu", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -438,13 +442,7 @@ awful.rules.rules = {
         }
       }, properties = { floating = true }},
 
-    -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
-    },
-
-    { rule = { class = terminal },
-            properties = { opacity = 0.95, titlebars_enabled = false } },
+    { rule = { class = terminal }, properties = { opacity = 0.95 } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
@@ -467,56 +465,12 @@ client.connect_signal("manage", function (c)
     end
 end)
 
--- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
-    local buttons = gears.table.join(
-        awful.button({ }, 1, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-            awful.mouse.client.move(c)
-        end),
-        awful.button({ }, 3, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-            awful.mouse.client.resize(c)
-        end)
-    )
-
-    awful.titlebar(c) : setup {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                align  = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
-end)
-
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
-end)
-
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
 -- Autostart
 awful.util.spawn("picom --no-vsync")  -- no-vsync is required inside VM (not sure if it should be used otherwise)
+-- > grep -q ^flags.*\ hypervisor\  /proc/cpuinfo && echo "This machine is a VM"
 awful.spawn.with_shell("feh --randomize --bg-fill ~/.local/share/backgrounds/nordic-wallpapers/wallpapers")
 
