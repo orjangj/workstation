@@ -57,7 +57,8 @@ sway_configs:
   - "{{ playbook_dir }}/files/wofi"
 
 awesome_dependencies:
-  - picom
+  #- picom  # Not available in Ubuntu < 20.10
+  - compton
   - feh
   - rofi
   - dmenu  # until rofi is implemented

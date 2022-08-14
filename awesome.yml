@@ -13,6 +13,14 @@
       community.general.pacman:
         update_cache: yes
       tags: [always]
+      when: ansible_os_family == 'Archlinux'
+
+    - name: Update package cache
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+      tags: [always]
+      when: ansible_os_family == 'Debian'
 
     - name: Install base 
       ansible.builtin.import_tasks: tasks/base.yml

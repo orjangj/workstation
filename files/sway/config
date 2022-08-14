@@ -18,8 +18,7 @@ gaps inner 5
 default_border pixel 0
 default_floating_border normal
 
-# Randomize wallpaper selection (depends on the nordic-wallpapers AUR package)
-output * background `find /usr/share/backgrounds/nordic-wallpapers/ -type f | shuf -n 1` fill
+output * background `find ~/.local/share/backgrounds/nordic-wallpapers/ -type f | shuf -n 1` fill
 
 workspace 3
 exec chromium

@@ -1,7 +1,7 @@
 ---
 - name: "Ensure awesome and dependencies are installed"
   become: yes
-  community.general.pacman:
+  ansible.builtin.package:
     name: "{{ ['awesome'] + awesome_dependencies }}"
 
 - name: Copy configurations in place
