@@ -515,13 +515,7 @@ awful.rules.rules = {
     properties = { floating = true }
   },
 
-  { rule = {
-      class = {
-        terminal
-      }
-    },
-    properties = { opacity = 0.90 }
-  }
+  { rule = { class = terminal }, properties = { opacity = 0.90 } },
 
   -- Set Firefox to always map on the tag named "2" on screen 1.
   -- { rule = { class = "Firefox" },
