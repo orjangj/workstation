@@ -45,6 +45,7 @@
 -- 24) Floating applications
   -- VirtualBox
   -- VPN clients (FortiNet, NetExtender)
+-- 25) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
 
 -- Standard awesome library
 local gears = require("gears")
@@ -228,7 +229,7 @@ local globalkeys = gears.table.join(
             { description = "reload awesome", group = "awesome" }),
   awful.key({ modkey, "Shift"   }, "q",
               awesome.quit,
-            { description = "quit awesome", group = "awesome" }),
+            { description = "logout", group = "awesome" }),
   awful.key({ modkey,           }, "w",
               function () mymainmenu:show() end,
             { description = "show main menu", group = "awesome" }),
@@ -242,6 +243,9 @@ local globalkeys = gears.table.join(
                 }
               end,
               { description = "lua execute prompt", group = "awesome" }),
+  awful.key({ modkey,           }, "q",
+              function () awful.spawn("i3lock -c 000000") end,
+            { description = "lock screen", group = "awesome" }),
 
   -- Group "launcher"
   awful.key({ modkey,           }, "Return",

@@ -62,6 +62,7 @@ awesome_dependencies:
   - feh
   - rofi
   - dmenu  # until rofi is implemented
+  - i3lock
 awesome_configs:
   - "{{ playbook_dir }}/files/awesome"
   #  - "{{ playbook_dir }}/files/rofi"
