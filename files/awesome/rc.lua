@@ -52,7 +52,7 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
---require("awful.autofocus")  -- Adds application keybindings (i.e. for Vim when active)
+              require("awful.autofocus")
 
 -- Widget and layout library
 local wibox = require("wibox")
@@ -62,10 +62,11 @@ local beautiful = require("beautiful")
 
 -- Notification library
 local naughty = require("naughty")
+
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
-                      require("awful.hotkeys_popup.keys")
 
+-- User specific libraries
 local keys = require("user.keys")
 local vars = require("user.variables")
 
