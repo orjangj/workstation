@@ -1,0 +1,12 @@
+---
+- name: Install xorg server and xinit system
+  become: yes
+  community.general.pacman:
+    name:
+      - xorg-server
+      - xorg-xinit
+
+- name: Install additional dependencies
+  become: yes
+  community.general.pacman:
+    name: "{{ xorg_dependencies }}"

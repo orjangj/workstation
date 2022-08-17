@@ -1,6 +1,12 @@
 ---
-- name: Install xorg-server and dependencies
-  become: yes
-  community.general.pacman:
-    name: "{{ ['xorg-server', 'xorg-xinit'] + xorg_dependencies }}"
+- name: Apply Debian install method
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
 
+- name: Apply Arch install method
+  ansible.builtin.include_tasks: arch.yml
+  when: ansible_os_family == 'ArchLinux'
+
+- name: Apply custom xorg configuration files
+  ansible.builtin.include_tasks: config.yml
+  when: xorg_configs | length > 0
