@@ -16,6 +16,7 @@
   -- compontents folder <-- all components goes here (i.e. xrandr?)
 -- 4) Polybar vs customizing awesome bar?
 -- 7) Screen tearing (not sure if it's due to running inside VirtualBox)
+  -- Occurs when reloading rc.lua
 -- 8) Dynamic tags (workspaces)
 -- 12) Use rofi as application launcher
 -- 13) Device configurations
@@ -48,6 +49,7 @@
 -- 25) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
 -- 26) Border color around active window (i.e. around terminal emulator)
    -- Add colorizer to nvim to view theme colors more easily
+-- 27) Why does firefox always pop up on tag nr 2? Why cant it tile on e.g. tag 1?
 
 -- Standard awesome library
 local gears = require("gears")
@@ -280,9 +282,8 @@ awful.rules.rules = {
 
   { rule = { class = vars.terminal }, properties = { opacity = vars.terminal_opacity } },
 
-  -- Set Firefox to always map on the tag named "2" on screen 1.
-  -- { rule = { class = "Firefox" },
-  --   properties = { screen = 1, tag = "2" } },
+  -- Not sure why this rule is required for firefox to make it tile properly
+  --{ rule = { class = "firefox" }, properties = { opacity = 1, maximized = false, floating = false } },
 }
 -- }}}
 

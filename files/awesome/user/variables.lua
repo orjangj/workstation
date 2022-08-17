@@ -5,7 +5,7 @@ local variables = {
   editor = os.getenv("EDITOR") or "nvim",
   modkey = "Mod4",
   terminal = "kitty",
-  terminal_opacity = 0.90,
+  terminal_opacity = 0.95,
   theme = "nord",
   wallpapers = os.getenv("HOME") .. "/.local/share/backgrounds/nordic-wallpapers/wallpapers",
 }

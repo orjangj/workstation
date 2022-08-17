@@ -27,9 +27,14 @@ sound_manager: "pulseaudio"
 # }}}
 
 # {{{ Display server
-xorg_dependencies:
-  - "xf86-video-intel"
-  - "xf86-input-synaptics"
+
+# TODO: How to map package names between i.e. debian and arch?
+
+#xorg_dependencies:
+#  - "xf86-video-intel"
+
+xorg_configs:
+  - "{{ playbook_dir }}/files/x/40-libinput.conf"
 # }}}
 
 # {{{ File Manager
