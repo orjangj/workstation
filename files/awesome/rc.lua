@@ -14,20 +14,16 @@
 -- 3) Cleanup/organize code
   -- configuration folder <-- all awesome configurations goes here
   -- compontents folder <-- all components goes here (i.e. xrandr?)
--- 4) Polybar vs customizing awesome bar?
--- 7) Screen tearing (not sure if it's due to running inside VirtualBox)
-  -- Occurs when reloading rc.lua
+-- 7) Screen tearing
+  -- Occurs when reloading rc.lua and changing tags
 -- 8) Dynamic tags (workspaces)
 -- 12) Use rofi as application launcher
--- 13) Device configurations
-  -- touchpad inverted scroll
-  -- touchpad tap
-  -- mouse/touchpad sensitivity
-  -- scroll (and sensitivity) when holding down arrows or h,j,k,l
+  -- Want a drop-down list in the upper left corner
 -- 16) Fonts used by Awesome
--- 17) Holding down up,down or j,k does not scroll
--- 18) Lock screen -- sddm? Or something else? Some people use i3-lock, but I would rather use sddm if that's possible.
--- 19) xrandr vs autorandr
+-- 18) Lock screen  (current: i3lock)
+   -- sddm? Or something else? Some people use i3-lock, but I would rather use sddm if that's possible.
+   -- Lock after idle for bla bla ... look at how sway does it. Maybe this can be done in Awesome as well.
+-- 19) Dynamic display configuration (multihead) -- xrandr vs autorandr vs mons
   -- NOTE:
   -- The current impl of xrandr.lua works fine in terms of enabling screens on demand
   -- but it doesn't seem to work very well with compton. I.e. transparency not working, text still visible in background when typing.
@@ -36,20 +32,23 @@
   -- Maybe reload awesome config in the xrandr command.
   -- NOTE:
   -- Should awesome wm even handle multi-head setup? Doesn't seem like the best solution so far
--- 20) Learn essential navigation
-  -- Move between windows in same tag
-  -- Move between tags
-  -- Move between active monitors (not sure if necessary if using shared tags between displays)
 -- 21) Adjust screen brightness on active screen/monitor
--- 22) Systray (nm-applet, bluetooth (headset), cpu usage, temp, battery, etc..)
+-- 22) systray
+  -- nm-applet -> select/configure networks
+  -- bluetooth -> select input/output (headset, mic)
+  -- cpu usage 
+  -- temp
+  -- battery
 -- 23) Icons
 -- 24) Floating applications
   -- VirtualBox
   -- VPN clients (FortiNet, NetExtender)
 -- 25) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
+   -- Figure out why my BLE headset/mic doesn't work on linux
 -- 26) Border color around active window (i.e. around terminal emulator)
    -- Add colorizer to nvim to view theme colors more easily
 -- 27) Why does firefox always pop up on tag nr 2? Why cant it tile on e.g. tag 1?
+-- 28) Using xset in autostart doesnt seem to persist between locked screen
 
 -- Standard awesome library
 local gears = require("gears")
@@ -61,12 +60,14 @@ local wibox = require("wibox")
 
 -- Theme handling library
 local beautiful = require("beautiful")
+local dpi = require("beautiful.xresources").apply_dpi
 
 -- Notification library
 local naughty = require("naughty")
 
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
 
 -- User specific libraries
 local keys = require("user.keys")
@@ -99,9 +100,6 @@ local mymainmenu = awful.menu({
 -- Menubar configuration
 menubar.utils.terminal = vars.terminal -- Set the terminal for applications that require it
 -- }}}
-
--- Keyboard map indicator and switcher
-local mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
@@ -152,19 +150,6 @@ awful.screen.connect_for_each_screen(function(s)
   -- Each screen has its own tag table.
   awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
-  -- Create a promptbox for each screen
-  s.mypromptbox = awful.widget.prompt()
-
-  -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-  -- We need one layoutbox per screen.
-  s.mylayoutbox = awful.widget.layoutbox(s)
-  s.mylayoutbox:buttons(gears.table.join(
-    awful.button({ }, 1, function () awful.layout.inc( 1) end),
-    awful.button({ }, 3, function () awful.layout.inc(-1) end),
-    awful.button({ }, 4, function () awful.layout.inc( 1) end),
-    awful.button({ }, 5, function () awful.layout.inc(-1) end)
-  ))
-
   -- Create a taglist widget
   s.mytaglist = awful.widget.taglist {
     screen  = s,
@@ -188,15 +173,12 @@ awful.screen.connect_for_each_screen(function(s)
     { -- Left widgets
       layout = wibox.layout.fixed.horizontal,
       s.mytaglist,
-      s.mypromptbox,
     },
-    s.mytasklist, -- Middle widget
+    nil, -- Middle widget
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
-      mykeyboardlayout,
       wibox.widget.systray(),
       mytextclock,
-      s.mylayoutbox,
     },
   }
 end)
@@ -305,6 +287,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Autostart
-awful.util.spawn(vars.compositor)
+-- TODO: What's the difference between awful.util.spawn and awful.spawn.with_shell?
+awful.spawn.with_shell(vars.compositor)
 awful.spawn.with_shell("feh --randomize --bg-fill " .. vars.wallpapers)
-
+awful.spawn.with_shell("xset r rate 200 30")  -- TODO: Consider using xorg conf file for this
