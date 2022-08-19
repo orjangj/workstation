@@ -15,8 +15,10 @@ locale: "lang?"
 timezone: "Europe/Oslo"
 browser: firefox
 network_manager: "networkmanager"
-bluetooth_manager: "bluez"
-sound_manager: "pulseaudio"
+bluetooth_manager: "blueman"
+sound: "pulseaudio"
+gtk_theme: "Nordic"
+icon_theme: "Papirus-Dark"
 
 #TODO - backlight
 
@@ -34,7 +36,7 @@ sound_manager: "pulseaudio"
 #  - "xf86-video-intel"
 
 xorg_configs:
-  - "{{ playbook_dir }}/files/x/40-libinput.conf"
+  - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
 # }}}
 
 # {{{ File Manager
@@ -98,6 +100,8 @@ base_utilities:
   - unzip
   - vault
   - wget
+  - papirus-icon-theme
+  - blueman
 base_configs:
   - src: "{{ playbook_dir }}/files/bat"
   - src: "{{ playbook_dir }}/files/gtk-3.0"
@@ -141,3 +145,7 @@ vagrant_plugins:
 wallpaper_sources:
   - https://github.com/linuxdotexe/nordic-wallpapers
 # }}}
+
+dotfiles_configs:
+  - "{{ playbook_dir }}/files/gtk-3.0"
+  - "{{ playbook_dir }}/files/nvim"

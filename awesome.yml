@@ -19,6 +19,7 @@
       become: yes
       ansible.builtin.apt:
         update_cache: yes
+        cache_valid_time: 3000
       tags: [always]
       when: ansible_os_family == 'Debian'
 
@@ -32,10 +33,10 @@
     - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
     # }}}
     # {{{ Display Servers
-    - { role: xorg, tags: [xorg, ds], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
+    - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
     # }}}
     # {{{ Display Managers
-    - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
+    - { role: sddm, tags: [sddm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
     # }}}
     # {{{ File Managers
     - { role: ranger, tags: [ranger, fm], when: file_manager == 'ranger' or 'ranger' in ansible_run_tags}
@@ -59,7 +60,7 @@
     # { role: firewalld, tags: [firewall, security] }
     # { role: firejail, tags: [firejail, security] }
     # }}}
-    # {{{ Browsers
+    # {{{ Browsers -- Use vimium extention for firefox and chromium
     # { role: firefox, tags: [firefox, browser], when: browser == 'firefox' or 'firefox' in ansible_run_tags }
     # { role: chromium, tags: [chromium, browser], when: browser == 'chromium' or 'chromium' in ansible_run_tags }
     # { role: brave, tags: [brave, browser], when: browser == 'brave' or 'brave' in ansible_run_tags }
@@ -122,4 +123,11 @@
           - firefox
           - chromium
       tags: [browsers]
+
+    - name: Deploy dotfiles
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ ansible_user_dir }}/.config"
+      with_items: "{{ dotfiles_configs }}"
+      tags: [dotfiles]
 

@@ -6,15 +6,14 @@
 --      ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 
 -- TODO
+-- 1) Conky
 -- 2) Keybindings
   -- Vim and arrow keybindings when navigating between windows
   -- Browser launcher
   -- i3 like bindings
   -- Lock screen (see point 18)
--- 3) Cleanup/organize code
-  -- configuration folder <-- all awesome configurations goes here
-  -- compontents folder <-- all components goes here (i.e. xrandr?)
--- 7) Screen tearing
+-- 3) Cleanup/organize code (need some ideas)
+-- 7) Screen tearing (compton issue?)
   -- Occurs when reloading rc.lua and changing tags
 -- 8) Dynamic tags (workspaces)
 -- 12) Use rofi as application launcher
@@ -33,21 +32,14 @@
   -- NOTE:
   -- Should awesome wm even handle multi-head setup? Doesn't seem like the best solution so far
 -- 21) Adjust screen brightness on active screen/monitor
--- 22) systray
-  -- nm-applet -> select/configure networks
-  -- bluetooth -> select input/output (headset, mic)
-  -- cpu usage 
-  -- temp
-  -- battery
--- 23) Icons
+  -- Can be solved with a keybinding?
+-- 22) systray/icons
+  -- battery TODO  -- And some notification when critical (and maybe fully charged)
 -- 24) Floating applications
   -- VirtualBox
   -- VPN clients (FortiNet, NetExtender)
 -- 25) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
    -- Figure out why my BLE headset/mic doesn't work on linux
--- 26) Border color around active window (i.e. around terminal emulator)
-   -- Add colorizer to nvim to view theme colors more easily
--- 27) Why does firefox always pop up on tag nr 2? Why cant it tile on e.g. tag 1?
 -- 28) Using xset in autostart doesnt seem to persist between locked screen
 
 -- Standard awesome library
@@ -67,7 +59,6 @@ local naughty = require("naughty")
 
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
-
 
 -- User specific libraries
 local keys = require("user.keys")
@@ -247,7 +238,6 @@ awful.rules.rules = {
         "veromix",
         "xtightvncviewer"
       },
-
       -- Note that the name property shown in xprop might be set slightly after creation of the client
       -- and the name shown there might not match defined rules here.
       name = {
@@ -263,9 +253,6 @@ awful.rules.rules = {
   },
 
   { rule = { class = vars.terminal }, properties = { opacity = vars.terminal_opacity } },
-
-  -- Not sure why this rule is required for firefox to make it tile properly
-  --{ rule = { class = "firefox" }, properties = { opacity = 1, maximized = false, floating = false } },
 }
 -- }}}
 
@@ -289,5 +276,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- Autostart
 -- TODO: What's the difference between awful.util.spawn and awful.spawn.with_shell?
 awful.spawn.with_shell(vars.compositor)
+awful.spawn.with_shell("nm-applet")
+awful.spawn.with_shell("blueman-applet")
 awful.spawn.with_shell("feh --randomize --bg-fill " .. vars.wallpapers)
 awful.spawn.with_shell("xset r rate 200 30")  -- TODO: Consider using xorg conf file for this

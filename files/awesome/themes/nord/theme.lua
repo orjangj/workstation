@@ -1,5 +1,4 @@
 
---local themes_path = require("gears.filesystem").get_themes_dir()
 local themes_path = string.format("%s/.config/awesome/themes/", os.getenv("HOME"))
 local dpi = require("beautiful.xresources").apply_dpi
 
@@ -16,7 +15,7 @@ theme.bg_systray = theme.bg_normal
 theme.useless_gap   = dpi(4)
 theme.border_width  = dpi(2)
 theme.border_normal = "#3B4252"
-theme.border_focus  = "#4C566A"
+theme.border_focus  = "#88C0D0"
 theme.border_marked = "#D08770"
 theme.titlebar_bg_focus   = "#3B4252"
 theme.titlebar_bg_normal  = "#2E3440"
