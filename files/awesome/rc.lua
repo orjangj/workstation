@@ -21,7 +21,7 @@
 -- 16) Fonts used by Awesome
 -- 18) Lock screen  (current: i3lock)
    -- sddm? Or something else? Some people use i3-lock, but I would rather use sddm if that's possible.
-   -- Lock after idle for bla bla ... look at how sway does it. Maybe this can be done in Awesome as well.
+   -- Lock after idle for bla bla ... look at how sway does it. Maybe this can be done in Awesome as well. TODO
 -- 19) Dynamic display configuration (multihead) -- xrandr vs autorandr vs mons
   -- NOTE:
   -- The current impl of xrandr.lua works fine in terms of enabling screens on demand
@@ -39,7 +39,7 @@
   -- VirtualBox
   -- VPN clients (FortiNet, NetExtender)
 -- 25) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
-   -- Figure out why my BLE headset/mic doesn't work on linux
+   -- Figure out why my BLE headset/mic doesn't work on linux (i.e. youtube is open, but not playing, then I cant switch to phone)
 -- 28) Using xset in autostart doesnt seem to persist between locked screen
 
 -- Standard awesome library
@@ -99,17 +99,21 @@ local mytextclock = wibox.widget.textclock()
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
   awful.button({        }, 1, function(t) t:view_only() end),
-  awful.button({ vars.modkey }, 1, function(t)
-                                if client.focus then
-                                  client.focus:move_to_tag(t)
-                                end
-                              end),
+  awful.button({ vars.modkey }, 1,
+    function(t)
+      if client.focus then
+        client.focus:move_to_tag(t)
+      end
+    end
+  ),
   awful.button({        }, 3, awful.tag.viewtoggle),
-  awful.button({ vars.modkey }, 3, function(t)
-                                if client.focus then
-                                  client.focus:toggle_tag(t)
-                                end
-                              end),
+  awful.button({ vars.modkey }, 3,
+    function(t)
+      if client.focus then
+        client.focus:toggle_tag(t)
+      end
+    end
+  ),
   awful.button({        }, 4, function(t) awful.tag.viewnext(t.screen) end),
   awful.button({        }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )

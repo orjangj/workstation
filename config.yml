@@ -13,7 +13,7 @@ font: "Fira Code"
 lang: "en_US.UTF-8"
 locale: "lang?"
 timezone: "Europe/Oslo"
-browser: firefox
+browser: "firefox"
 network_manager: "networkmanager"
 bluetooth_manager: "blueman"
 sound: "pulseaudio"
@@ -72,7 +72,7 @@ awesome_dependencies:
   - i3lock
 awesome_configs:
   - "{{ playbook_dir }}/files/awesome"
-  #  - "{{ playbook_dir }}/files/rofi"
+  - "{{ playbook_dir }}/files/rofi"
 # }}}
 
 ### Arch User Repository (AUR) ###
