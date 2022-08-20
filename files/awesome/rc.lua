@@ -6,13 +6,20 @@
 --      ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 
 -- TODO
+-- 
+-- 3) Go back to single rc.lua file if folding is fixed
+-- 3) Xorg monitor config? is this recommended for dynamic setups?
+-- 5) Lua lsp ignore: client, awesome, root, etc..
+-- 6) Keybindings
+--    - open file manager (ranger, nautilus, whatever.. ) -- set as variable so it can easily be changed
+-- 7) Use dmenu scripts to save keybindings?
+-- 8) Create a battery widget
+--
 -- 1) Conky
 -- 2) Keybindings
   -- Vim and arrow keybindings when navigating between windows
-  -- Browser launcher
   -- i3 like bindings
   -- Lock screen (see point 18)
--- 3) Cleanup/organize code (need some ideas)
 -- 7) Screen tearing (compton issue?)
   -- Occurs when reloading rc.lua and changing tags
 -- 8) Dynamic tags (workspaces)
@@ -22,7 +29,7 @@
 -- 18) Lock screen  (current: i3lock)
    -- sddm? Or something else? Some people use i3-lock, but I would rather use sddm if that's possible.
    -- Lock after idle for bla bla ... look at how sway does it. Maybe this can be done in Awesome as well. TODO
--- 19) Dynamic display configuration (multihead) -- xrandr vs autorandr vs mons
+-- 19) Dynamic display configuration (multihead) -- xrandr vs autorandr vs mons vs xorg conf
   -- NOTE:
   -- The current impl of xrandr.lua works fine in terms of enabling screens on demand
   -- but it doesn't seem to work very well with compton. I.e. transparency not working, text still visible in background when typing.

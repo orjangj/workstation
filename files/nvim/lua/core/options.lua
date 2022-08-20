@@ -42,6 +42,10 @@ local options = {
   scrolloff = 8,
   sidescrolloff = 8,
   termguicolors = true,                    -- set term gui colors (most terminals support this)
+  -- Folding
+  foldenable = true,
+  foldlevel = 0,
+  foldmethod = "marker",
 }
 
 -- Don't give ins-completion-menu messages
