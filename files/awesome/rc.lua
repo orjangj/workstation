@@ -59,43 +59,29 @@ local wibox = require("wibox")
 
 -- Theme handling library
 local beautiful = require("beautiful")
-local dpi = require("beautiful.xresources").apply_dpi
 
 -- Notification library
 local naughty = require("naughty")
 
 local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
 
 -- User specific libraries
 local keys = require("user.keys")
 local vars = require("user.variables")
 
+-- {{{ Theme
 beautiful.init(
   string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), vars.theme)
 )
+-- }}}
 
--- {{{ Layout 
+-- {{{ Layout
 awful.layout.layouts = {
   awful.layout.suit.tile,
 }
 -- }}}
 
 -- {{{ Menu
--- Create a launcher widget and a main menu
-local myawesomemenu = {
-  { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-  { "manual", vars.terminal .. " -e man awesome" },
-  { "edit config", vars.terminal .. " -e " .. vars.editor .. " " .. awesome.conffile },
-  { "restart", awesome.restart },
-  { "quit", function() awesome.quit() end },
-}
-
-local mymainmenu = awful.menu({
-  items = {{ "awesome", myawesomemenu, beautiful.awesome_icon }, { "open terminal", vars.terminal }}
-})
-
--- Menubar configuration
 menubar.utils.terminal = vars.terminal -- Set the terminal for applications that require it
 -- }}}
 
@@ -125,29 +111,6 @@ local taglist_buttons = gears.table.join(
   awful.button({        }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
-local tasklist_buttons = gears.table.join(
-   awful.button({ }, 1, function (c)
-                          if c == client.focus then
-                            c.minimized = true
-                          else
-                            c:emit_signal(
-                              "request::activate",
-                              "tasklist",
-                              {raise = true}
-                            )
-                          end
-                        end),
-   awful.button({ }, 3, function()
-                          awful.menu.client_list({ theme = { width = 250 } })
-                        end),
-   awful.button({ }, 4, function ()
-                          awful.client.focus.byidx(1)
-                        end),
-   awful.button({ }, 5, function ()
-                          awful.client.focus.byidx(-1)
-                        end)
-)
-
 awful.screen.connect_for_each_screen(function(s)
   -- Each screen has its own tag table.
   awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
@@ -157,13 +120,6 @@ awful.screen.connect_for_each_screen(function(s)
     screen  = s,
     filter  = awful.widget.taglist.filter.all,
     buttons = taglist_buttons
-  }
-
-  -- Create a tasklist widget
-  s.mytasklist = awful.widget.tasklist {
-    screen  = s,
-    filter  = awful.widget.tasklist.filter.currenttags,
-    buttons = tasklist_buttons
   }
 
   -- Create the wibox
@@ -184,14 +140,6 @@ awful.screen.connect_for_each_screen(function(s)
     },
   }
 end)
--- }}}
-
--- {{{ Mouse bindings
-root.buttons(gears.table.join(
-  awful.button({ }, 3, function () mymainmenu:toggle() end),
-  awful.button({ }, 4, awful.tag.viewnext),
-  awful.button({ }, 5, awful.tag.viewprev)
-))
 -- }}}
 
 -- {{{ Key bindings
