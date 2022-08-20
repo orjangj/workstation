@@ -1,8 +1,13 @@
 ---
-- name: "Ensure ranger and dependencies are installed"
+- name: Ensure ranger is installed
   become: yes
-  community.general.pacman:
-    name: "{{ ['ranger'] + ranger_dependencies }}"
+  ansible.builtin.package:
+    name: ranger
+
+- name: Install additional dependencies
+  become: yes
+  ansible.builtin.package:
+    name: "{{ ranger_dependencies }}"
 
 - name: Copy configurations in place
   ansible.builtin.copy:

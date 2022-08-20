@@ -5,31 +5,22 @@
 --      ██║  ██║╚███╔███╔╝███████╗███████║╚██████╔╝██║ ╚═╝ ██║███████╗
 --      ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 
--- TODO
--- 
--- 3) Go back to single rc.lua file if folding is fixed
--- 3) Xorg monitor config? is this recommended for dynamic setups?
--- 5) Lua lsp ignore: client, awesome, root, etc..
--- 6) Keybindings
---    - open file manager (ranger, nautilus, whatever.. ) -- set as variable so it can easily be changed
--- 7) Use dmenu scripts to save keybindings?
--- 8) Create a battery widget
---
+-- TODO review
+-- 1) keybindings (remove unused, apply better keys, etc..)
+-- TODO cleanup
+-- 1) Go back to single rc.lua file if folding is fixed
+-- TODO features
 -- 1) Conky
--- 2) Keybindings
-  -- Vim and arrow keybindings when navigating between windows
-  -- i3 like bindings
-  -- Lock screen (see point 18)
--- 7) Screen tearing (compton issue?)
-  -- Occurs when reloading rc.lua and changing tags
--- 8) Dynamic tags (workspaces)
--- 12) Use rofi as application launcher
-  -- Want a drop-down list in the upper left corner
--- 16) Fonts used by Awesome
--- 18) Lock screen  (current: i3lock)
-   -- sddm? Or something else? Some people use i3-lock, but I would rather use sddm if that's possible.
-   -- Lock after idle for bla bla ... look at how sway does it. Maybe this can be done in Awesome as well. TODO
--- 19) Dynamic display configuration (multihead) -- xrandr vs autorandr vs mons vs xorg conf
+-- 2) Xorg monitor config? is this recommended for dynamic setups?
+-- 3) Use dmenu or rofi scripts to save keybindings?
+-- 4) Create a battery widget
+-- 5) Automatic screen lock (see sway config for ideas)
+--    - Possible to use login manager?
+--    - Currently using i3lock
+-- 6) Dynamic tags (create tags on demand, rather than having a predefined set)
+-- 7) Rofi application launcher
+--     - Want a drop-down list in the upper left corner
+-- 8) Dynamic monitor configuration (multihead) -- xrandr vs autorandr vs mons vs xorg conf
   -- NOTE:
   -- The current impl of xrandr.lua works fine in terms of enabling screens on demand
   -- but it doesn't seem to work very well with compton. I.e. transparency not working, text still visible in background when typing.
@@ -38,16 +29,18 @@
   -- Maybe reload awesome config in the xrandr command.
   -- NOTE:
   -- Should awesome wm even handle multi-head setup? Doesn't seem like the best solution so far
--- 21) Adjust screen brightness on active screen/monitor
-  -- Can be solved with a keybinding?
--- 22) systray/icons
-  -- battery TODO  -- And some notification when critical (and maybe fully charged)
--- 24) Floating applications
-  -- VirtualBox
-  -- VPN clients (FortiNet, NetExtender)
--- 25) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
-   -- Figure out why my BLE headset/mic doesn't work on linux (i.e. youtube is open, but not playing, then I cant switch to phone)
--- 28) Using xset in autostart doesnt seem to persist between locked screen
+-- 9) Adjust screen brightness on active screen/monitor
+--    - Can be solved with a keybinding?
+-- 10) Floating applications
+--     - VirtualBox
+--     - VPN clients (FortiNet, NetExtender)
+-- 11) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
+--     - Figure out why my BLE headset/mic doesn't work on linux (i.e. youtube is open, but not playing, then I cant switch to phone)
+-- TODO issues
+-- 1) Using xset in autostart doesnt seem to persist between locked screen
+-- 3) Screen tearing (compton issue?)
+--    - Occurs when reloading rc.lua and changing tags
+--    - Use different backend?
 
 -- Standard awesome library
 local gears = require("gears")
@@ -70,9 +63,8 @@ local keys = require("user.keys")
 local vars = require("user.variables")
 
 -- {{{ Theme
-beautiful.init(
-  string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), vars.theme)
-)
+beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), vars.theme))
+beautiful.font = "Hack Nerd Font Mono Regular 9"
 -- }}}
 
 -- {{{ Layout

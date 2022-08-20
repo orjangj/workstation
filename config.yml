@@ -40,9 +40,6 @@ xorg_configs:
 # }}}
 
 # {{{ File Manager
-ranger_name: ranger
-ranger_dependencies:
-  - dragon  # X11
 ranger_configs:
   - "{{ playbook_dir }}/files/ranger"
 # }}}

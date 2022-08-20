@@ -36,9 +36,12 @@ local globalkeys = gears.table.join(
   awful.key({ vars.modkey,           }, "d",
               function () awful.util.spawn("dmenu_run -i -nb '#2E3440' -sf '#2E3440' -sb '#88C0D0' -nf '#88C0D0' -fn 'Hack:bold:pixelsize=12'") end,
             { description = "launch dmenu", group = "launcher" }),
-  awful.key({ vars.modkey }, "p",
+  awful.key({ vars.modkey,           }, "p",
               function() menubar.show() end,
             { description = "show the menubar", group = "launcher" }),
+  awful.key({ vars.modkey,           }, "a",
+              function() awful.spawn(vars.terminal .. " -e " .. vars.file_manager .. " " .. os.getenv("HOME")) end,
+            { description = "open " .. vars.file_manager, group = "launcher"}),
 
   -- Group "tag"
   awful.key({ vars.modkey,           }, "Left",
