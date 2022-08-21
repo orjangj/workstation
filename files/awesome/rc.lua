@@ -6,10 +6,25 @@
 --      ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 
 -- TODO review
+-- 0) Get list of all dependencies (i.e. xbacklight, pavucontrol, etc..)
 -- 1) keybindings (remove unused, apply better keys, etc..)
+-- 2) battery widget 
+-- 3) volume widget (extend with mute speaker -- and attach keybinding)
 -- TODO cleanup
 -- 1) Go back to single rc.lua file if folding is fixed
 -- TODO features
+-- 0) Widgets from streetturtle/awesome-wm-widgets
+--    - brightness
+--      -- See redshift
+--      -- Could use xrandr + https://awesomewm.org/doc/api/classes/screen.html
+--      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
+--    - todo
+--    - clock/calendar
+--    - logout
+--    - cpu
+--    - ram
+--    - wifi (not available, use nm-applet instead?)
+--    - bluetooth (not available, use blueman instead?)
 -- 1) Conky
 -- 2) Xorg monitor config? is this recommended for dynamic setups?
 -- 3) Use dmenu or rofi scripts to save keybindings?
@@ -44,30 +59,24 @@
 --    - Occurs when reloading rc.lua and changing tags
 --    - Use different backend?
 
--- Standard awesome library
+-- Awesome libraries
 local gears = require("gears")
 local awful = require("awful")
               require("awful.autofocus")
-
--- Widget and layout library
 local wibox = require("wibox")
-
--- Theme handling library
 local beautiful = require("beautiful")
-
--- Notification library
 local naughty = require("naughty")
-
 local menubar = require("menubar")
 
--- User specific libraries
+-- User specific settings
 local keys = require("user.keys")
 local vars = require("user.variables")
 
--- {{{ Theme
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), vars.theme))
-beautiful.font = "Hack Nerd Font Mono Regular 9"
--- }}}
+
+-- User specific widgets
+local battery_widget = require("widget.battery")
+local volume_widget = require("widget.volume")
 
 -- {{{ Layout
 awful.layout.layouts = {
@@ -80,9 +89,6 @@ menubar.utils.terminal = vars.terminal -- Set the terminal for applications that
 -- }}}
 
 -- {{{ Wibar
--- Create a textclock widget
-local mytextclock = wibox.widget.textclock()
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
   awful.button({        }, 1, function(t) t:view_only() end),
@@ -129,8 +135,10 @@ awful.screen.connect_for_each_screen(function(s)
     nil, -- Middle widget
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
+      volume_widget(),
+      battery_widget(),
       wibox.widget.systray(),
-      mytextclock,
+      wibox.widget.textclock(),
     },
   }
 end)
