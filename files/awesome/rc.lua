@@ -14,6 +14,8 @@
 -- 2) Xorg monitor config? is this recommended for dynamic setups?
 -- 3) Use dmenu or rofi scripts to save keybindings?
 -- 4) Create a battery widget
+--    - See https://github.com/ChrisTitusTech/titus-awesome/blob/8dfe3e37b651f6fce1bf2a3bfe535cf7cf85d751/widget/battery/init.lua
+--    - Requires installing xfce4-power-manager (is this the best alternative? What about TLP? See Arch wiki for ideas)
 -- 5) Automatic screen lock (see sway config for ideas)
 --    - Possible to use login manager?
 --    - Currently using i3lock
