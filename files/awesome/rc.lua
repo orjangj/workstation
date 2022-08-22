@@ -12,6 +12,7 @@
 -- 3) volume widget (extend with mute speaker -- and attach keybinding)
 -- 4) cpu widget (color theme)
 -- 5) ram widget (size of the drop down popup)
+-- 6) logout widget -- Consider using i3lock-fancy?
 -- TODO issues
 -- 1) Using xset in autostart doesnt seem to persist between locked screen
 -- 2) Widgets always opens to the right, going outside the screen border. Second click opens left.
@@ -27,7 +28,8 @@
 --      -- Could use xrandr + https://awesomewm.org/doc/api/classes/screen.html
 --      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
 --    - clock/calendar
---    - logout
+--    - github widget?
+--    - spotify widget?
 -- 1) Conky
 -- 2) Xorg monitor config? is this recommended for dynamic setups?
 -- 3) Use dmenu or rofi scripts to save keybindings?
@@ -77,6 +79,7 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 -- User specific widgets
 local battery_widget = require("widget.battery")
 local cpu_widget = require("widget.cpu")
+local logout_widget = require("widget.logout")
 local ram_widget = require("widget.ram")
 local todo_widget = require("widget.todo")
 local volume_widget = require("widget.volume")
@@ -145,6 +148,7 @@ awful.screen.connect_for_each_screen(function(s)
       battery_widget(),
       wibox.widget.systray(),
       wibox.widget.textclock(),
+      logout_widget(),
     },
   }
 end)
