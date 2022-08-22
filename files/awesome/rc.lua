@@ -8,17 +8,22 @@
 -- TODO review/change
 -- 0) Get list of all dependencies (i.e. xbacklight, pavucontrol, etc..)
 -- 1) keybindings (remove unused, apply better keys, etc..)
--- 2) battery widget 
+-- 2) battery widget -- extend with power management tool (ie. look at ChrisTitusTech use of xcfe power manager) 
 -- 3) volume widget (extend with mute speaker -- and attach keybinding)
 -- 4) cpu widget (color theme)
 -- 5) ram widget (size of the drop down popup)
 -- 6) logout widget -- Consider using i3lock-fancy?
+-- 7) calendar widget -- use beatiful theme instead of predefined set of themes
+-- 8) todo widget -- spacing on left and right side too big
+-- 9) storage widget -- themeing
 -- TODO issues
 -- 1) Using xset in autostart doesnt seem to persist between locked screen
 -- 2) Widgets always opens to the right, going outside the screen border. Second click opens left.
 -- 3) Screen tearing (compton issue?)
 --    - Occurs when reloading rc.lua and changing tags
 --    - Use different backend?
+-- 4) Not related to awesome, but I would like to figure out why using headset as mic doesn't work very well.
+-- 5) Keyboard keeps flashing -- Need to check when running Ubuntu, i.e. something to do with config?
 -- TODO cleanup
 -- 1) Go back to single rc.lua file if folding is fixed
 -- TODO features
@@ -27,15 +32,10 @@
 --      -- See redshift
 --      -- Could use xrandr + https://awesomewm.org/doc/api/classes/screen.html
 --      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
---    - clock/calendar
 --    - github widget?
 --    - spotify widget?
 -- 1) Conky
--- 2) Xorg monitor config? is this recommended for dynamic setups?
 -- 3) Use dmenu or rofi scripts to save keybindings?
--- 4) Create a battery widget
---    - See https://github.com/ChrisTitusTech/titus-awesome/blob/8dfe3e37b651f6fce1bf2a3bfe535cf7cf85d751/widget/battery/init.lua
---    - Requires installing xfce4-power-manager (is this the best alternative? What about TLP? See Arch wiki for ideas)
 -- 5) Automatic screen lock (see sway config for ideas)
 --    - Possible to use login manager?
 --    - Currently using i3lock
@@ -56,8 +56,6 @@
 -- 10) Floating applications
 --     - VirtualBox
 --     - VPN clients (FortiNet, NetExtender)
--- 11) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
---     - Figure out why my BLE headset/mic doesn't work on linux (i.e. youtube is open, but not playing, then I cant switch to phone)
 
 -- Awesome libraries
 local gears = require("gears")
@@ -78,9 +76,11 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 
 -- User specific widgets
 local battery_widget = require("widget.battery")
+local calendar_widget = require("widget.calendar")
 local cpu_widget = require("widget.cpu")
 local logout_widget = require("widget.logout")
 local ram_widget = require("widget.ram")
+local storage_widget = require("widget.storage")
 local todo_widget = require("widget.todo")
 local volume_widget = require("widget.volume")
 
@@ -117,6 +117,16 @@ local taglist_buttons = gears.table.join(
   awful.button({        }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
+local mytextclock = wibox.widget.textclock()
+local cw = calendar_widget({
+  theme = 'nord',
+  placement = 'top_right',
+})
+mytextclock:connect_signal("button::press",
+  function (_, _, _, button)
+    if button == 1 then cw.toggle() end
+  end)
+
 awful.screen.connect_for_each_screen(function(s)
   -- Each screen has its own tag table.
   awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
@@ -141,13 +151,14 @@ awful.screen.connect_for_each_screen(function(s)
     nil, -- Middle widget
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
-      todo_widget(),
       cpu_widget(),
       ram_widget(),
+      storage_widget(),
+      todo_widget(),
       volume_widget(),
       battery_widget(),
       wibox.widget.systray(),
-      wibox.widget.textclock(),
+      mytextclock,
       logout_widget(),
     },
   }
