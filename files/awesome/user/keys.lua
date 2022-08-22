@@ -8,6 +8,7 @@ local vars = require("user.variables")
 
 local xrandr = require("module.xrandr")
 local volume_widget = require("widget.volume")
+local brightness_widget = require("widget.brightness")
 
 local globalkeys = gears.table.join(
   -- Group "awesome"
@@ -129,15 +130,12 @@ local globalkeys = gears.table.join(
             { description = "select previous", group = "layout" }),
 
   -- Hidden/Ungrouped (laptop) keys
---  awful.key({}, "XF86AudioRaiseVolume", function () awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%", false) end),
---  awful.key({}, "XF86AudioLowerVolume", function () awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%", false) end),
---  awful.key({}, "XF86AudioMute", function () awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false) end),
   awful.key({}, "XF86AudioRaiseVolume", function () volume_widget:inc(5) end),
   awful.key({}, "XF86AudioLowerVolume", function () volume_widget:dec(5) end),
   awful.key({}, "XF86AudioMute", function () volume_widget:toggle() end),
   awful.key({}, "XF86AudioMicMute", function () awful.util.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle", false) end),
-  awful.key({}, "XF86MonBrightnessDown", function () awful.util.spawn("brightnessctl set 5%-", false) end),
-  awful.key({}, "XF86MonBrightnessUp", function () awful.util.spawn("brightnessctl set 5%+", false) end)
+  awful.key({}, "XF86MonBrightnessDown", function () brightness_widget:dec() end),
+  awful.key({}, "XF86MonBrightnessUp", function () brightness_widget:inc() end)
 )
 
 local clientkeys = gears.table.join(

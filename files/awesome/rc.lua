@@ -16,7 +16,14 @@
 -- 7) calendar widget -- use beatiful theme instead of predefined set of themes
 -- 8) todo widget -- spacing on left and right side too big
 -- 9) storage widget -- themeing
+-- 10) brightness widget
+--      -- Arc ring not updated!
+--      -- See redshift as alternative to current program
+--      -- Could use xrandr + https://awesomewm.org/doc/api/classes/screen.html to detect current screen
+--      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
 -- TODO issues
+-- 0) Some of the widgets are leaking memory --> see https://github.com/streetturtle/awesome-wm-widgets/issues/11
+--    -- Maybe use garbage collection? As ChrisTitusTech does in his configs?
 -- 1) Using xset in autostart doesnt seem to persist between locked screen
 -- 2) Widgets always opens to the right, going outside the screen border. Second click opens left.
 -- 3) Screen tearing (compton issue?)
@@ -25,15 +32,8 @@
 -- 4) Not related to awesome, but I would like to figure out why using headset as mic doesn't work very well.
 -- 5) Keyboard keeps flashing -- Need to check when running Ubuntu, i.e. something to do with config?
 -- TODO cleanup
--- 1) Go back to single rc.lua file if folding is fixed
+-- 1) Go back to single rc.lua file?
 -- TODO features
--- 0) Widgets from streetturtle/awesome-wm-widgets
---    - brightness
---      -- See redshift
---      -- Could use xrandr + https://awesomewm.org/doc/api/classes/screen.html
---      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
---    - github widget?
---    - spotify widget?
 -- 1) Conky
 -- 3) Use dmenu or rofi scripts to save keybindings?
 -- 5) Automatic screen lock (see sway config for ideas)
@@ -76,6 +76,7 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 
 -- User specific widgets
 local battery_widget = require("widget.battery")
+local brightness_widget = require("widget.brightness")
 local calendar_widget = require("widget.calendar")
 local cpu_widget = require("widget.cpu")
 local logout_widget = require("widget.logout")
@@ -155,6 +156,10 @@ awful.screen.connect_for_each_screen(function(s)
       ram_widget(),
       storage_widget(),
       todo_widget(),
+      brightness_widget({
+        program = 'brightnessctl',
+        base = 50,
+      }),
       volume_widget(),
       battery_widget(),
       wibox.widget.systray(),
