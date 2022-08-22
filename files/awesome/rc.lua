@@ -5,11 +5,19 @@
 --      ██║  ██║╚███╔███╔╝███████╗███████║╚██████╔╝██║ ╚═╝ ██║███████╗
 --      ╚═╝  ╚═╝ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝
 
--- TODO review
+-- TODO review/change
 -- 0) Get list of all dependencies (i.e. xbacklight, pavucontrol, etc..)
 -- 1) keybindings (remove unused, apply better keys, etc..)
 -- 2) battery widget 
 -- 3) volume widget (extend with mute speaker -- and attach keybinding)
+-- 4) cpu widget (color theme)
+-- 5) ram widget (size of the drop down popup)
+-- TODO issues
+-- 1) Using xset in autostart doesnt seem to persist between locked screen
+-- 2) Widgets always opens to the right, going outside the screen border. Second click opens left.
+-- 3) Screen tearing (compton issue?)
+--    - Occurs when reloading rc.lua and changing tags
+--    - Use different backend?
 -- TODO cleanup
 -- 1) Go back to single rc.lua file if folding is fixed
 -- TODO features
@@ -18,11 +26,8 @@
 --      -- See redshift
 --      -- Could use xrandr + https://awesomewm.org/doc/api/classes/screen.html
 --      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
---    - todo
 --    - clock/calendar
 --    - logout
---    - cpu
---    - ram
 -- 1) Conky
 -- 2) Xorg monitor config? is this recommended for dynamic setups?
 -- 3) Use dmenu or rofi scripts to save keybindings?
@@ -51,11 +56,6 @@
 --     - VPN clients (FortiNet, NetExtender)
 -- 11) Sound/microphone setup -- TODO (This is blocking me from using awesome WM at work)
 --     - Figure out why my BLE headset/mic doesn't work on linux (i.e. youtube is open, but not playing, then I cant switch to phone)
--- TODO issues
--- 1) Using xset in autostart doesnt seem to persist between locked screen
--- 3) Screen tearing (compton issue?)
---    - Occurs when reloading rc.lua and changing tags
---    - Use different backend?
 
 -- Awesome libraries
 local gears = require("gears")
@@ -70,12 +70,16 @@ local menubar = require("menubar")
 local keys = require("user.keys")
 local vars = require("user.variables")
 
+-- This should always be run before loading user widgets
+-- as they might depend on the color theme
 beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), vars.theme))
 
 -- User specific widgets
 local battery_widget = require("widget.battery")
-local volume_widget = require("widget.volume")
+local cpu_widget = require("widget.cpu")
+local ram_widget = require("widget.ram")
 local todo_widget = require("widget.todo")
+local volume_widget = require("widget.volume")
 
 -- {{{ Layout
 awful.layout.layouts = {
@@ -135,6 +139,8 @@ awful.screen.connect_for_each_screen(function(s)
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
       todo_widget(),
+      cpu_widget(),
+      ram_widget(),
       volume_widget(),
       battery_widget(),
       wibox.widget.systray(),
