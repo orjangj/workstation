@@ -23,8 +23,6 @@
 --    - logout
 --    - cpu
 --    - ram
---    - wifi (not available, use nm-applet instead?)
---    - bluetooth (not available, use blueman instead?)
 -- 1) Conky
 -- 2) Xorg monitor config? is this recommended for dynamic setups?
 -- 3) Use dmenu or rofi scripts to save keybindings?
@@ -77,6 +75,7 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 -- User specific widgets
 local battery_widget = require("widget.battery")
 local volume_widget = require("widget.volume")
+local todo_widget = require("widget.todo")
 
 -- {{{ Layout
 awful.layout.layouts = {
@@ -135,6 +134,7 @@ awful.screen.connect_for_each_screen(function(s)
     nil, -- Middle widget
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
+      todo_widget(),
       volume_widget(),
       battery_widget(),
       wibox.widget.systray(),
