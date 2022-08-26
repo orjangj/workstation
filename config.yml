@@ -37,6 +37,7 @@ icon_theme: "Papirus-Dark"
 
 xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
+
 # }}}
 
 # {{{ File Manager
@@ -67,12 +68,14 @@ awesome_dependencies:
   - rofi
   - dmenu  # until rofi is implemented
   - i3lock
+  - autorandr
 awesome_configs:
   - "{{ playbook_dir }}/files/awesome"
   - "{{ playbook_dir }}/files/rofi"
+  - "{{ playbook_dir }}/files/autorandr"
 # }}}
 
-### Arch User Repository (AUR) ###
+# {{{ Arch User Repository (AUR)
 
 aur_helper: "paru"
 aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
@@ -80,11 +83,9 @@ aur_packages:
   - "nordic-darker-theme"
   - "dragon-drop"  # for sway
   - "autotiling"  # for sway
+# }}}
 
-########
-# Base #
-########
-
+#{{{Base 
 base_utilities:
   - bat
   - curl
@@ -99,12 +100,14 @@ base_utilities:
   - wget
   - papirus-icon-theme
   - blueman
+
 base_configs:
   - src: "{{ playbook_dir }}/files/bat"
   - src: "{{ playbook_dir }}/files/gtk-3.0"
-  - srC: "{{ playbook_dir }}/files/neofetch" 
+  - srC: "{{ playbook_dir }}/files/neofetch"
+# }}}
 
-# {{{ Python
+#{{{Python
 
 pip_install_packages:
   - ansible-lint
@@ -117,7 +120,7 @@ pip_install_packages:
 
 # }}}
 
-### Terminal emulators ###
+# {{{ Terminal emulators
 
 alacritty_dependencies: []
 alacritty_configs:
@@ -132,17 +135,22 @@ foot_dependencies: []
 foot_configs:
   - "{{ playbook_dir }}/files/foot"
 
-### Virtualization ###
+# }}}
+
+# {{{ Virtualization
 
 vagrant_plugins:
   - vagrant-disksize
   - vagrant-libvirt
+# }}}
 
 # {{{ Wallpapers
 wallpaper_sources:
   - https://github.com/linuxdotexe/nordic-wallpapers
 # }}}
 
+# {{{ Dotfiles
 dotfiles_configs:
   - "{{ playbook_dir }}/files/gtk-3.0"
   - "{{ playbook_dir }}/files/nvim"
+# }}}

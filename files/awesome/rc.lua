@@ -261,9 +261,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Autostart
--- TODO: What's the difference between awful.util.spawn and awful.spawn.with_shell?
+awful.spawn.with_shell("autorandr --change")
+awful.spawn.with_shell("xset r rate 200 40")
 awful.spawn.with_shell(vars.compositor)
 awful.spawn.with_shell("nm-applet")
 awful.spawn.with_shell("blueman-applet")
 awful.spawn.with_shell("feh --randomize --bg-fill " .. vars.wallpapers)
-awful.spawn.with_shell("xset r rate 200 30")  -- TODO: Consider using xorg conf file for this

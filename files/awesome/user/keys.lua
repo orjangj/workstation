@@ -58,7 +58,7 @@ local globalkeys = gears.table.join(
 
   -- Group "screen"
   awful.key({ vars.modkey, "Control" }, "x",
-              function () xrandr.xrandr() end,
+              function () xrandr.xrandr() end,  -- TODO: May have to restart compositor after changing setup
             { description = "multimonitor setup", group = "screen" }),
   awful.key({ vars.modkey, "Control" }, "j",
               function () awful.screen.focus_relative( 1) end,
