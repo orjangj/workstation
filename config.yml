@@ -23,11 +23,9 @@ icon_theme: "Papirus-Dark"
 #TODO - backlight
 
 # }}}
-
 # {{{ Display manager
 #sddm_configs: "{{ playbook_dir }}/files/sddm"
 # }}}
-
 # {{{ Display server
 
 # TODO: How to map package names between i.e. debian and arch?
@@ -39,12 +37,16 @@ xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
 
 # }}}
-
 # {{{ File Manager
 ranger_configs:
   - "{{ playbook_dir }}/files/ranger"
 # }}}
-
+# {{{ Shells
+bash_configs:
+  - "{{ playbook_dir }}/files/bash/.bashrc"
+  - "{{ playbook_dir }}/files/bash/.bash_aliases"
+  - "{{ playbook_dir }}/files/bash/.bash_profile"
+# }}}
 # {{{ Window Manager
 sway_dependencies:
   - swaybg
@@ -74,7 +76,6 @@ awesome_configs:
   - "{{ playbook_dir }}/files/rofi"
   - "{{ playbook_dir }}/files/autorandr"
 # }}}
-
 # {{{ Arch User Repository (AUR)
 
 aur_helper: "paru"
@@ -84,7 +85,6 @@ aur_packages:
   - "dragon-drop"  # for sway
   - "autotiling"  # for sway
 # }}}
-
 #{{{Base 
 base_utilities:
   - bat
@@ -106,7 +106,6 @@ base_configs:
   - src: "{{ playbook_dir }}/files/gtk-3.0"
   - srC: "{{ playbook_dir }}/files/neofetch"
 # }}}
-
 #{{{Python
 
 pip_install_packages:
@@ -119,7 +118,6 @@ pip_install_packages:
   - neovim
 
 # }}}
-
 # {{{ Terminal emulators
 
 alacritty_dependencies: []
@@ -136,19 +134,16 @@ foot_configs:
   - "{{ playbook_dir }}/files/foot"
 
 # }}}
-
 # {{{ Virtualization
 
 vagrant_plugins:
   - vagrant-disksize
   - vagrant-libvirt
 # }}}
-
 # {{{ Wallpapers
 wallpaper_sources:
   - https://github.com/linuxdotexe/nordic-wallpapers
 # }}}
-
 # {{{ Dotfiles
 dotfiles_configs:
   - "{{ playbook_dir }}/files/gtk-3.0"

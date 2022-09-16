@@ -8,6 +8,7 @@
     configs: "{{ playbook_dir }}/files"
 
   pre_tasks:
+  # {{{ Pre-tasks
     - name: Arch - Update package cache
       become: yes
       community.general.pacman:
@@ -26,7 +27,7 @@
     - name: Install base 
       ansible.builtin.import_tasks: tasks/base.yml
       tags: [base]
-
+  # }}}
   roles:
     # {{{ Window Managers
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
@@ -56,9 +57,9 @@
     #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
     # }}}
     # {{{ Shells
-    #- { role: bash, tags: [bash, shell], when: shell == 'bash' or 'bash' in ansible_run_tags }
-    #- { role: zsh, tags: [zsh, shell], when: shell == 'zsh' or 'zsh' in ansible_run_tags }
-    #- { role: fish, tags: [fish, shell], when: shell == 'fish' or 'fish' in ansible_run_tags }
+    - { role: bash, tags: [bash, shell, base], when: shell == 'bash' or 'bash' in ansible_run_tags }
+    #- { role: zsh, tags: [zsh, shell, base], when: shell == 'zsh' or 'zsh' in ansible_run_tags }
+    #- { role: fish, tags: [fish, shell, base], when: shell == 'fish' or 'fish' in ansible_run_tags }
     # }}}
     # {{{ Security
     # { role: firewalld, tags: [firewall, security] }
@@ -84,15 +85,6 @@
           - wpa_supplicant  # Needed?
         service_name: "NetworkManager"
     # ---- Pacman ---- #
-    - role: package
-      tags: [bash, base]
-      vars:
-        package_names:
-          - bash
-          - bash-completion
-        package_configs:
-          - src: "{{ configs }}/bash/"
-            dest: "{{ ansible_user_dir }}/"
     - role: package
       tags: [neovim, editors]
       vars:

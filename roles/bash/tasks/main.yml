@@ -1,0 +1,13 @@
+---
+- name: "Ensure bash is installed"
+  become: yes
+  ansible.builtin.package:
+    name:
+      - bash
+      - bash-completion
+
+- name: Copy configurations in place
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_user_dir }}"
+  with_items: "{{ bash_configs }}"

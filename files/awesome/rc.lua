@@ -23,8 +23,11 @@
 --      -- Also look at: https://www.reddit.com/r/archlinux/comments/fopuht/comment/flguaep/
 -- TODO issues
 -- 0) Some of the widgets are leaking memory --> see https://github.com/streetturtle/awesome-wm-widgets/issues/11
+--    -- Either CPU, RAM or brightness widget is causing system to be laggy or cause screen flickering
 --    -- Maybe use garbage collection? As ChrisTitusTech does in his configs?
--- 1) Using xset in autostart doesnt seem to persist between locked screen
+-- 1) xset
+--    -- Using xset in autostart doesnt seem to persist between locked screen
+--    -- xset doesnt seem to work after bootup or after a new monitor gets connected
 -- 2) Widgets always opens to the right, going outside the screen border. Second click opens left.
 -- 3) Screen tearing (compton issue?)
 --    - Occurs when reloading rc.lua and changing tags
@@ -156,10 +159,7 @@ awful.screen.connect_for_each_screen(function(s)
       ram_widget(),
       storage_widget(),
       todo_widget(),
-      brightness_widget({
-        program = 'brightnessctl',
-        base = 50,
-      }),
+      brightness_widget({ program = 'brightnessctl', base = 50 }),
       volume_widget(),
       battery_widget(),
       wibox.widget.systray(),

@@ -2,8 +2,6 @@
 alias q='exit'
 alias c='clear'
 alias h='history'
-
-# These should probably be in the .bashrc
 alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
@@ -11,6 +9,13 @@ alias l='ls -CF'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias cat='bat'
+alias rm='rm -I'
+
+# Workarounds for older machines where terminfo or termcap for xterm-kitty or
+# xterm-alacritty are not available
+alias ssh="TERM=xterm-256color $(which ssh)"
+alias minicom="TERM=xterm-256color sudo $(which minicom)"
 
 # Nice to have aliases
 alias home='cd ~'

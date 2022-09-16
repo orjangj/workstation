@@ -19,10 +19,6 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 ### Prompt configuration
-parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
 USERNAME="\u"
 HOSTNAME="\h"
 WORKDIR="\W"
@@ -38,17 +34,76 @@ BLUE_BOLD="\[\033[01;34m\]"
 WHITE="\[\033[00;37m\]"
 WHITE_BOLD="\[\033[01;37m\]"
 
-PS1="${GREEN_BOLD}┌ ${USERNAME}@${HOSTNAME}${BLUE_BOLD} ➜ ${WORKDIR} ${YELLOW_BOLD}\$(parse_git_branch)\n${GREEN_BOLD}└┄ ${RESET}"
+#parse_git_branch() {
+#    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+#}
+
+git_prompt() {
+    # Check if we're inside a git repository
+    if git status 1> /dev/null 2> /dev/null ; then
+        # Either we get the current branch name, the tag name, or the short commit hash
+        branch=$(git symbolic-ref -q --short HEAD \
+            || git describe --tags --exact-match 2>/dev/null \
+            || git rev-parse --short HEAD
+        )
+
+        # Check symbolic ref again to make sure we're detached or not
+        if git symbolic-ref -q HEAD 1>/dev/null; then
+            detached=false
+        else
+            detached=true
+        fi
+
+        staged=$(git diff --staged --name-status | wc -l)
+        changed=$(git diff --name-status | wc -l)
+        untracked=$(git ls-files --others --exclude-standard | wc -l)
+        conflicts=$(git diff --name-only --diff-filter=U --relative | wc -l)
+        ahead=$(git rev-list $branch --not origin/$branch 2>/dev/null | wc -l)
+        diverged=$(git rev-list origin/$branch --not $branch 2>/dev/null | wc -l)
+
+        # Build the git prompt
+        prompt="($branch"
+        if [ "$detached" = true ] ; then
+            prompt="$prompt|detached|"
+        else
+            prompt="$prompt|↑$ahead↓$diverged|"
+        fi
+
+        if [[ $staged -ne 0 || $changed -ne 0 || $untracked -ne 0 || $conflicts -ne 0 ]]; then
+            prompt="$prompt+$changed-$untracked∙$staged✠$conflicts"
+        else
+            prompt="$prompt✓"
+        fi
+
+        prompt="$prompt)"
+        echo $prompt
+    fi
+}
+
+
+PS1="${GREEN_BOLD}┌ ${USERNAME}@${HOSTNAME}${BLUE_BOLD} ➜ ${WORKDIR} ${YELLOW_BOLD}\$(git_prompt)\n${GREEN_BOLD}└┄ ${RESET}"
 PS2="${YELLOW_BOLD}➜ ${RESET}"
 
 # Source aliases
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+# Any alias that is not part of source control.
+# This file should mostly include aliases that are relevant in the short term,
+# but not important for source control. Such as work/project related aliases.
+if [ -f ~/.bash_aliases_extras ]; then
+    . ~/.bash_aliases_extras
+fi
 
 # Source functions
 if [ -f ~/.bash_functions ]; then
     . ~/.bash_functions
+fi
+# Any function that is not part of source control.
+# This file should mostly include functions that are relevant in the short term,
+# but not important for source control. Such as work/project related functions.
+if [ -f ~/.bash_functions_extras ]; then
+    . ~/.bash_aliases_extras
 fi
 
 # Source programmable completion
@@ -94,7 +149,8 @@ else
 fi
 export EDITOR="$VISUAL"
 
-if type neofetch &> /dev/null; then
-    neofetch
-fi
+# NOTE: This is really slow if printing GPU information
+#if type neofetch &> /dev/null; then
+#    neofetch
+#fi
 
