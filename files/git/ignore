@@ -1,6 +1,0 @@
-compile_commands.json
-tags
-.cache
-.vagrant
-.roles
-ansible_collections

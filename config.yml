@@ -23,9 +23,6 @@ icon_theme: "Papirus-Dark"
 #TODO - backlight
 
 # }}}
-# {{{ Display manager
-#sddm_configs: "{{ playbook_dir }}/files/sddm"
-# }}}
 # {{{ Display server
 
 # TODO: How to map package names between i.e. debian and arch?
@@ -37,15 +34,8 @@ xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
 
 # }}}
-# {{{ File Manager
-ranger_configs:
-  - "{{ playbook_dir }}/files/ranger"
-# }}}
-# {{{ Shells
-bash_configs:
-  - "{{ playbook_dir }}/files/bash/.bashrc"
-  - "{{ playbook_dir }}/files/bash/.bash_aliases"
-  - "{{ playbook_dir }}/files/bash/.bash_profile"
+# {{{ Dotfiles
+dotfiles_repo: "https://github.com/orjangj/dotfiles.git"
 # }}}
 # {{{ Window Manager
 sway_dependencies:
@@ -57,11 +47,6 @@ sway_dependencies:
   - otf-font-awesome
   - xorg-xwayland
   - wl-clipboard
-sway_configs:
-  - "{{ playbook_dir }}/files/sway"
-  - "{{ playbook_dir }}/files/swaylock"
-  - "{{ playbook_dir }}/files/waybar"
-  - "{{ playbook_dir }}/files/wofi"
 
 awesome_dependencies:
   #- picom  # Not available in Ubuntu < 20.10
@@ -71,12 +56,8 @@ awesome_dependencies:
   - dmenu  # until rofi is implemented
   - i3lock
   - autorandr
-awesome_configs:
-  - "{{ playbook_dir }}/files/awesome"
-  - "{{ playbook_dir }}/files/rofi"
-  - "{{ playbook_dir }}/files/autorandr"
 # }}}
-# {{{ Arch User Repository (AUR)
+# {{{ AUR
 
 aur_helper: "paru"
 aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
@@ -100,11 +81,6 @@ base_utilities:
   - wget
   - papirus-icon-theme
   - blueman
-
-base_configs:
-  - src: "{{ playbook_dir }}/files/bat"
-  - src: "{{ playbook_dir }}/files/gtk-3.0"
-  - srC: "{{ playbook_dir }}/files/neofetch"
 # }}}
 #{{{Python
 
@@ -120,18 +96,8 @@ pip_install_packages:
 # }}}
 # {{{ Terminal emulators
 
-alacritty_dependencies: []
-alacritty_configs:
-  - "{{ playbook_dir }}/files/alacritty"
-
 kitty_dependencies:
   - imagemagick
-kitty_configs:
-  - "{{ playbook_dir }}/files/kitty"
-
-foot_dependencies: []
-foot_configs:
-  - "{{ playbook_dir }}/files/foot"
 
 # }}}
 # {{{ Virtualization
@@ -143,9 +109,4 @@ vagrant_plugins:
 # {{{ Wallpapers
 wallpaper_sources:
   - https://github.com/linuxdotexe/nordic-wallpapers
-# }}}
-# {{{ Dotfiles
-dotfiles_configs:
-  - "{{ playbook_dir }}/files/gtk-3.0"
-  - "{{ playbook_dir }}/files/nvim"
 # }}}

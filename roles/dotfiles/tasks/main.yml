@@ -1,0 +1,19 @@
+---
+- name: "Clone dotfiles bare repository"
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo }}"
+    bare: yes
+    dest: "{{ dotfiles_repo_dest }}"
+    version: "{{ dotfiles_version }}"
+  register: repo
+
+- name: "Ensure bare repository contents are present"
+  ansible.builtin.command:
+    cmd: "/usr/bin/git --git-dir={{ dotfiles_repo_dest }} --work-tree={{ ansible_user_dir }} checkout -f"  # TODO: Should probably specify work-tree through dotfiles_owner
+  when: repo.changed
+
+- name: "Ensure untracked config files do not show"
+  ansible.builtin.command:
+    cmd: "/usr/bin/git --git-dir={{ dotfiles_repo_dest }} --work-tree={{ ansible_user_dir }} config --local status.showUntrackedFiles no"
+  when: repo.changed
+

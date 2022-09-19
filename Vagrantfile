@@ -3,7 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-playbook = ENV['PLAYBOOK'] || "awesome.yml"
+playbook = ENV['PLAYBOOK'] || "converge.yml"
 tags = ENV['TAGS'] || "never"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|

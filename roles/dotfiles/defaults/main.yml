@@ -1,0 +1,6 @@
+---
+dotfiles_repo: ""
+dotfiles_repo_dest: "{{ ansible_user_dir }}/dotfiles"
+dotfiles_version: "HEAD"
+
+
