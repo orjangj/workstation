@@ -76,6 +76,7 @@
     # {{{ Other
     - { role: aur, tags: [aur] }
     - { role: wallpaper, tags: [wallpaper] }
+    - { role: stylua, tags: [stylua, nvim] }
     # }}}
 
     # ---- Services ---- #

@@ -1,0 +1,7 @@
+---
+- name: "Ensure stylua is installed"
+  ansible.builtin.unarchive:
+    src: "https://github.com/JohnnyMorganz/StyLua/releases/{{ stylua_version }}/download/stylua-linux.zip"
+    dest: "{{ ansible_user_dir }}/.local/bin"
+    remote_src: yes
+
