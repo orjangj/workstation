@@ -50,12 +50,12 @@ sway_dependencies:
 
 awesome_dependencies:
   #- picom  # Not available in Ubuntu < 20.10
-  - compton
-  - feh
+  - compton  # For compositing
+  - feh  # For selecting random wallpaper
   - rofi
-  - dmenu  # until rofi is implemented
   - i3lock
   - autorandr
+  - lm-sensors # For the temp widget
 # }}}
 # {{{ AUR
 
@@ -92,6 +92,9 @@ pip_install_packages:
   - molecule[docker]
   - python-language-server  # Used for LSP in Vim
   - neovim
+  - debugpy
+  - pytest
+  - pytest-cov
 
 # }}}
 # {{{ Terminal emulators
@@ -99,6 +102,9 @@ pip_install_packages:
 kitty_dependencies:
   - imagemagick
 
+# }}}
+# {{{ Editors
+nvim_version: "0.8.0"
 # }}}
 # {{{ Virtualization
 
@@ -108,5 +114,5 @@ vagrant_plugins:
 # }}}
 # {{{ Wallpapers
 wallpaper_sources:
-  - https://github.com/linuxdotexe/nordic-wallpapers
+  - https://github.com/orjangj/wallpapers
 # }}}

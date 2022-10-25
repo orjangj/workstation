@@ -55,7 +55,7 @@
     - { role: foot, tags: [foot, terminal], when: terminal == 'foot' or 'foot' in ansible_run_tags }
     # }}}
     # {{{ Editors
-    #- { role: nvim, tags: [nvim, editor], when: editor == 'nvim' or 'nvim' in ansible_run_tags }
+    - { role: nvim, tags: [nvim, editor], when: editor == 'nvim' or 'nvim' in ansible_run_tags }
     #- { role: vim, tags: [vim, editor], when: editor == 'vim' or 'vim' in ansible_run_tags }
     #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
     # }}}
@@ -91,15 +91,6 @@
         service_name: "NetworkManager"
     # ---- Pacman ---- #
     - role: package
-      tags: [neovim, editors]
-      vars:
-        package_names:
-          - neovim
-          - python-pynvim
-          - ripgrep
-        package_configs:
-          - src: "{{ configs }}/nvim"
-    - role: package
       tags: [git, base, tools]
       vars:
         package_names:
@@ -124,4 +115,10 @@
           - firefox
           - chromium
       tags: [browsers]
+
+    - name: Install cargo
+      become: yes
+      ansible.builtin.package:
+        name: cargo
+      tags: [cargo]
 
