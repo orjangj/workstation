@@ -31,6 +31,7 @@
   roles:
     # {{{ Window Managers
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
+    - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
     - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
     # }}}
     # {{{ Desktop Environments

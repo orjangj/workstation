@@ -1,0 +1,7 @@
+---
+
+- name: Apply Debian install method
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
+
+# TODO: Arch and Fedora

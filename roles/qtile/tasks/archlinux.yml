@@ -1,0 +1,19 @@
+---
+- name: "Install Qtile (X11)"
+  become: yes
+  ansible.builtin.package:
+    name:
+      - xorg-server
+      - xorg-xinit
+      - glibc
+      - qtile
+  when: qtile_backend == "all" or qtile_backend == "x11"
+
+- name: "Install qtile (Wayland)"
+  become: yes
+  ansible.builtin.package:
+    name:
+      - python-pywlroots
+      - glibc
+      - qtile
+  when: qtile_backend == "all" or qtile_backend == "wayland"

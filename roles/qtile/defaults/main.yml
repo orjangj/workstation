@@ -1,0 +1,6 @@
+---
+# NOTE: Python3 and pip is assumed installed
+
+qtile_version: "latest"
+qtile_backend: "all"  # One of: all, x11 or wayland
+

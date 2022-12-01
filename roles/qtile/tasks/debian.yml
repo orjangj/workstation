@@ -1,0 +1,39 @@
+---
+- name: "Ensure package dependencies are installed (X11)"
+  become: yes
+  ansible.builtin.package:
+    name:
+      - xserver-xorg
+      - python3-xcffib  # Must be installed before cffi
+      - python3-cffi
+      - python3-cairocffi
+      - libpangocairo-1.0-0
+  when: qtile_backend == "all" or qtile_backend == "x11"
+
+- name: "Install Qtile (X11)"
+  ansible.builtin.pip:
+    name:
+      - dbus-next
+      - qtile
+
+- name: "Ensure package dependencies are installed (Wayland)"
+  become: yes
+  ansible.builtin.package:
+    name:
+      - python3-dev  # pywayland dep
+      - libwayland-dev  # pywayland dep
+      - libwlroots-dev
+      - libxkbcommon-dev  # is this the right one for pywlroots?
+      - python3-cffi
+      - python3-cairocffi
+      - libpangocairo-1.0-0
+  when: qtile_backend == "all" or qtile_backend == "wayland"
+
+- name: "Install Qtile (Wayland)"
+  ansible.builtin.pip:
+    name:
+      - dbus-next
+      - pywayland
+      - pywlroots
+      - xkbcommon
+      - qtile
