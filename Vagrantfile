@@ -3,15 +3,42 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+distro = ENV['DISTRO'] || "ubuntu"
 playbook = ENV['PLAYBOOK'] || "converge.yml"
 tags = ENV['TAGS'] || "never"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "archlinux/archlinux"
   config.ssh.insert_key = false
 
+  case distro
+  when "arch"
+    config.vm.hostname = "arch"
+    config.vm.network :private_network, ip: "192.168.56.21"
+    config.vm.define :arch do |arch|
+      config.vm.box = "archlinux/archlinux"
+    end
+  when "fedora"
+    config.vm.hostname = "fedora"
+    config.vm.network :private_network, ip: "192.168.56.22"
+    config.vm.define :fedora do |fedora|
+      config.vm.box = "generic/fedora37"
+    end
+  when "ubuntu"
+    config.vm.hostname = "ubuntu"
+    config.vm.network :private_network, ip: "192.168.56.23"
+    config.vm.define :ubuntu do |ubuntu|
+      config.vm.box = "ubuntu/jammy64"
+    end
+  else
+    config.vm.hostname = "ubuntu"
+    config.vm.network :private_network, ip: "192.168.56.23"
+    config.vm.define :ubuntu do |ubuntu|
+      config.vm.box = "ubuntu/jammy64"
+    end
+  end
+
   config.vm.provider :virtualbox do |v|
-    v.name = "arch"
+    v.name = config.vm.hostname
     v.memory = 8192
     v.cpus = 4
     v.gui = true
@@ -19,31 +46,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
     # Required when using more than one virtual CPU
     v.customize ["modifyvm", :id, "--ioapic", "on"]
-
-    # Sway compatibility requirements
-    #v.customize ['modifyvm', :id, "--graphicscontroller", "vmsvga"]
-    #v.customize ["modifyvm", :id, "--vram", "128"]
-    #v.customize ["modifyvm", :id, "--accelerate3d", "on"]
-
     # Nice to have
     v.customize ['modifyvm', :id, "--clipboard", "bidirectional"]
     v.customize ['modifyvm', :id, "--mouse", "usbtablet"]
   end
-
-  config.vm.hostname = "arch"
-  config.vm.network :private_network, ip: "192.168.56.21"
-
-  # Set the name of the VM. See: http://stackoverflow.com/a/17864388/100134
-  config.vm.define :arch do |arch|
-  end
-
-  # Sway compatibility
-  #config.vm.provision "shell", inline: "loadkeys no"
-  #config.vm.provision "shell", inline: <<-SHELL
-  #  FILE=/etc/environment
-  #  LINE="export WLR_NO_HARDWARE_CURSORS=1"
-  #  grep -qxF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
-  #SHELL
   
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
