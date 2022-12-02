@@ -6,6 +6,9 @@
 
 ---------------------------------------------------------------------------------------------------------
 
+- xterm -- should be installed as base (most WMs use this by default
+        and would be good to have as a backup)
+
 - foot -- fallback font (to default) if preferred font is not installed
 
 - region/language -- see base install recommendations

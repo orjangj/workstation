@@ -37,3 +37,11 @@
       - pywlroots
       - xkbcommon
       - qtile
+
+- name: "Ensure desktop entry is installed"
+  become: yes
+  ansible.builtin.copy:
+    src: qtile.desktop
+    dest: /usr/share/xsessions/qtile.desktop
+    mode: 0644
+  when: qtile_desktop_entry 

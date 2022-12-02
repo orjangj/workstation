@@ -1,7 +1,7 @@
 ---
 - name: "Ensure sddm and dependencies are installed"
   become: yes
-  community.general.pacman:
+  ansible.builtin.package:
     name: "{{ ['sddm'] + sddm_dependencies }}"
 
 - name: Copy configuration files in place
