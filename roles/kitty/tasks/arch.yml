@@ -1,0 +1,6 @@
+---
+- name: "Ensure kitty and dependencies are installed"
+  become: yes
+  community.general.pacman:
+    name: kitty
+

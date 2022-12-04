@@ -3,7 +3,7 @@
   become: yes
   ansible.builtin.apt:
     name:
-      - xserver-xorg-core
+      - xserver-xorg
       - xinit
 
 - name: Install additional dependencies

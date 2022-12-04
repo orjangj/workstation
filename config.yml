@@ -56,6 +56,10 @@ awesome_dependencies:
   - i3lock
   - autorandr
   - lm-sensors # For the temp widget
+
+qtile_extra_dependencies:
+  - feh
+
 # }}}
 # {{{ AUR
 
@@ -99,8 +103,8 @@ pip_install_packages:
 # }}}
 # {{{ Terminal emulators
 
-kitty_dependencies:
-  - imagemagick
+kitty_version: "0.26.5"
+kitty_with_optional_dependencies: true
 
 # }}}
 # {{{ Editors
@@ -116,3 +120,5 @@ vagrant_plugins:
 wallpaper_sources:
   - https://github.com/orjangj/wallpapers
 # }}}
+
+qtile_backend: "x11"

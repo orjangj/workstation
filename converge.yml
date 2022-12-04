@@ -23,12 +23,9 @@
         cache_valid_time: 3000
       tags: [always]
       when: ansible_os_family == 'Debian'
-
-    - name: Install base 
-      ansible.builtin.import_tasks: tasks/base.yml
-      tags: [base]
   # }}}
   roles:
+    - { role: base, tags: [base] }
     # {{{ Window Managers
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
     - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
@@ -45,7 +42,7 @@
     #- { role: gdm, tags: [gdm, dm], when: display_manager == 'gdm' or 'gdm' in ansible_run_tags }
     # }}}
     # {{{ Dotfiles
-    - { role: dotfiles, tags: [config, base] }
+    - { role: dotfiles, tags: [dotfiles, base] }
     # }}}
     # {{{ File Managers
     - { role: ranger, tags: [ranger, fm], when: file_manager == 'ranger' or 'ranger' in ansible_run_tags}
@@ -92,7 +89,7 @@
         service_name: "NetworkManager"
     # ---- Pacman ---- #
     - role: package
-      tags: [git, base, tools]
+      tags: [git, tools]
       vars:
         package_names:
           - git
@@ -122,4 +119,10 @@
       ansible.builtin.package:
         name: cargo
       tags: [cargo]
+
+    - name: Copy qtile configs
+      ansible.builtin.copy:
+        src: files/qtile
+        dest: "{{ ansible_user_dir }}/.config"
+      tags: [qtile]
 

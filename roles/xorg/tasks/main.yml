@@ -10,3 +10,10 @@
 - name: Apply custom xorg configuration files
   ansible.builtin.include_tasks: config.yml
   when: xorg_configs | length > 0
+
+# Why isn't this installed by default?
+- name: Ensure x11 directories exist
+  become: yes
+  ansible.builtin.file:
+    state: directory
+    path: /usr/share/xsessions

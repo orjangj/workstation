@@ -1,4 +1,5 @@
 ---
-kitty_dependencies: []
-kitty_configs: []
+kitty_version: "latest"
+kitty_install_dest: "{{ ansible_user_dir }}/.local/kitty.app"
+kitty_with_optional_dependencies: false
 

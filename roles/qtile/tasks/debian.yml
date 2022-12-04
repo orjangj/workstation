@@ -4,6 +4,9 @@
   ansible.builtin.package:
     name:
       - xserver-xorg
+      - xinit
+      - python3
+      - python3-pip
       - python3-xcffib  # Must be installed before cffi
       - python3-cffi
       - python3-cairocffi
@@ -15,11 +18,14 @@
     name:
       - dbus-next
       - qtile
+  when: qtile_backend == "all" or qtile_backend == "x11"
 
 - name: "Ensure package dependencies are installed (Wayland)"
   become: yes
   ansible.builtin.package:
     name:
+      - python3
+      - python3-pip
       - python3-dev  # pywayland dep
       - libwayland-dev  # pywayland dep
       - libwlroots-dev
@@ -37,11 +43,18 @@
       - pywlroots
       - xkbcommon
       - qtile
+  when: qtile_backend == "all" or qtile_backend == "wayland"
+
+- name: "Ensure xsessions directory exist"
+  become: yes
+  ansible.builtin.file:
+    state: directory
+    path: /usr/share/xsessions
+  when: qtile_desktop_entry
 
 - name: "Ensure desktop entry is installed"
   become: yes
   ansible.builtin.copy:
     src: qtile.desktop
     dest: /usr/share/xsessions/qtile.desktop
-    mode: 0644
   when: qtile_desktop_entry 
