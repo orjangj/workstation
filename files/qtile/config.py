@@ -1,3 +1,4 @@
+import distro
 import os
 import random
 import shutil
@@ -7,11 +8,13 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
-# from libqtile.log_utils import logger
+from libqtile.log_utils import logger
 
 mod = "mod4"
 terminal = "kitty"
 font = "sans"  # TODO
+nerdfont = "Ubuntu Nerd Font"
+fontsize = 11
 
 # TODO
 # 1) colorscheme nord
@@ -33,6 +36,14 @@ def get_wallpaper():
     wallpapers = os.listdir(path)
     index = random.randint(0, len(wallpapers) - 1)
     return f"{path}/{wallpapers[index]}"
+
+
+# Used by CheckUpdates widget
+def get_distro():
+    name = distro.name()
+    if name == "Arch Linux":
+        return "Arch_checkupdates"
+    return name
 
 
 def colorscheme():
@@ -118,7 +129,8 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
-groups = [Group(i) for i in "123456789"]
+# TODO: use glyphs (but remember to bind to numbers)
+groups = [Group(i) for i in "12345"]
 
 for i in groups:
     keys.extend(
@@ -144,6 +156,7 @@ for i in groups:
         ]
     )
 
+check_updates_distro = get_distro()
 colors = colorscheme()
 
 layouts = [
@@ -163,9 +176,17 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font=font, fontsize=12, padding=3, background=colors[1], foreground=colors[5]
+    font=font, fontsize=fontsize, padding=3, background=colors[1], foreground=colors[5]
 )
 extension_defaults = widget_defaults.copy()
+
+# TODO: remove?
+separator = widget.Sep(
+    background=colors[1],  # #2e3440
+    foreground=colors[5],  # #d8dee9
+    linewidth=1,
+    padding=10,
+)
 
 
 screens = [
@@ -174,24 +195,114 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
+                widget.GroupBox(
+                    active=colors[5],
+                    borderwidth=2,
+                    disable_drag=True,
+                    font=font,
+                    fontsize=fontsize,
+                    hide_unused=False,
+                    highlight_method="line",
+                    inactive=colors[3],
+                    margin_x=0,
+                    margin_y=3,
+                    padding_x=5,
+                    padding_y=8,
+                    rounded=False,
+                    this_current_screen_border=colors[9],
+                    urgent_alert_method="line",
                 ),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # widget.StatusNotifier(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
+                widget.Prompt(
+                    background=colors[1],
+                    font=font,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                ),
+                widget.Spacer(),
+                widget.TextBox(
+                    background=colors[1],
+                    font=nerdfont,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    padding=0,
+                    text=" ",
+                ),
+                widget.ThermalSensor(
+                    background=colors[1],
+                    font=font,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    update_interval=2,
+                ),
+                widget.TextBox(
+                    background=colors[1],
+                    font=nerdfont,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    padding=0,
+                    text=" ",
+                ),
+                widget.Memory(
+                    background=colors[1],
+                    font=font,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    format="{MemUsed: .0f}{mm}",
+                    update_interval=1.0,
+                ),
+                widget.TextBox(
+                    background=colors[1],
+                    font=nerdfont,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    padding=0,
+                    text=" ",
+                ),
+                widget.CPU(
+                    background=colors[1],
+                    font=font,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    format="CPU {load_percent}%",
+                    update_interval=1,
+                ),
+                widget.TextBox(
+                    background=colors[1],
+                    font=nerdfont,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    padding=0,
+                    text="  ",
+                ),
+                widget.Net(
+                    background=colors[1],
+                    font=font,
+                    fontsize=fontsize,
+                    foreground=colors[5],
+                    format="{interface}: {down} ↓ ",
+                    interface="all",
+                    padding=0,
+                ),
+                widget.CheckUpdates(
+                    update_interval=1800,
+                    distro=check_updates_distro,
+                    display_format="Updates: {updates} ",
+                    foreground=colors[5],
+                    colour_have_updates=colors[5],
+                    colour_no_updates=colors[5],
+                    padding=5,
+                    background=colors[0],
+                ),
+                widget.Clock(
+                    background=colors[1],
+                    font=font,
+                    fontsize=fontsize,
+                    foreground=colors[6],
+                    format="%a %b %d, %H:%M",
+                ),
             ],
-            24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+            22,
+            opacity=0.9,
         ),
     ),
 ]
@@ -239,7 +350,7 @@ def cleanup():
 
 @hook.subscribe.shutdown
 def killall():
-    shutil.rmtree(os.path.expanduser('~/.config/qtile/__pycache__'))
+    shutil.rmtree(os.path.expanduser("~/.config/qtile/__pycache__"))
     # TODO -- Popen shutdown processes
 
 
@@ -251,7 +362,7 @@ def killall():
 
 @hook.subscribe.startup
 def start_always():
-    subprocess.Popen(['xset', 'r', '200', '40'])
+    subprocess.Popen(["/usr/bin/xset", "r", "rate", "200", "40"])
 
 
 # If things like steam games want to auto-minimize themselves when losing

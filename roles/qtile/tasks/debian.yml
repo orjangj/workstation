@@ -11,6 +11,8 @@
       - python3-cffi
       - python3-cairocffi
       - libpangocairo-1.0-0
+      #      - "{{ qtile_extra_packages }}"
+      - x11-xserver-utils
   when: qtile_backend == "all" or qtile_backend == "x11"
 
 - name: "Install Qtile (X11)"
@@ -18,6 +20,8 @@
     name:
       - dbus-next
       - qtile
+      #- "{{ qtile_extra_pip_modules }}"
+      - psutil  # For widgets
   when: qtile_backend == "all" or qtile_backend == "x11"
 
 - name: "Ensure package dependencies are installed (Wayland)"
@@ -33,6 +37,7 @@
       - python3-cffi
       - python3-cairocffi
       - libpangocairo-1.0-0
+      #- "{{ qtile_extra_packages }}"
   when: qtile_backend == "all" or qtile_backend == "wayland"
 
 - name: "Install Qtile (Wayland)"
@@ -43,6 +48,7 @@
       - pywlroots
       - xkbcommon
       - qtile
+      #- "{{ qtile_extra_pip_modules }}"
   when: qtile_backend == "all" or qtile_backend == "wayland"
 
 - name: "Ensure xsessions directory exist"
