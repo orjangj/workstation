@@ -8,15 +8,16 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
-from libqtile.log_utils import logger
+# from libqtile.log_utils import logger
 
 mod = "mod4"
 terminal = "kitty"
-font = "sans"  # TODO
-nerdfont = "Ubuntu Nerd Font"
+font = "Ubuntu"
+nerdfont = "Ubuntu Mono 11"
 fontsize = 11
 
 # TODO
+# 0) Notification server
 # 1) colorscheme nord
 # 2) keymaps
 #    - browser
@@ -68,12 +69,12 @@ def colorscheme():
     ]
 
 
-def layout_theme():
+def init_layout_theme():
     return {
-        "margin": 0,
-        "border_width": 2,
-        "border_focus": "#5e81ac",  # TODO
-        "border_normal": "#4c566a",  # TODO
+        "margin": 8,
+        "border_width": 1,
+        "border_focus": "#88c0d0",
+        "border_normal": "#4c566a",
     }
 
 
@@ -129,48 +130,53 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
-# TODO: use glyphs (but remember to bind to numbers)
-groups = [Group(i) for i in "12345"]
+groups = [
+    Group("", layout="monadtall"),
+    Group("", layout="max",        matches=[Match(wm_class=["navigator", "firefox", "vivaldi-stable", "chromium", "brave"])]),
+    Group("", layout="monadtall",  matches=[Match(wm_class=["emacs", "geany", "subl"])]),
+    Group("", layout="monadtall",  matches=[Match(wm_class=["qpdfview", "thunar", "nemo", "caja", "pcmanfm", "nautilus"])]),
+    Group("", layout="max",        matches=[Match(wm_class=["telegramDesktop"])]),
+    Group("", layout="max",        matches=[Match(wm_class=["spotify"])]),
+    Group("", layout="max"),  # virtualbox?
+]
 
-for i in groups:
+for i, group in zip(["1", "2", "3", "4", "5", "6", "7"], groups):
     keys.extend(
         [
-            # mod1 + letter of group = switch to group
             Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
-            # mod1 + shift + letter of group = switch to & move focused window to group
+                [mod], i, lazy.group[group.name].toscreen(),
+                desc=f"Switch to group {group.name}"),
             Key(
-                [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
+                [mod, "shift"], i, lazy.window.togroup(group.name, switch_group=True),
+                desc=f"Switch to & move focused window to group {group.name}",
             ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
         ]
     )
 
 check_updates_distro = get_distro()
 colors = colorscheme()
+layout_theme = init_layout_theme()
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    # layout.Max(layout_theme()),
+    # layout.Columns(border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=4),
+    layout.Max(**layout_theme),
     # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    layout.Tile(),
-    # layout.TreeTab(),
+    # layout.Stack(num_stacks=2, **layout_theme),
+    layout.Bsp(**layout_theme),
+    layout.Matrix(**layout_theme),
+    layout.MonadTall(**layout_theme),
+    layout.MonadWide(**layout_theme),
+    layout.RatioTile(**layout_theme),
+    layout.Tile(**layout_theme),
+    # layout.TreeTab(
+    #    sections=['FIRST', 'SECOND'],
+    #    bg_color='#3b4252',
+    #    active_bg='#bf616a',
+    #    inactive_bg='#a3be8c',
+    #    padding_y=5,
+    #    section_top=10,
+    #    panel_width=280
+    # ),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
@@ -197,12 +203,14 @@ screens = [
             [
                 widget.GroupBox(
                     active=colors[5],
+                    block_highlight_text_color=colors[9],
                     borderwidth=2,
                     disable_drag=True,
                     font=font,
                     fontsize=fontsize,
                     hide_unused=False,
                     highlight_method="line",
+                    highlight_color=['2e3440', '4c566a'],  # when usnig "line" method
                     inactive=colors[3],
                     margin_x=0,
                     margin_y=3,

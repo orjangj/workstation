@@ -1,0 +1,11 @@
+---
+- name: Install fonts
+  become: yes
+  ansible.builtin.apt:
+    name:
+      - fonts-font-awesome
+      - fonts-noto
+      - fonts-hack
+      - fonts-ubuntu
+      - fonts-liberation
+      - fonts-firacode

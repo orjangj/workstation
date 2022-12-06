@@ -76,6 +76,7 @@
     - { role: wallpaper, tags: [wallpaper] }
     - { role: stylua, tags: [stylua, nvim] }
     - { role: lazygit, tags: [lazygit, nvim] }
+    - { role: fonts, tags: [fonts, base] }
     # }}}
 
     # ---- Services ---- #
@@ -97,15 +98,6 @@
           - src: "{{ configs }}/git"
 
   tasks:
-    - name: Install fonts
-      become: yes
-      community.general.pacman:
-        name:
-          - ttf-hack
-          - ttf-fira-code
-          - otf-font-awesome
-      tags: [fonts]
-
     - name: Install browsers
       become: yes
       community.general.pacman:

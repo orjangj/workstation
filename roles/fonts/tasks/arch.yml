@@ -1,0 +1,11 @@
+---
+- name: Install fonts
+  become: yes
+  community.general.pacman:
+    name:
+      - ttf-font-awesome
+      - noto-fonts
+      - ttf-hack
+      - ttf-ubuntu-font-family
+      - ttf-fira-code
+      - ttf-liberation
