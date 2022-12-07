@@ -6,6 +6,18 @@
 
 ---------------------------------------------------------------------------------------------------------
 
+- PDF viewer
+  - zathura
+  - okular
+  - qpdfview
+- File manager
+  - nemo
+  - pcmanfm
+  - ranger
+  - vifm
+  - nnn
+  - dired (if using emacs?)
+
 - xterm -- should be installed as base (most WMs use this by default
         and would be good to have as a backup)
 

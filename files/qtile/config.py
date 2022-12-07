@@ -12,21 +12,29 @@ from libqtile.lazy import lazy
 
 mod = "mod4"
 terminal = "kitty"
+browser = "firefox"  # qutebrowser?
 font = "Ubuntu"
 nerdfont = "Ubuntu Mono 11"
 fontsize = 11
 
 # TODO
 # 0) Notification server
-# 1) colorscheme nord
 # 2) keymaps
 #    - browser
 #    - launcher
 # 3) application launcher (dmenu?)
 # 4) bar layout
-# 5) Tiling -- useless gaps
 # 6) Some apps should not be tiled, eg. VirtualBox, ++
-# 7) Groups -- use glyphs -- limit to 5
+# 8) Theme
+#    - put colorscheme and stuff here
+#    - rounded corners
+#    - layout
+#    - font
+# 9) Screen lock
+# 10) Power management?
+# BUG?
+# - if dotfiles are pulled, then qtile won't start. I suspect bashrc isn't loaded properly
+#   - maybe due to some dependency error?
 
 # --- Custom functions (TODO: move into separate module)
 
@@ -80,78 +88,60 @@ def init_layout_theme():
 
 # --- End custom functions
 
+# A list of available commands that can be bound to keys can be found
+# at https://docs.qtile.org/en/latest/manual/config/lazy.html
 keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
+    # Essentials
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "d", lazy.spawn("dmenu_run -i -nb '#2E3440' -sf '#2E3440' -sb '#88C0D0' -nf '#88C0D0' -fn 'Ubuntu:bold:pixelsize=12'"), desc="Launch dmenu"),
+    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    # Window management
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    Key(
-        [mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
-    ),
-    Key(
-        [mod, "shift"],
-        "l",
-        lazy.layout.shuffle_right(),
-        desc="Move window to the right",
-    ),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key(
-        [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
-    ),
+    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
+    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    # TODO: Screen/monitor management
+    # - Move focused window to other screen and focus that window
+    # - Move focus to other screen
+    # Layout management
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+
+    # multiple stack panes ... what's this?
+    Key([mod, "shift"], "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
-    ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+        ),
+    # Other
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
 groups = [
     Group("", layout="monadtall"),
-    Group("", layout="max",        matches=[Match(wm_class=["navigator", "firefox", "vivaldi-stable", "chromium", "brave"])]),
-    Group("", layout="monadtall",  matches=[Match(wm_class=["emacs", "geany", "subl"])]),
-    Group("", layout="monadtall",  matches=[Match(wm_class=["qpdfview", "thunar", "nemo", "caja", "pcmanfm", "nautilus"])]),
-    Group("", layout="max",        matches=[Match(wm_class=["telegramDesktop"])]),
-    Group("", layout="max",        matches=[Match(wm_class=["spotify"])]),
+    Group("", layout="max", matches=[Match(wm_class=["firefox", "chromium", "brave"])]),
+    Group("", layout="monadtall", matches=[Match(wm_class=["emacs", "code"])]),
+    Group("", layout="monadtall", matches=[Match(wm_class=["qpdfview", "thunar", "pcmanfm", "nautilus"])]),
+    Group("", layout="max"),
+    Group("", layout="max", matches=[Match(wm_class=["spotify"])]),
     Group("", layout="max"),  # virtualbox?
 ]
 
-for i, group in zip(["1", "2", "3", "4", "5", "6", "7"], groups):
-    keys.extend(
-        [
-            Key(
-                [mod], i, lazy.group[group.name].toscreen(),
-                desc=f"Switch to group {group.name}"),
-            Key(
-                [mod, "shift"], i, lazy.window.togroup(group.name, switch_group=True),
-                desc=f"Switch to & move focused window to group {group.name}",
-            ),
-        ]
-    )
+for i, g in zip(["1", "2", "3", "4", "5", "6", "7"], groups):
+    keys.append(Key([mod], i, lazy.group[g.name].toscreen(), desc=f"Switch to group {g.name}"))
+    keys.append(Key([mod, "shift"], i, lazy.window.togroup(g.name, switch_group=True), desc=f"Switch to & move focused window to group {g.name}"))
+
 
 check_updates_distro = get_distro()
 colors = colorscheme()
@@ -160,7 +150,6 @@ layout_theme = init_layout_theme()
 layouts = [
     # layout.Columns(border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=4),
     layout.Max(**layout_theme),
-    # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2, **layout_theme),
     layout.Bsp(**layout_theme),
     layout.Matrix(**layout_theme),
@@ -210,7 +199,7 @@ screens = [
                     fontsize=fontsize,
                     hide_unused=False,
                     highlight_method="line",
-                    highlight_color=['2e3440', '4c566a'],  # when usnig "line" method
+                    highlight_color=["2e3440", "4c566a"],  # when usnig "line" method
                     inactive=colors[3],
                     margin_x=0,
                     margin_y=3,

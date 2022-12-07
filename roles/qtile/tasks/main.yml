@@ -4,4 +4,12 @@
   ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == 'Debian'
 
+# TODO Handle this outside qtile role?
+- name: Install other dependencies
+  become: yes
+  ansible.builtin.package:
+    name:
+      - dmenu
+      - firefox
+
 # TODO: Arch and Fedora
