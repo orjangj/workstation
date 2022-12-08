@@ -16,22 +16,24 @@ browser = "firefox"  # qutebrowser?
 font = "Ubuntu"
 nerdfont = "Ubuntu Mono 11"
 fontsize = 11
+useless_gap = 8
 
 # TODO
 # 0) Notification server
-# 2) keymaps
-#    - browser
-#    - launcher
-# 3) application launcher (dmenu?)
-# 4) bar layout
+# 1) Keybinding
+#    - Screen lock
+# 4) bar layout and widgets
+#   - Go through list of supported widgets
+#   - uniform spacing
+#   - Logout/shutdown widget? Or dmenu script?
 # 6) Some apps should not be tiled, eg. VirtualBox, ++
 # 8) Theme
 #    - put colorscheme and stuff here
 #    - rounded corners
 #    - layout
 #    - font
-# 9) Screen lock
-# 10) Power management?
+# 10) Volume, mic and brightness control
+# 11) Battery indicator
 # BUG?
 # - if dotfiles are pulled, then qtile won't start. I suspect bashrc isn't loaded properly
 #   - maybe due to some dependency error?
@@ -79,7 +81,7 @@ def colorscheme():
 
 def init_layout_theme():
     return {
-        "margin": 8,
+        "margin": useless_gap,
         "border_width": 1,
         "border_focus": "#88c0d0",
         "border_normal": "#4c566a",
@@ -126,6 +128,14 @@ keys = [
         ),
     # Other
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawncmd("amixer -D pulse sset Master 5 %+"), desc="Increase volume"),
+    Key([], "XF86AudioLowerVolume", lazy.spawncmd("amixer -D pulse sset Master 5 %-"), desc="Decrease volume"),
+    Key([], "XF86AudioMute", lazy.spawncmd("amixer -D pulse sset Master toggle"), desc="Toggle volume"),
+    Key([mod], "XF86AudioRaiseVolume", lazy.spawncmd("amixer -D pulse sset Capture %+"), desc="Increase mic volume"),
+    Key([mod], "XF86AudioLowerVolume", lazy.spawncmd("amixer -D pulse sset Capture 5 %-"), desc="Decrease mic volume"),
+    Key([], "XF86AudioMicMute", lazy.spawncmd("amixer -D pulse sset Capture toggle"), desc="Toggle mic"),
+    Key([], "XF86MonBrightnessDown", lazy.spawncmd("brightnessctl set 5%-"), desc="Decrease brightness"),
+    Key([], "XF86MonBrightnessUp", lazy.spawncmd("brightnessctl set +5%"), desc="Increase brightness"),
 ]
 
 groups = [
@@ -199,7 +209,7 @@ screens = [
                     fontsize=fontsize,
                     hide_unused=False,
                     highlight_method="line",
-                    highlight_color=["2e3440", "4c566a"],  # when usnig "line" method
+                    highlight_color=["2e3440", "4c566a"],  # when using "line" method
                     inactive=colors[3],
                     margin_x=0,
                     margin_y=3,
@@ -216,79 +226,64 @@ screens = [
                     foreground=colors[6],
                 ),
                 widget.Spacer(),
-                widget.TextBox(
-                    background=colors[1],
-                    font=nerdfont,
-                    fontsize=fontsize,
-                    foreground=colors[6],
-                    padding=0,
-                    text=" ",
-                ),
-                widget.ThermalSensor(
+                widget.CPU(
                     background=colors[1],
                     font=font,
                     fontsize=fontsize,
                     foreground=colors[6],
-                    update_interval=2,
+                    format=" {load_percent}%",
+                    update_interval=1,
                 ),
-                widget.TextBox(
+                widget.ThermalSensor(
                     background=colors[1],
-                    font=nerdfont,
+                    font=font,
+                    fmt=" {}",
                     fontsize=fontsize,
                     foreground=colors[6],
-                    padding=0,
-                    text=" ",
+                    update_interval=2,
+                    padding=2,
                 ),
                 widget.Memory(
                     background=colors[1],
                     font=font,
                     fontsize=fontsize,
                     foreground=colors[6],
-                    format="{MemUsed: .0f}{mm}",
+                    format=" {MemPercent}%",
                     update_interval=1.0,
                 ),
-                widget.TextBox(
-                    background=colors[1],
-                    font=nerdfont,
-                    fontsize=fontsize,
+                # Mic?
+                widget.Volume(
+                    background=colors[0],
                     foreground=colors[6],
-                    padding=0,
-                    text=" ",
+                    fmt=' {}',
+                    padding=2,
                 ),
-                widget.CPU(
-                    background=colors[1],
-                    font=font,
-                    fontsize=fontsize,
+                widget.Battery(
+                    background=colors[0],
                     foreground=colors[6],
-                    format="CPU {load_percent}%",
-                    update_interval=1,
+                    charge_char="",
+                    discharge_char="",
+                    full_char="",
+                    empty_char="",
+                    format="{char} {percent:2.0%}",
+                    padding=2,
                 ),
-                widget.TextBox(
-                    background=colors[1],
-                    font=nerdfont,
-                    fontsize=fontsize,
-                    foreground=colors[6],
-                    padding=0,
-                    text="  ",
+                widget.CheckUpdates(
+                    update_interval=1800,
+                    distro=check_updates_distro,
+                    display_format=" {updates}",
+                    foreground=colors[5],
+                    colour_have_updates=colors[5],
+                    colour_no_updates=colors[5],
+                    background=colors[0],
                 ),
                 widget.Net(
                     background=colors[1],
                     font=font,
                     fontsize=fontsize,
                     foreground=colors[5],
-                    format="{interface}: {down} ↓ ",
+                    format=" {down} ↓↑{up}",
                     interface="all",
-                    padding=0,
-                ),
-                widget.CheckUpdates(
-                    update_interval=1800,
-                    distro=check_updates_distro,
-                    display_format="Updates: {updates} ",
-                    foreground=colors[5],
-                    colour_have_updates=colors[5],
-                    colour_no_updates=colors[5],
-                    padding=5,
-                    background=colors[0],
                 ),
                 widget.Clock(
                     background=colors[1],
@@ -299,6 +294,7 @@ screens = [
                 ),
             ],
             22,
+            margin=[useless_gap, useless_gap, 0, useless_gap],
             opacity=0.9,
         ),
     ),
@@ -306,15 +302,8 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag(
-        [mod],
-        "Button1",
-        lazy.window.set_position_floating(),
-        start=lazy.window.get_position(),
-    ),
-    Drag(
-        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
-    ),
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 

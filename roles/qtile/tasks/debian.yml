@@ -13,6 +13,10 @@
       - libpangocairo-1.0-0
       #      - "{{ qtile_extra_packages }}"
       - x11-xserver-utils
+      - aptitude  # Used by CheckUpdates widget
+      - lm-sensors  # Used by ThermalSensor widget
+      - brightnessctl  # Used by Brightness widget
+      - picom
   when: qtile_backend == "all" or qtile_backend == "x11"
 
 - name: "Install Qtile (X11)"
