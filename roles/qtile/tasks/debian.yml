@@ -17,6 +17,7 @@
       - lm-sensors  # Used by ThermalSensor widget
       - brightnessctl  # Used by Brightness widget
       - picom
+      - alsa  # For volume control
   when: qtile_backend == "all" or qtile_backend == "x11"
 
 - name: "Install Qtile (X11)"

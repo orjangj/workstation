@@ -9,7 +9,7 @@
   become: yes
   ansible.builtin.package:
     name:
-      - dmenu
+      - rofi  # TODO: only x11, need wofi for wayland
       - firefox
 
 # TODO: Arch and Fedora

@@ -6,16 +6,20 @@ import subprocess
 from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+# from libqtile.log_utils import logger
 
 # Custom modules
 from theme import Nord
 
-# from libqtile.log_utils import logger
+
+home = os.path.expanduser("~")
+config = f"{home}/.config"
+wallpapers = f"{home}/.local/share/backgrounds/wallpapers"
 
 mod = "mod4"
 terminal = "kitty"
 browser = "firefox"  # qutebrowser?
-theme = Nord(os.path.expanduser("~/.local/share/backgrounds/wallpapers/nord"))
+theme = Nord(f"{wallpapers}/nord")
 
 # TODO
 # 0) Notification server
@@ -51,7 +55,9 @@ def get_distro():
 keys = [
     # Essentials
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "d", lazy.spawn("dmenu_run -i -nb '#2E3440' -sf '#2E3440' -sb '#88C0D0' -nf '#88C0D0' -fn 'Ubuntu:bold:pixelsize=12'"), desc="Launch dmenu"),
+    Key([mod], "d", lazy.spawn(
+        f'rofi -no-lazy-grab -show drun -display-drun "" -font "{theme.font} {theme.fontsize}" -theme {config}/qtile/assets/nord.rasi'
+    )),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -154,6 +160,11 @@ screens = [
                     inactive=theme.bg_focus,
                     block_highlight_text_color=theme.fg_focus,
                     this_current_screen_border=theme.fg_focus,
+                    highlight_color=[theme.bg_normal, theme.bg_focus],  # when using "line" method
+                    highlight_method="line",
+                    urgent_border=theme.border_urgent,
+                    urgent_text=theme.fg_urgent,
+                    urgent_alert_method="line",
                     margin_x=0,
                     margin_y=3,
                     padding_x=5,
@@ -161,12 +172,8 @@ screens = [
                     rounded=False,
                     borderwidth=2,
                     disable_drag=True,
-                    hide_unused=False,
-                    urgent_alert_method="line",
-                    highlight_method="line",
-                    highlight_color=["2e3440", "4c566a"],  # when using "line" method
                 ),
-                widget.Prompt(),
+                widget.Prompt(),  # What's this for?
                 widget.Spacer(),
                 widget.CPU(
                     format=" {load_percent}%",
@@ -174,11 +181,11 @@ screens = [
                 ),
                 widget.ThermalSensor(
                     fmt=" {}",
-                    update_interval=2,
+                    update_interval=5,
                 ),
                 widget.Memory(
                     format=" {MemPercent}%",
-                    update_interval=1.0,
+                    update_interval=1,
                 ),
                 # Mic?
                 widget.Volume(
@@ -189,6 +196,9 @@ screens = [
                     discharge_char="",
                     full_char="",
                     empty_char="",
+                    # unknown_char="", ???
+                    low_foreground=theme.fg_urgent,
+                    # notify_below=, ???
                     format="{char} {percent:2.0%}",
                 ),
                 widget.CheckUpdates(
