@@ -1,6 +1,5 @@
 import distro
 import os
-import random
 import shutil
 import subprocess
 
@@ -8,15 +7,15 @@ from libqtile import bar, hook, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
+# Custom modules
+from theme import Nord
+
 # from libqtile.log_utils import logger
 
 mod = "mod4"
 terminal = "kitty"
 browser = "firefox"  # qutebrowser?
-font = "Ubuntu"
-nerdfont = "Ubuntu Mono 11"
-fontsize = 11
-useless_gap = 8
+theme = Nord(os.path.expanduser("~/.local/share/backgrounds/wallpapers/nord"))
 
 # TODO
 # 0) Notification server
@@ -29,24 +28,14 @@ useless_gap = 8
 # 6) Some apps should not be tiled, eg. VirtualBox, ++
 # 8) Theme
 #    - put colorscheme and stuff here
-#    - rounded corners
+#    - rounded corners (need qtile-extras for that)
 #    - layout
 #    - font
-# 10) Volume, mic and brightness control
-# 11) Battery indicator
+# 9) Widgets
+#    - Storage (show used storage in percent)
 # BUG?
 # - if dotfiles are pulled, then qtile won't start. I suspect bashrc isn't loaded properly
 #   - maybe due to some dependency error?
-
-# --- Custom functions (TODO: move into separate module)
-
-
-def get_wallpaper():
-    path = os.path.expanduser("~/.local/share/backgrounds/wallpapers/nord")
-    # TODO: impl backup if directory does not exist
-    wallpapers = os.listdir(path)
-    index = random.randint(0, len(wallpapers) - 1)
-    return f"{path}/{wallpapers[index]}"
 
 
 # Used by CheckUpdates widget
@@ -56,39 +45,6 @@ def get_distro():
         return "Arch_checkupdates"
     return name
 
-
-def colorscheme():
-    return [
-        ["#2e3440", "#2e3440"],  # nord0
-        ["#2e3440", "#2e3440"],  # nord0
-        ["#3b4252", "#3b4252"],  # nord1
-        ["#434c5e", "#434c5e"],  # nord2
-        ["#4c566a", "#4c566a"],  # nord3
-        ["#d8dee9", "#d8dee9"],  # nord4
-        ["#e5e9f0", "#e5e9f0"],  # nord5
-        ["#eceff4", "#eceff4"],  # nord6
-        ["#8fbcbb", "#8fbcbb"],  # nord7
-        ["#88c0d0", "#88c0d0"],  # nord8
-        ["#81a1c1", "#81a1c1"],  # nord9
-        ["#5e81ac", "#5e81ac"],  # nord10
-        ["#bf616a", "#bf616a"],  # nord11
-        ["#d08770", "#d08770"],  # nord12
-        ["#ebcb8b", "#ebcb8b"],  # nord13
-        ["#a3be8c", "#a3be8c"],  # nord14
-        ["#b48ead", "#b48ead"],  # nord15
-    ]
-
-
-def init_layout_theme():
-    return {
-        "margin": useless_gap,
-        "border_width": 1,
-        "border_focus": "#88c0d0",
-        "border_normal": "#4c566a",
-    }
-
-
-# --- End custom functions
 
 # A list of available commands that can be bound to keys can be found
 # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -154,19 +110,17 @@ for i, g in zip(["1", "2", "3", "4", "5", "6", "7"], groups):
 
 
 check_updates_distro = get_distro()
-colors = colorscheme()
-layout_theme = init_layout_theme()
 
 layouts = [
-    # layout.Columns(border_focus_stack=['#d75f5f', '#8f3d3d'], border_width=4),
-    layout.Max(**layout_theme),
+    # layout.Columns(**theme.layout),
+    layout.Max(**theme.layout),
     # layout.Stack(num_stacks=2, **layout_theme),
-    layout.Bsp(**layout_theme),
-    layout.Matrix(**layout_theme),
-    layout.MonadTall(**layout_theme),
-    layout.MonadWide(**layout_theme),
-    layout.RatioTile(**layout_theme),
-    layout.Tile(**layout_theme),
+    layout.Bsp(**theme.layout),
+    layout.Matrix(**theme.layout),
+    layout.MonadTall(**theme.layout),
+    layout.MonadWide(**theme.layout),
+    layout.RatioTile(**theme.layout),
+    layout.Tile(**theme.layout),
     # layout.TreeTab(
     #    sections=['FIRST', 'SECOND'],
     #    bg_color='#3b4252',
@@ -180,121 +134,126 @@ layouts = [
     # layout.Zoomy(),
 ]
 
+# Is this even used? IS this magically picked up by qtile? :D
 widget_defaults = dict(
-    font=font, fontsize=fontsize, padding=3, background=colors[1], foreground=colors[5]
+    font=theme.font,
+    fontsize=theme.fontsize,
+    padding=theme.padding,
+    background=theme.bg_normal,
+    foreground=theme.fg_normal
 )
 extension_defaults = widget_defaults.copy()
 
-# TODO: remove?
-separator = widget.Sep(
-    background=colors[1],  # #2e3440
-    foreground=colors[5],  # #d8dee9
-    linewidth=1,
-    padding=10,
-)
-
-
 screens = [
     Screen(
-        wallpaper=get_wallpaper(),
+        wallpaper=theme.wallpaper,
         wallpaper_mode="fill",
         top=bar.Bar(
             [
                 widget.GroupBox(
-                    active=colors[5],
-                    block_highlight_text_color=colors[9],
+                    active=theme.fg_normal,
+                    block_highlight_text_color=theme.fg_focus,
                     borderwidth=2,
                     disable_drag=True,
-                    font=font,
-                    fontsize=fontsize,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
                     hide_unused=False,
                     highlight_method="line",
                     highlight_color=["2e3440", "4c566a"],  # when using "line" method
-                    inactive=colors[3],
+                    inactive=theme.bg_focus,
                     margin_x=0,
                     margin_y=3,
                     padding_x=5,
                     padding_y=8,
                     rounded=False,
-                    this_current_screen_border=colors[9],
+                    this_current_screen_border=theme.fg_focus,
                     urgent_alert_method="line",
                 ),
                 widget.Prompt(
-                    background=colors[1],
-                    font=font,
-                    fontsize=fontsize,
-                    foreground=colors[6],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
                 ),
                 widget.Spacer(),
                 widget.CPU(
-                    background=colors[1],
-                    font=font,
-                    fontsize=fontsize,
-                    foreground=colors[6],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     format=" {load_percent}%",
                     update_interval=1,
                 ),
                 widget.ThermalSensor(
-                    background=colors[1],
-                    font=font,
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     fmt=" {}",
-                    fontsize=fontsize,
-                    foreground=colors[6],
                     update_interval=2,
-                    padding=2,
                 ),
                 widget.Memory(
-                    background=colors[1],
-                    font=font,
-                    fontsize=fontsize,
-                    foreground=colors[6],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     format=" {MemPercent}%",
                     update_interval=1.0,
                 ),
                 # Mic?
                 widget.Volume(
-                    background=colors[0],
-                    foreground=colors[6],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     fmt=' {}',
-                    padding=2,
                 ),
                 widget.Battery(
-                    background=colors[0],
-                    foreground=colors[6],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     charge_char="",
                     discharge_char="",
                     full_char="",
                     empty_char="",
                     format="{char} {percent:2.0%}",
-                    padding=2,
                 ),
                 widget.CheckUpdates(
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    colour_have_updates=theme.fg_focus,
+                    colour_no_updates=theme.bg_focus,
+                    padding=theme.padding,
                     update_interval=1800,
                     distro=check_updates_distro,
                     display_format=" {updates}",
-                    foreground=colors[5],
-                    colour_have_updates=colors[5],
-                    colour_no_updates=colors[5],
-                    background=colors[0],
                 ),
                 widget.Net(
-                    background=colors[1],
-                    font=font,
-                    fontsize=fontsize,
-                    foreground=colors[5],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     format=" {down} ↓↑{up}",
                     interface="all",
                 ),
                 widget.Clock(
-                    background=colors[1],
-                    font=font,
-                    fontsize=fontsize,
-                    foreground=colors[6],
+                    background=theme.bg_normal,
+                    foreground=theme.fg_normal,
+                    font=theme.font,
+                    fontsize=theme.fontsize,
+                    padding=theme.padding,
                     format="%a %b %d, %H:%M",
                 ),
             ],
             22,
-            margin=[useless_gap, useless_gap, 0, useless_gap],
+            margin=[theme.useless_gap, theme.useless_gap, 0, theme.useless_gap],
             opacity=0.9,
         ),
     ),
