@@ -25,7 +25,7 @@
       when: ansible_os_family == 'Debian'
   # }}}
   roles:
-    - { role: base, tags: [base] }
+    - { role: system, tags: [system, base] }
     # {{{ Window Managers
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
     - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
@@ -88,14 +88,6 @@
           - dnsmasq  # Needed?
           - wpa_supplicant  # Needed?
         service_name: "NetworkManager"
-    # ---- Pacman ---- #
-    - role: package
-      tags: [git, tools]
-      vars:
-        package_names:
-          - git
-        package_configs:
-          - src: "{{ configs }}/git"
 
   tasks:
     - name: Install browsers

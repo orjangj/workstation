@@ -1,3 +1,8 @@
+References to check out:
+- https://github.com/luong-komorebi/Awesome-Linux-Software#audio
+  - mortar
+
+
 
 - Make this repo a master workstation repo for all distros
   - Rename repo
