@@ -1,0 +1,69 @@
+---
+- name: "Ensure {{ system_user_name }} user exists"
+  become: yes
+  ansible.builtin.user:
+    user: "{{ system_user_name }}"
+  register: user
+
+- name: "Create default password for {{ system_user_name }}"
+  become: yes
+  ansible.builtin.user:
+    user: "{{ system_user_name }}"
+    password: "{{ system_user_name | password_hash('sha512') }}"
+  when: user.changed
+
+- name: "Give {{ system_user_name }} permission to perform administrative tasks"
+  become: yes
+  ansible.builtin.user:
+    user: "{{ system_user_name }}"
+    groups:
+      - adm
+      - "{{ sudo if ansible_os_family == 'Debian' else wheel }}"
+    append: yes
+  when: system_user_administrator
+
+# Is this necessary? Shouldn't this be handled by XDG?
+- name: "Ensure common directories exist"
+  become: yes
+  ansible.builtin.file:
+    state: directory
+    path: "/home/{{ system_user_name }}/{{ item }}"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+  with_items:
+    - "Desktop"
+    - "Documents"
+    - "Downloads"
+    - "Music"
+    - "Pictures"
+    - "Public"
+    - "Templates"
+    - "Videos"
+    - ".cache"
+    - ".config"
+    - ".config/autostart"
+    - ".local"
+    - ".local/bin"
+    - ".local/include"
+    - ".local/lib"
+    - ".local/share"
+    - ".local/state"
+    - ".ssh"
+
+- name: "Ensure user specified directories exist"
+  become: yes
+  ansible.builtin.file:
+    state: directory
+    path: "/home/{{ system_user_name }}/{{ item }}"
+    owner: "{{ system_user_name }}"
+    group: "{{ system_user_name }}"
+  with_items: "{{ system_user_directories }}"
+
+- name: "Create default SSH key for {{ system_user_name }}"
+  become: yes
+  ansible.builtin.user:
+    user: "{{ system_user_name }}"
+    generate_ssh_key: yes
+    ssh_key_bits: "{{ system_userkey_bits }}"
+    ssh_key_file: .ssh/id_rsa
+  when: system_user_sshkey_generate

@@ -1,8 +1,15 @@
 ---
-- name: Apply Debian install method
+- name: Apply Debian specific tasks
   ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == 'Debian'
 
-- name: Apply Arch install method
+- name: Apply Arch specific tasks
   ansible.builtin.include_tasks: arch.yml
   when: ansible_os_family == 'ArchLinux'
+
+- name: Apply common tasks
+  ansible.builtin.include_tasks: "{{ item }}"
+  with_items:
+    - hostname.yml
+    - locale.yml
+    - user.yml

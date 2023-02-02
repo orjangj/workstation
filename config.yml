@@ -1,5 +1,7 @@
 ---
 # {{{ Globals
+username: og
+hostname: chronos
 window_manager: "awesome"
 display_manager: "sddm"
 file_manager: "ranger"
@@ -23,6 +25,16 @@ icon_theme: "Papirus-Dark"
 #TODO - backlight
 
 # }}}
+
+# {{{ System
+system_user_name: "{{ username }}"
+system_user_directories:
+  - "projects"
+  - "notes"
+system_host_name: "{{ hostname }}"
+
+# }}}
+
 # {{{ Display server
 
 # TODO: How to map package names between i.e. debian and arch?

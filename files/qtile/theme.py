@@ -12,8 +12,7 @@ class Nord:
             self.wallpaper = wallpaper_path
 
         # TODO: Make these configurable
-        self.font = "Ubuntu"
-        self.nerdfont = "Ubuntu mono"
+        self.font = "UbuntuMono Nerd Font"
         self.fontsize = 11
 
         self.nord0 = "#2e3440"
@@ -55,7 +54,8 @@ class Nord:
 
         self.black = self.nord0
         self.white = self.nord6
-        self.teal = self.nord8
+        self.teal = self.nord7
+        self.cyan = self.nord8
         self.blue = self.nord9
         self.red = self.nord11
         self.orange = self.nord12

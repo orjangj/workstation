@@ -37,9 +37,6 @@ theme = Nord(f"{wallpapers}/nord")
 #    - font
 # 9) Widgets
 #    - Storage (show used storage in percent)
-# BUG?
-# - if dotfiles are pulled, then qtile won't start. I suspect bashrc isn't loaded properly
-#   - maybe due to some dependency error?
 
 
 # Used by CheckUpdates widget
@@ -55,13 +52,17 @@ def get_distro():
 keys = [
     # Essentials
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "d", lazy.spawn(
-        f'rofi -no-lazy-grab -show drun -display-drun "" -font "{theme.font} {theme.fontsize}" -theme {config}/qtile/assets/nord.rasi'
+        f'rofi -no-lazy-grab -show drun -display-drun "" -font "{theme.font} {theme.fontsize}" -theme {config}/qtile/assets/nord.rasi',
+        desc="Run application launcher"
     )),
-    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
-    Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload configuration"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+
+    # Applications
+    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+
     # Window management
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
@@ -77,19 +78,22 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen mode for focused window"),
     # TODO: Screen/monitor management
     # - Move focused window to other screen and focus that window
     # - Move focus to other screen
+    # - Minimize/hide focused window (and reset)
+
     # Layout management
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-
     # multiple stack panes ... what's this?
     Key([mod, "shift"], "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
         ),
-    # Other
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+    # Misc
     Key([], "XF86AudioRaiseVolume", lazy.spawncmd("amixer -D pulse sset Master 5 %+"), desc="Increase volume"),
     Key([], "XF86AudioLowerVolume", lazy.spawncmd("amixer -D pulse sset Master 5 %-"), desc="Decrease volume"),
     Key([], "XF86AudioMute", lazy.spawncmd("amixer -D pulse sset Master toggle"), desc="Toggle volume"),
@@ -143,9 +147,9 @@ layouts = [
 widget_defaults = dict(
     font=theme.font,
     fontsize=theme.fontsize,
-    padding=theme.padding,
+    #  padding=theme.padding,
     background=theme.bg_normal,
-    foreground=theme.fg_normal
+    foreground=theme.fg_focus
 )
 extension_defaults = widget_defaults.copy()
 
@@ -175,21 +179,31 @@ screens = [
                 ),
                 widget.Prompt(),  # What's this for?
                 widget.Spacer(),
+                widget.TextBox(
+                    text="◢",
+                    padding=0,
+                    fontsize=50,
+                    foreground=theme.bg_focus,
+                ),
                 widget.CPU(
                     format=" {load_percent}%",
-                    update_interval=1,
+                    update_interval=2,
+                    background=theme.bg_focus,
                 ),
                 widget.ThermalSensor(
                     fmt=" {}",
                     update_interval=5,
+                    background=theme.bg_focus,
                 ),
                 widget.Memory(
                     format=" {MemPercent}%",
-                    update_interval=1,
+                    update_interval=2,
+                    background=theme.bg_focus,
                 ),
                 # Mic?
                 widget.Volume(
                     fmt=' {}',
+                    background=theme.bg_focus,
                 ),
                 widget.Battery(
                     charge_char="",
@@ -200,6 +214,29 @@ screens = [
                     low_foreground=theme.fg_urgent,
                     # notify_below=, ???
                     format="{char} {percent:2.0%}",
+                    background=theme.bg_focus,
+                ),
+                widget.Net(
+                    format=" {down} ↓↑{up}",
+                    interface="all",
+                    background=theme.bg_focus,
+                    prefix="M"
+                ),
+                widget.TextBox(
+                    text="◢",
+                    padding=0,
+                    fontsize=50,
+                    background=theme.bg_focus,
+                    foreground=theme.bg_normal,
+                ),
+                widget.Clock(
+                    format="%a %b %d, %H:%M",
+                ),
+                widget.TextBox(
+                    text="◢",
+                    padding=0,
+                    fontsize=50,
+                    foreground=theme.bg_focus,
                 ),
                 widget.CheckUpdates(
                     colour_have_updates=theme.fg_focus,
@@ -207,13 +244,12 @@ screens = [
                     update_interval=1800,
                     distro=check_updates_distro,
                     display_format=" {updates}",
+                    background=theme.bg_focus,
                 ),
-                widget.Net(
-                    format=" {down} ↓↑{up}",
-                    interface="all",
-                ),
-                widget.Clock(
-                    format="%a %b %d, %H:%M",
+                widget.Sep(
+                    foreground=theme.bg_focus,
+                    background=theme.bg_focus,
+                    linewidth=5,
                 ),
             ],
             22,

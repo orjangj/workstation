@@ -3,45 +3,16 @@
   become: yes
   community.general.pacman:
     name:
-      - base
+      - base  # Includes coreutils
       - base-devel
+      - git
       - linux
       - linux-firmware
       - linux-headers
-      - git
       - python3
       - python3-pip
-      - vim
       - sudo
-      - glibc  # Need latest?
-      - alsa
-      - alsa-utils  # needed if alsa is installed?
-      - sof-firmware  # needed?
-      - brightnessctl
-      - mesa  # needed for? generic Video/GPU driver?
-      - mesa-utils  # needed for?
-      - avahi  # needed ?
-      - openssh  # needed ?
-      - bluez
-      - bluez-utils  # needed?
-      - firewalld  # needed? probably if avahi/openssh?
-      # tools
-      - ripgrep
-      - fzf
-      - bat
-      - cmake
-      - make
-      - openssl
-      - curl
-      - wget
-      - coreutils
-      - ripgrep
-      - fzf
-      - fd
-      - flameshot
-      - valgrind
-      - htop
-      - jq
+      - vim
 
 - name: "Ensure x11 packages are installed"
   become: yes
@@ -49,21 +20,15 @@
     name:
       - xorg-xserver
       - xorg-xinit
-      - rofi
   when: system_backend == 'x11'
-
-- name: "Ensure wayland packages are installed"
-  become: yes
-  community.general.pacman:
-    name:
-      - wofi
-  when: system_backend == 'wayland'
 
 - name: "Ensure services are installed"
   become: yes
   community.general.pacman:
     name:
       - networkmanager
+      #- ntp
+      #- firewalld  # needed? probably if avahi/openssh?
       #- sshd
 
 - name: "Ensure services are started and enabled"
@@ -77,7 +42,7 @@
     - NetworkManager
     #- sshd
 
-- name: "Ensure services are stoped and disabled"
+- name: "Ensure services are stopped and disabled"
   become: yes
   ansible.builtin.systemd:  # .service ?
     name: "{{ item }}"
@@ -86,7 +51,22 @@
   with_items:
     - systemd-networkd  # Replaced by NetworkManager
 
-- name: "Install intel-ucode if needed"
+- name: "Ensure essential drivers are installed"
+  become: yes
+  command.general.pacman:
+    name:
+      - alsa
+      - alsa-utils  # needed if alsa is installed?
+      - sof-firmware  # needed?
+      - mesa  # needed for? generic Video/GPU driver?
+      - mesa-utils  # needed for?
+      - avahi  # needed ?
+      - openssh  # needed ?
+      - bluez
+      - bluez-utils  # needed?
+      - brightnessctl
+
+- name: "Install intel microcode if needed"
   become: yes
   community.general.pacman:
     name:
@@ -94,7 +74,7 @@
       - vulkan-intel # vulkan support for intel gpu's
   when: ansible_processor[1].find('Intel') != -1
 
-- name: "Install amd-ucode if needed"
+- name: "Install amd microcode if needed"
   become: yes
   community.general.pacman:
     name:
@@ -103,48 +83,27 @@
       - radeontop # radeon gpu info
   when: ansible_processor[1].find('AMD') != -1
 
-- name: Install inetutils for hostname set
+- name: "Ensure essential tools are installed"
   become: yes
   community.general.pacman:
     name:
-      - inetutils  # Move to top?
+      - bat
+      - coreutils
+      - cmake
+      - curl
+      - glibc
+      - flameshot
+      - fzf
+      - htop
+      - inetutils  # Needed?
+      - jq
+      - make
+      - neofetch
+      - openssl
+      - ripgrep
+      - tar
+      - valgrind
+      - unzip
+      - wget
+      - "{{ rofi if system_backend == 'x11' else wofi }}"  # x11 or wayland
 
-- name: "Set hostname"
-  become: yes
-  ansible.builtin.hostname:
-    name: "{{ system_hostname }}"
-  when: ansible_hostname != 'vagrant'
-
-- name: "Set hostname in hosts file"
-  become: yes
-  ansible.builtin.lineinfile:
-    dest: /etc/hosts
-    regexp: ^127.0.1.1
-    line: '127.0.1.1        {{ system_hostname }} {{ system_hostname }}.localdomain'
-  when: ansible_hostname != 'vagrant'
-
-- name: "Generate en_US locale"
-  become: yes
-  ansible.builtin.lineinfile:
-    dest: /etc/locale.gen
-    line: 'en_US.UTF-8 UTF-8'
-  register: locale
-
-- name: generate locales
-  become: yes
-  ansible.builtin.command: locale-gen
-  # when: locale.changed  # TODO
-
-- name: "Add {{ ansible_env.USER }} user to selected groups"
-  become: yes
-  ansible.builtin.user:
-    user: "{{ ansible_env.USER }}"
-    groups: "{{ item }}"
-    append: yes
-  with_items:
-    - adm  # What does this do?
-    - wheel
-    - video
-    - audio
-
-# TODO: Give passwordless sudo to user ???

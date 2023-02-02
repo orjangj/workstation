@@ -1,0 +1,7 @@
+---
+- name: "Ensure locales exists"
+  community.general.locale_gen:
+    name: "{{ item }}"
+  with_items:
+    - en_US.UTF-8
+    - nb_NO.UTF-8

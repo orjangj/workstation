@@ -1,12 +1,12 @@
 ---
-- name: "base : Ensure base packages are installed"
+- name: "Ensure base packages are installed"
   become: yes
   ansible.builtin.apt:
     state: present
     name: "{{ item }}"
   with_items:
     - linux-firmware
-    - build-essential
+    - build-essential  ## needed, or can this be more specific???
     - git
     - python3
     - python3-pip

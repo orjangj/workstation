@@ -1,0 +1,15 @@
+---
+- name: "Set hostname"
+  become: yes
+  ansible.builtin.hostname:
+    name: "{{ system_hostname }}"
+  when: ansible_hostname != 'vagrant'
+
+- name: "Set hostname in hosts file"
+  become: yes
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: ^127.0.1.1
+    line: '127.0.1.1        {{ system_hostname }} {{ system_hostname }}.localdomain'
+  when: ansible_hostname != 'vagrant'
+
