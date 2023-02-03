@@ -25,88 +25,31 @@
       when: ansible_os_family == 'Debian'
   # }}}
   roles:
-    - { role: system, tags: [system, base] }
-    # {{{ Window Managers
+    - { role: system, tags: [system] }
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
     - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
     - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
-    # }}}
-    # {{{ Desktop Environments
-    #- { role: gnome, tags: [gnome, de], when: desktop_environment == 'gnome' or 'gnome' in ansible_run_tags }
-    # }}}
-    # {{{ Display Servers
     - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
-    # }}}
-    # {{{ Display Managers
     - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
     #- { role: gdm, tags: [gdm, dm], when: display_manager == 'gdm' or 'gdm' in ansible_run_tags }
-    # }}}
-    # {{{ Dotfiles
-    - { role: dotfiles, tags: [dotfiles, base] }
-    # }}}
-    # {{{ File Managers
-    - { role: ranger, tags: [ranger, fm], when: file_manager == 'ranger' or 'ranger' in ansible_run_tags}
-    # }}}
-    # {{{ Terminal emulators
+    - { role: dotfiles, tags: [dotfiles] }
     - { role: alacritty, tags: [alacritty, terminal], when: terminal == 'alacritty' or 'alacritty' in ansible_run_tags }
     - { role: kitty, tags: [kitty, terminal], when: terminal == 'kitty' or 'kitty' in ansible_run_tags }
     - { role: foot, tags: [foot, terminal], when: terminal == 'foot' or 'foot' in ansible_run_tags }
-    # }}}
-    # {{{ Editors
+    #- { role: emacs, tags: [emacs, editor], when: editor == 'vim' or 'vim' in ansible_run_tags }
     - { role: nvim, tags: [nvim, editor], when: editor == 'nvim' or 'nvim' in ansible_run_tags }
     #- { role: vim, tags: [vim, editor], when: editor == 'vim' or 'vim' in ansible_run_tags }
     #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
-    # }}}
-    # {{{ Shells
-    - { role: bash, tags: [bash, shell, base], when: shell == 'bash' or 'bash' in ansible_run_tags }
-    #- { role: zsh, tags: [zsh, shell, base], when: shell == 'zsh' or 'zsh' in ansible_run_tags }
-    #- { role: fish, tags: [fish, shell, base], when: shell == 'fish' or 'fish' in ansible_run_tags }
-    # }}}
-    # {{{ Security
-    # { role: firewalld, tags: [firewall, security] }
-    # { role: firejail, tags: [firejail, security] }
-    # }}}
-    # {{{ Browsers -- TODO Use vimium extention for firefox and chromium
-    # { role: firefox, tags: [firefox, browser], when: browser == 'firefox' or 'firefox' in ansible_run_tags }
-    # { role: chromium, tags: [chromium, browser], when: browser == 'chromium' or 'chromium' in ansible_run_tags }
-    # { role: brave, tags: [brave, browser], when: browser == 'brave' or 'brave' in ansible_run_tags }
-    # }}}
-    # {{{ Other
-    - { role: aur, tags: [aur] }
+    #- { role: firewalld, tags: [firewall, security] }
+    #- { role: firejail, tags: [firejail, security] }
     - { role: wallpaper, tags: [wallpaper] }
     - { role: stylua, tags: [stylua, nvim] }
     - { role: lazygit, tags: [lazygit, nvim] }
-    - { role: fonts, tags: [fonts, base] }
-    # }}}
-
-    # ---- Services ---- #
-    - role: service
-      tags: [network]
-      vars:
-        service_packages:
-          - networkmanager
-          - dnsmasq  # Needed?
-          - wpa_supplicant  # Needed?
-        service_name: "NetworkManager"
 
   tasks:
-    - name: Install browsers
-      become: yes
-      community.general.pacman:
-        name:
-          - firefox
-          - chromium
-      tags: [browsers]
-
-    - name: Install cargo
-      become: yes
-      ansible.builtin.package:
-        name: cargo
-      tags: [cargo]
-
-    - name: Copy qtile configs
+    - name: Copy qtile configs  # TODO: Temporary -- until moved to dotfiles
       ansible.builtin.copy:
         src: files/qtile
         dest: "{{ ansible_user_dir }}/.config"
-      tags: [qtile]
+      tags: [qtile, qtile_config]
 

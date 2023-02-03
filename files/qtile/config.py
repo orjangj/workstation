@@ -54,9 +54,9 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "d", lazy.spawn(
-        f'rofi -no-lazy-grab -show drun -display-drun "" -font "{theme.font} {theme.fontsize}" -theme {config}/qtile/assets/nord.rasi',
+        f'rofi -no-lazy-grab -show drun -display-drun "" -font "{theme.font} {theme.fontsize}" -theme {config}/qtile/assets/nord.rasi'),
         desc="Run application launcher"
-    )),
+        ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload configuration"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 

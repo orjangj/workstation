@@ -2,11 +2,10 @@
 # {{{ Globals
 username: og
 hostname: chronos
-window_manager: "awesome"
-display_manager: "sddm"
+window_manager: "qtile"
+display_manager: ""  # sddm
 file_manager: "ranger"
-display_server: "{{ 'wayland' if window_manager == 'sway' else 'xorg' }} ]"
-desktop_environment: ""
+display_server: "{{ 'wayland' if window_manager == 'sway' else 'xorg' }}"
 editor: "nvim"
 shell: "bash"
 terminal: "kitty"
@@ -21,20 +20,19 @@ bluetooth_manager: "blueman"
 sound: "pulseaudio"
 gtk_theme: "Nordic"
 icon_theme: "Papirus-Dark"
-
 #TODO - backlight
 
 # }}}
 
 # {{{ System
+# system_backend: "{{ display_server }}"  # TODO -- x11 or xorg?
 system_user_name: "{{ username }}"
 system_user_directories:
   - "projects"
   - "notes"
-system_host_name: "{{ hostname }}"
+system_hostname: "{{ hostname }}"
 
 # }}}
-
 # {{{ Display server
 
 # TODO: How to map package names between i.e. debian and arch?
@@ -56,47 +54,19 @@ sway_dependencies:
   - swayidle
   - waybar
   - wofi
-  - otf-font-awesome
   - xorg-xwayland
   - wl-clipboard
 
 awesome_dependencies:
-  #- picom  # Not available in Ubuntu < 20.10
-  - compton  # For compositing
+  - picom  # For compositing
   - feh  # For selecting random wallpaper
   - rofi
   - i3lock
   - autorandr
-  - lm-sensors # For the temp widget
 
 qtile_extra_dependencies:
   - feh
 
-# }}}
-# {{{ AUR
-
-aur_helper: "paru"
-aur_helper_clone_path: "{{ ansible_user_dir }}/projects/git"
-aur_packages:
-  - "nordic-darker-theme"
-  - "dragon-drop"  # for sway
-  - "autotiling"  # for sway
-# }}}
-#{{{Base 
-base_utilities:
-  - bat
-  - curl
-  - fzf
-  - gtk3
-  - htop
-  - man-db
-  - neofetch
-  - ripgrep
-  - unzip
-  - vault
-  - wget
-  - papirus-icon-theme
-  - blueman
 # }}}
 #{{{Python
 

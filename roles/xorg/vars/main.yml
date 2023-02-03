@@ -1,0 +1,15 @@
+xorg_packages: {
+  Debian: [
+    xserver-xorg,
+    xinit,
+    x11-xserver-utils
+  ],
+  Archlinux: [
+    xorg-server,
+    xorg-xinit
+  ],
+  Fedora: [
+    xorg-x11-server-Xorg,
+    xorg-x11-xinit
+  ]
+  }

@@ -1,15 +1,19 @@
 ---
-- name: Apply Debian specific tasks
-  ansible.builtin.include_tasks: debian.yml
-  when: ansible_os_family == 'Debian'
+- name: Install system packages
+  become: yes
+  ansible.builtin.package:
+    name: "{{ system_packages[ansible_os_family] + system_packages.common }}"
 
-- name: Apply Arch specific tasks
-  ansible.builtin.include_tasks: arch.yml
-  when: ansible_os_family == 'ArchLinux'
-
-- name: Apply common tasks
-  ansible.builtin.include_tasks: "{{ item }}"
-  with_items:
-    - hostname.yml
-    - locale.yml
-    - user.yml
+#- name: "Ensure services are enabled or disabled"
+#  become: yes
+#  ansible.builtin.service:
+#    name: "{{ item.name }}"
+#    enabled: "{{ item.enabled }}"
+#  loop: "{{ system_services }}"
+#
+# - name: Apply common tasks
+#   ansible.builtin.include_tasks: "{{ item }}"
+#   with_items:
+#     - hostname.yml
+#     - locale.yml
+#     - user.yml

@@ -8,6 +8,6 @@
 - name: Install nvim (Arch)
   become: true
   community.general.pacman:
-    name: nvim
-  when: ansible_facts['os_family'] == "ArchLinux"
+    name: neovim
+  when: ansible_facts['os_family'] == "Archlinux"
 

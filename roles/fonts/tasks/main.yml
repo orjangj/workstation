@@ -1,9 +1,0 @@
----
-- name: Apply Debian install method
-  ansible.builtin.include_tasks: debian.yml
-  when: ansible_os_family == 'Debian'
-
-- name: Apply Arch install method
-  ansible.builtin.include_tasks: arch.yml
-  when: ansible_os_family == 'ArchLinux'
-

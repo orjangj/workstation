@@ -1,6 +1,0 @@
----
-aur_helper: "paru"
-aur_helper_version: "latest"
-aur_helper_clone_path: "{{ ansible_user_dir }}"
-aur_packages: ""
-

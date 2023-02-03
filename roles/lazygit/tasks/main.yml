@@ -1,18 +1,8 @@
 ---
-- name: "Check latest version"
-  ansible.builtin.uri:
-    url: "https://api.github.com/repos/jesseduffield/lazygit/releases/latest"
-  register: json_response
-  when: lazygit_version == "latest"
+- name: Apply Debian install method
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
 
-- name: "Set latest version as fact"
-  ansible.builtin.set_fact:
-    lazygit_version: "{{ json_response.json.tag_name | regex_replace('^v(.*)$', '\\1') }}"
-  when: lazygit_version == "latest"
-
-- name: "Ensure lazygit v{{ lazygit_version }} is installed"
-  ansible.builtin.unarchive:
-    src: "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
-    dest: "{{ ansible_user_dir }}/.local/bin"
-    remote_src: yes
-
+- name: Apply Arch install method
+  ansible.builtin.include_tasks: arch.yml
+  when: ansible_os_family == 'Archlinux'

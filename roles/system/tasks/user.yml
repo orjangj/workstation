@@ -18,7 +18,7 @@
     user: "{{ system_user_name }}"
     groups:
       - adm
-      - "{{ sudo if ansible_os_family == 'Debian' else wheel }}"
+      - "{{ 'sudo' if ansible_os_family == 'Debian' else 'wheel' }}"
     append: yes
   when: system_user_administrator
 
@@ -27,7 +27,7 @@
   become: yes
   ansible.builtin.file:
     state: directory
-    path: "/home/{{ system_user_name }}/{{ item }}"
+    path: "/home/{{ system_user_name }}/{{ dir }}"
     owner: "{{ system_user_name }}"
     group: "{{ system_user_name }}"
   with_items:
@@ -49,21 +49,25 @@
     - ".local/share"
     - ".local/state"
     - ".ssh"
+  loop_control:
+    loop_var: dir
 
 - name: "Ensure user specified directories exist"
   become: yes
   ansible.builtin.file:
     state: directory
-    path: "/home/{{ system_user_name }}/{{ item }}"
+    path: "/home/{{ system_user_name }}/{{ dir }}"
     owner: "{{ system_user_name }}"
     group: "{{ system_user_name }}"
   with_items: "{{ system_user_directories }}"
+  loop_control:
+    loop_var: dir
 
 - name: "Create default SSH key for {{ system_user_name }}"
   become: yes
   ansible.builtin.user:
     user: "{{ system_user_name }}"
     generate_ssh_key: yes
-    ssh_key_bits: "{{ system_userkey_bits }}"
+    ssh_key_bits: "{{ system_user_sshkey_bits }}"
     ssh_key_file: .ssh/id_rsa
   when: system_user_sshkey_generate

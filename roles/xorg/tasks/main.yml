@@ -1,19 +1,22 @@
 ---
-- name: Apply Debian install method
-  ansible.builtin.include_tasks: debian.yml
-  when: ansible_os_family == 'Debian'
+- name: Install xorg server and xinit system
+  become: yes
+  ansible.builtin.package:
+    name: "{{ xorg_packages[ansible_os_family] }}"
 
-- name: Apply Arch install method
-  ansible.builtin.include_tasks: arch.yml
-  when: ansible_os_family == 'ArchLinux'
-
-- name: Apply custom xorg configuration files
-  ansible.builtin.include_tasks: config.yml
-  when: xorg_configs | length > 0
-
-# Why isn't this installed by default?
-- name: Ensure x11 directories exist
+# Not sure why these directories are not there by default
+- name: Ensure X11 directories exists
   become: yes
   ansible.builtin.file:
+    path: "{{ item }}"
     state: directory
-    path: /usr/share/xsessions
+  loop:
+    - "/etc/X11/xorg.conf.d"
+    - "/usr/share/xsessions"
+
+- name: Copy configuration files in place
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/X11/xorg.conf.d/"
+  loop: "{{ xorg_configs }}"

@@ -1,7 +1,10 @@
 ---
 - name: "Ensure locales exists"
+  become: yes
   community.general.locale_gen:
-    name: "{{ item }}"
+    name: "{{ loc }}"
   with_items:
     - en_US.UTF-8
     - nb_NO.UTF-8
+  loop_control:
+    loop_var: loc

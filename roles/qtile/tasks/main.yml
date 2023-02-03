@@ -1,15 +1,16 @@
 ---
-
-- name: Apply Debian install method
-  ansible.builtin.include_tasks: debian.yml
-  when: ansible_os_family == 'Debian'
-
-# TODO Handle this outside qtile role?
-- name: Install other dependencies
+- name: Install packages
   become: yes
   ansible.builtin.package:
-    name:
-      - rofi  # TODO: only x11, need wofi for wayland
-      - firefox
+    name: "{{ qtile_packages[ansible_os_family] }}"
 
-# TODO: Arch and Fedora
+- name: Install pip dependencies
+  ansible.builtin.pip:
+    name: "{{ qtile_pip[ansible_os_family] + qtile_pip.common }}"
+
+- name: "Ensure desktop entry is installed"
+  become: yes
+  ansible.builtin.copy:
+    src: qtile.desktop
+    dest: /usr/share/xsessions/qtile.desktop
+  when: qtile_desktop_entry 

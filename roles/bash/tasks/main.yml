@@ -1,7 +1,0 @@
----
-- name: "Ensure bash is installed"
-  become: yes
-  ansible.builtin.package:
-    name:
-      - bash
-      - bash-completion

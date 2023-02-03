@@ -1,0 +1,6 @@
+---
+- name: "Install LazyGit"
+  become: yes
+  community.general.pacman:
+    name: lazygit
+

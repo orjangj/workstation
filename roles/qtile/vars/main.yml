@@ -1,0 +1,31 @@
+qtile_packages: {
+    Debian: [
+      python3-dev,  # pywayland dep
+      python3-xcffib,  # Must be installed before cffi
+      python3-cffi,
+      python3-cairocffi,
+      libpangocairo-1.0-0,
+      libwayland-dev,  # pywayland dep
+      libwlroots-dev,
+      libxkbcommon-dev  # is this the right one for pywlroots?
+    ],
+    Archlinux: [
+      qtile
+    ],
+    Fedora: [
+  
+    ]
+  }
+
+qtile_pip: {
+  Debian: [qtile],
+  Archlinux: [],
+  Fedora: [qtile],
+  common: [
+    dbus-next,
+    psutil,
+    pywayland,
+    pywlroots,
+    xkbcommon
+  ]
+  }

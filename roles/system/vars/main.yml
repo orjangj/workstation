@@ -1,0 +1,106 @@
+---
+system_packages: {
+    Debian: [
+      aptitude,
+      linux-firmware,  # needed?
+      build-essential,
+      lm-sensors,
+      fonts-font-awesome,
+      fonts-noto,
+      fonts-hack,
+      fonts-ubuntu,
+      fonts-liberation,
+      fonts-firacode,
+      python3,
+      python3-pip,
+    ],
+    Archlinux: [
+      base,
+      base-devel,
+      glibc,  # build-essential?
+      linux,  # needed?
+      linux-firmware,  # needed?
+      linux-headers,  # needed?
+      lm_sensors,
+      noto-fonts,
+      python,
+      python-pip,
+      ttf-font-awesome,
+      ttf-hack,
+      ttf-ubuntu-font-family,
+      ttf-fira-code,
+      ttf-liberation
+      #intel-ucode # TODO -- ansible_processor[1].find('Intel') != -1
+      #vulkan-intel # TODO
+      #amd-ucode # TODO -- ansible_processor[1].find('AMD') != -1
+      #vulkan-radeon # TODO
+      #radeontop # TODO
+      #networkmanager
+      #ntp
+      #firewalld
+      #sshd
+    ],
+    Fedora: [
+      lm_sensors,
+      glibc, # exists? build-essential?
+      python3,
+      python3-pip,
+      fontawesome-fonts,
+      fira-code-fonts
+    ],
+    common: [
+      alsa-utils,
+      bash,
+      bash-completion,
+      bat,
+      #brave,
+      brightnessctl,
+      cargo,
+      #chromium,
+      coreutils, # common?
+      cmake,
+      curl,
+      firefox,
+      flameshot,
+      fzf,
+      git,
+      htop,
+      jq,
+      man-db,
+      make,
+      minicom,
+      neofetch,
+      openssl,
+      picom,
+      ranger,
+      ripgrep,
+      rofi,  # X11 only
+      sudo,
+      tar,
+      valgrind,
+      vim,
+      unzip,
+      xterm,  # backup
+      wget,
+      wofi,  # Wayland only
+      # TODO
+      #gtk3,
+      #sof-firmware,
+      #mesa,
+      #mesa-utils,
+      #avahi,
+      #openssh,
+      #bluez,
+      #bluez-utils,
+      #vault,
+      #papirus-icon-theme
+    ]
+  }
+
+system_services: [
+#  { name: NetworkManager, enabled: yes },
+#  { name: systemd-timesyncd, enabled: yes },
+#  { name: dnsmasq, enabled: yes }, # Needed?
+#  { name: wpa_supplicant, enabled: yes },  # Needed?
+#  [ name: systemd-networkd, enabled: no }  # Replaced by NetworkManager
+  ]
