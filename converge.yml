@@ -4,9 +4,6 @@
   vars_files:
     - config.yml
 
-  vars:
-    configs: "{{ playbook_dir }}/files"
-
   pre_tasks:
   # {{{ Pre-tasks
     - name: Arch - Update package cache
@@ -26,30 +23,17 @@
   # }}}
   roles:
     - { role: system, tags: [system] }
+    - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
+    - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
     - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
     - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
-    - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
-    - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
-    #- { role: gdm, tags: [gdm, dm], when: display_manager == 'gdm' or 'gdm' in ansible_run_tags }
     - { role: dotfiles, tags: [dotfiles] }
     - { role: alacritty, tags: [alacritty, terminal], when: terminal == 'alacritty' or 'alacritty' in ansible_run_tags }
     - { role: kitty, tags: [kitty, terminal], when: terminal == 'kitty' or 'kitty' in ansible_run_tags }
     - { role: foot, tags: [foot, terminal], when: terminal == 'foot' or 'foot' in ansible_run_tags }
-    #- { role: emacs, tags: [emacs, editor], when: editor == 'vim' or 'vim' in ansible_run_tags }
     - { role: nvim, tags: [nvim, editor], when: editor == 'nvim' or 'nvim' in ansible_run_tags }
-    #- { role: vim, tags: [vim, editor], when: editor == 'vim' or 'vim' in ansible_run_tags }
     #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
-    #- { role: firewalld, tags: [firewall, security] }
-    #- { role: firejail, tags: [firejail, security] }
     - { role: wallpaper, tags: [wallpaper] }
     - { role: stylua, tags: [stylua, nvim] }
     - { role: lazygit, tags: [lazygit, nvim] }
-
-  tasks:
-    - name: Copy qtile configs  # TODO: Temporary -- until moved to dotfiles
-      ansible.builtin.copy:
-        src: files/qtile
-        dest: "{{ ansible_user_dir }}/.config"
-      tags: [qtile, qtile_config]
-
