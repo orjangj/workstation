@@ -6,7 +6,7 @@ window_manager: "qtile"
 display_manager: ""  # sddm
 file_manager: "ranger"
 display_server: "{{ 'wayland' if window_manager == 'sway' else 'xorg' }}"
-editor: "nvim"
+editor: "neovim"
 shell: "bash"
 terminal: "kitty"
 theme: "nord"
@@ -90,7 +90,8 @@ kitty_with_optional_dependencies: true
 
 # }}}
 # {{{ Editors
-nvim_version: "0.8.0"
+neovim_version: "v0.8.3"
+neovim_clone_dir: "{{ ansible_user_dir }}/projects/git"
 # }}}
 # {{{ Virtualization
 

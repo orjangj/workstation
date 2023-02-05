@@ -1,0 +1,4 @@
+---
+neovim_version: "HEAD"  # branch, tag, commit, HEAD (latest)
+neovim_clone_dir: "{{ ansible_user_dir }}"
+

@@ -1,0 +1,28 @@
+---
+- name: "Ensure build dependencies are installed"
+  become: yes
+  ansible.builtin.package:
+    name: "{{ neovim_build_dependencies[ansible_os_family] }}"
+
+- name: Checkout repository
+  ansible.builtin.git:
+    repo: https://github.com/neovim/neovim.git
+    depth: 1
+    dest: "{{ neovim_clone_dir }}/neovim"
+    version: "{{ neovim_version }}"
+  register: clone
+
+- name: Compile
+  community.general.make:
+    chdir: "{{ neovim_clone_dir }}/neovim"
+    params:
+      CMAKE_BUILD_TYPE: RelWithDebInfo
+  register: compile
+  when: clone.changed
+
+- name: Install
+  become: yes
+  community.general.make:
+    chdir: "{{ neovim_clone_dir }}/neovim"
+    target: "install"
+  when: compile.changed

@@ -1,0 +1,39 @@
+neovim_build_dependencies: {
+  Debian: [
+    autoconf,
+    automake,
+    cmake,
+    curl,
+    doxygen,
+    gettext,
+    g++,
+    libtool,
+    libtool-bin,
+    ninja-build,
+    pkg-config,
+    unzip
+  ],
+  Archlinux: [
+    base-devel,
+    cmake,
+    curl,
+    ninja,
+    tree-sitter,
+    unzip
+  ],
+  Fedora: [
+    autoconf,
+    automake,
+    cmake,
+    curl,
+    gcc,
+    gcc-c++,
+    gettext,
+    libtool,
+    make,
+    ninja-build,
+    patch,
+    pkgconfig,
+    unzip
+  ]
+  }

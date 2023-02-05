@@ -32,8 +32,27 @@
     - { role: alacritty, tags: [alacritty, terminal], when: terminal == 'alacritty' or 'alacritty' in ansible_run_tags }
     - { role: kitty, tags: [kitty, terminal], when: terminal == 'kitty' or 'kitty' in ansible_run_tags }
     - { role: foot, tags: [foot, terminal], when: terminal == 'foot' or 'foot' in ansible_run_tags }
-    - { role: nvim, tags: [nvim, editor], when: editor == 'nvim' or 'nvim' in ansible_run_tags }
+    - { role: neovim, tags: [neovim, editor], when: editor == 'neovim' or 'neovim' in ansible_run_tags }
     #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
     - { role: wallpaper, tags: [wallpaper] }
-    - { role: stylua, tags: [stylua, nvim] }
-    - { role: lazygit, tags: [lazygit, nvim] }
+    - { role: stylua, tags: [stylua, neovim] }
+    - { role: lazygit, tags: [lazygit, neovim] }
+
+    # TODO:
+    # - Rename repo to "workstation"
+    # - Install NERD fonts!!!  ... put in dotfiles??
+    # - fix qtile for wayland -- separate x11 and wayland
+
+  tasks:
+    - name: Clone git projects
+      ansible.builtin.git:
+        repo: "{{ item }}"
+        depth: 1
+        dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename }}"
+      with_items:
+        - "https://github.com/orjangj/ansible-collection-editors"
+        - "https://github.com/orjangj/ansible-collection-virtualization"
+        - "https://github.com/orjangj/cookbook"
+        - "https://github.com/orjangj/neotest-ctest"
+        - "https://github.com/orjangj/polar.nvim"
+      tags: [projects]
