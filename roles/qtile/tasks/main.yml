@@ -2,11 +2,11 @@
 - name: Install packages
   become: yes
   ansible.builtin.package:
-    name: "{{ qtile_packages[ansible_os_family] }}"
+    name: "{{ qtile_packages[ansible_distribution] }}"
 
 - name: Install pip dependencies
   ansible.builtin.pip:
-    name: "{{ qtile_pip[ansible_os_family] + qtile_pip.common }}"
+    name: "{{ qtile_pip[ansible_distribution] + qtile_pip.common }}"
 
 - name: "Ensure desktop entry is installed"
   become: yes

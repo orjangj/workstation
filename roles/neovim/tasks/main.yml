@@ -2,7 +2,7 @@
 - name: "Ensure build dependencies are installed"
   become: yes
   ansible.builtin.package:
-    name: "{{ neovim_build_dependencies[ansible_os_family] }}"
+    name: "{{ neovim_build_dependencies[ansible_distribution] }}"
 
 - name: Checkout repository
   ansible.builtin.git:

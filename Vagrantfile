@@ -20,18 +20,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   when "fedora"
     config.vm.hostname = "fedora"
     config.vm.network :private_network, ip: "192.168.56.22"
+    # NOTE: fedora36+ has a change in how networks are configured
+    # Vagrant doesn't seem to support that yet, and as a consequence vagrant
+    # is unable to set a static IP... See https://github.com/hashicorp/vagrant/issues/12762
     config.vm.define :fedora do |fedora|
-      config.vm.box = "generic/fedora37"
+      config.vm.box = "generic/fedora35"
     end
-  when "ubuntu"
-    config.vm.hostname = "ubuntu"
+  when "debian"
+    config.vm.hostname = "debian"
     config.vm.network :private_network, ip: "192.168.56.23"
-    config.vm.define :ubuntu do |ubuntu|
-      config.vm.box = "ubuntu/jammy64"
+    config.vm.define :debian do |debian|
+      config.vm.box = "debian/bullseye64"
     end
   else
     config.vm.hostname = "ubuntu"
-    config.vm.network :private_network, ip: "192.168.56.23"
+    config.vm.network :private_network, ip: "192.168.56.30"
     config.vm.define :ubuntu do |ubuntu|
       config.vm.box = "ubuntu/jammy64"
     end
@@ -47,8 +50,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Required when using more than one virtual CPU
     v.customize ["modifyvm", :id, "--ioapic", "on"]
     # Nice to have
-    v.customize ['modifyvm', :id, "--clipboard", "bidirectional"]
-    v.customize ['modifyvm', :id, "--mouse", "usbtablet"]
+    v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    v.customize ["modifyvm", :id, "--mouse", "usbtablet"]
   end
   
   config.vm.provision "ansible" do |ansible|

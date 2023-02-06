@@ -2,15 +2,9 @@
 system_packages: {
     Debian: [
       aptitude,
-      linux-firmware,  # needed?
+      #linux-firmware,  # needed?
       build-essential,
       lm-sensors,
-      fonts-font-awesome,
-      fonts-noto,
-      fonts-hack,
-      fonts-ubuntu,
-      fonts-liberation,
-      fonts-firacode,
       python3,
       python3-pip,
     ],
@@ -22,14 +16,8 @@ system_packages: {
       linux-firmware,  # needed?
       linux-headers,  # needed?
       lm_sensors,
-      noto-fonts,
       python,
       python-pip,
-      ttf-font-awesome,
-      ttf-hack,
-      ttf-ubuntu-font-family,
-      ttf-fira-code,
-      ttf-liberation
       #intel-ucode # TODO -- ansible_processor[1].find('Intel') != -1
       #vulkan-intel # TODO
       #amd-ucode # TODO -- ansible_processor[1].find('AMD') != -1
@@ -45,8 +33,7 @@ system_packages: {
       glibc, # exists? build-essential?
       python3,
       python3-pip,
-      fontawesome-fonts,
-      fira-code-fonts
+      xset,
     ],
     common: [
       alsa-utils,

@@ -20,6 +20,14 @@
         cache_valid_time: 3000
       tags: [always]
       when: ansible_os_family == 'Debian'
+
+    - name: Fedora - Update package cache
+      become: yes
+      ansible.builtin.dnf:
+        state: present
+        update_cache: yes
+      tags: [always]
+      when: ansible_distribution == 'Fedora'
   # }}}
   roles:
     - { role: system, tags: [system] }
@@ -40,10 +48,11 @@
 
     # TODO:
     # - ansible_usr_id/dir vs owner: etc...
+    # - Make arch, fedora and debian work...
     # - Rename repo to "workstation"
     # - fix qtile for wayland -- separate x11 and wayland
     # - pip packages in config.yml
-    # - dotfiles: compton --> picom
+    # - dotfiles: compton --> picom... awesome wm... xinitrc?
     # - startx -- bash_profile (or .profile)
 
   tasks:
@@ -78,8 +87,8 @@
         - Hack
         #- Inconsolata
         #- Iosevka
-        #- JetBrainsMono
+        - JetBrainsMono
         #- Noto
-        - Ubuntu
-        - UbuntuMono
+        #- Ubuntu
+        #- UbuntuMono
       tags: [nerdfonts]

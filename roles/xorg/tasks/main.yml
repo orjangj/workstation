@@ -2,7 +2,7 @@
 - name: Install xorg server and xinit system
   become: yes
   ansible.builtin.package:
-    name: "{{ xorg_packages[ansible_os_family] }}"
+    name: "{{ xorg_packages[ansible_distribution] }}"
 
 # Not sure why these directories are not there by default
 - name: Ensure X11 directories exists

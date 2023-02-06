@@ -10,10 +10,10 @@
 
 - name: Apply Fedora install method
   ansible.builtin.include_tasks: fedora.yml
-  when: ansible_os_family == 'Fedora'
+  when: ansible_distribution == 'Fedora'
 
 - name: "Install optional dependencies"
   become: yes
   ansible.builtin.package:
-    name: imagemagick
+    name: "{{ 'ImageMagick' if ansible_distribution == 'Fedora' else 'imagemagick' }}"
   when: kitty_with_optional_dependencies

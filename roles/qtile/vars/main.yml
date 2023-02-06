@@ -13,7 +13,11 @@ qtile_packages: {
       qtile
     ],
     Fedora: [
-  
+      python3-devel,  # pywayland dep
+      python3-xcffib,  # Must be installed before cffi
+      python3-cffi,
+      python3-cairocffi,
+      libxkbcommon-devel
     ]
   }
 

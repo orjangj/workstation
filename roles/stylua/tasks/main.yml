@@ -4,7 +4,7 @@
     src: "https://github.com/JohnnyMorganz/StyLua/releases/{{ stylua_version }}/download/stylua-linux.zip"
     dest: "{{ ansible_user_dir }}/.local/bin"
     remote_src: yes
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' or ansible_distribution == 'Fedora'
 
 - name: "Ensure stylua is installed (Arch)"
   become: yes
