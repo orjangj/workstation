@@ -4,16 +4,10 @@
   ansible.builtin.package:
     name: "{{ system_packages[ansible_os_family] + system_packages.common }}"
 
-#- name: "Ensure services are enabled or disabled"
-#  become: yes
-#  ansible.builtin.service:
-#    name: "{{ item.name }}"
-#    enabled: "{{ item.enabled }}"
-#  loop: "{{ system_services }}"
-#
 # - name: Apply common tasks
 #   ansible.builtin.include_tasks: "{{ item }}"
 #   with_items:
 #     - hostname.yml
 #     - locale.yml
 #     - user.yml
+#     - service.yml

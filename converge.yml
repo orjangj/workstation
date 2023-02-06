@@ -39,9 +39,12 @@
     - { role: lazygit, tags: [lazygit, neovim] }
 
     # TODO:
+    # - ansible_usr_id/dir vs owner: etc...
     # - Rename repo to "workstation"
-    # - Install NERD fonts!!!  ... put in dotfiles??
     # - fix qtile for wayland -- separate x11 and wayland
+    # - pip packages in config.yml
+    # - dotfiles: compton --> picom
+    # - startx -- bash_profile (or .profile)
 
   tasks:
     - name: Clone git projects
@@ -56,3 +59,27 @@
         - "https://github.com/orjangj/neotest-ctest"
         - "https://github.com/orjangj/polar.nvim"
       tags: [projects]
+
+    - name: Ensure local fonts directory exists
+      ansible.builtin.file:
+        state: directory
+        path: "{{ ansible_user_dir }}/.local/share/fonts"
+      tags: [nerdfonts]
+
+    - name: Install nerdfonts
+      ansible.builtin.unarchive:
+        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
+        dest: "{{ ansible_user_dir }}/.local/share/fonts"
+        remote_src: yes
+      with_items:
+        #- CascadiaCode
+        #- FiraCode
+        #- FiraMono
+        - Hack
+        #- Inconsolata
+        #- Iosevka
+        #- JetBrainsMono
+        #- Noto
+        - Ubuntu
+        - UbuntuMono
+      tags: [nerdfonts]

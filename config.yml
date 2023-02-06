@@ -64,6 +64,7 @@ awesome_dependencies:
   - i3lock
   - autorandr
 
+qtile_backend: "x11"
 qtile_extra_dependencies:
   - feh
 
@@ -104,4 +105,3 @@ wallpaper_sources:
   - https://github.com/orjangj/wallpapers
 # }}}
 
-qtile_backend: "x11"
