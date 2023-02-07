@@ -81,14 +81,14 @@
         dest: "{{ ansible_user_dir }}/.local/share/fonts"
         remote_src: yes
       with_items:
-        #- CascadiaCode
-        #- FiraCode
-        #- FiraMono
+        - CascadiaCode
+        - FiraCode
+        - FiraMono
         - Hack
-        #- Inconsolata
-        #- Iosevka
+        - Inconsolata
+        - Iosevka
         - JetBrainsMono
-        #- Noto
-        #- Ubuntu
-        #- UbuntuMono
+        - Noto
+        - Ubuntu
+        - UbuntuMono
       tags: [nerdfonts]

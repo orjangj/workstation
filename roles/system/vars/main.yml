@@ -34,6 +34,9 @@ system_packages: {
       python3,
       python3-pip,
       xset,
+#TODO: check --> dnf group install "Hardware Support"
+# xdg-user-dirs, xdg-user-dirs-gtk??
+# wpa_supplicant
     ],
     common: [
       alsa-utils,
@@ -44,9 +47,10 @@ system_packages: {
       brightnessctl,
       cargo,
       #chromium,
-      coreutils, # common?
+      coreutils,
       cmake,
       curl,
+      doxygen,
       firefox,
       flameshot,
       fzf,
@@ -56,6 +60,8 @@ system_packages: {
       man-db,
       make,
       minicom,
+      nautilus,  # Change to something else?
+# TODO: Need a PDF reader/viewer ... and libreOffice suite?
       neofetch,
       openssl,
       picom,
@@ -67,9 +73,9 @@ system_packages: {
       valgrind,
       vim,
       unzip,
-      xterm,  # backup
+      xterm, # backup
       wget,
-      wofi,  # Wayland only
+      wofi, # Wayland only
       # TODO
       #gtk3,
       #sof-firmware,
