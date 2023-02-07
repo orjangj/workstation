@@ -39,6 +39,7 @@ system_packages: {
 # wpa_supplicant
     ],
     common: [
+      acpi,
       alsa-utils,
       bash,
       bash-completion,
@@ -51,6 +52,7 @@ system_packages: {
       cmake,
       curl,
       doxygen,
+      feh,
       firefox,
       flameshot,
       fzf,
