@@ -34,6 +34,7 @@ system_packages: {
       python3,
       python3-pip,
       xset,
+      xclip
 #TODO: check --> dnf group install "Hardware Support"
 # xdg-user-dirs, xdg-user-dirs-gtk??
 # wpa_supplicant
@@ -57,6 +58,7 @@ system_packages: {
       flameshot,
       fzf,
       git,
+      gzip,
       htop,
       jq,
       man-db,
