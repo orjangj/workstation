@@ -13,4 +13,4 @@
   ansible.builtin.copy:
     src: qtile.desktop
     dest: /usr/share/xsessions/qtile.desktop
-  when: qtile_desktop_entry 
+  when: qtile_desktop_entry

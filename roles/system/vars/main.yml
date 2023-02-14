@@ -67,6 +67,7 @@ system_packages: {
       nautilus,  # Change to something else?
 # TODO: Need a PDF reader/viewer ... and libreOffice suite?
       neofetch,
+      npm,  # neovim dependency
       openssl,
       picom,
       ranger,
