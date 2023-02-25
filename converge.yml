@@ -76,7 +76,7 @@
     - name: Ensure local fonts directory exists
       ansible.builtin.file:
         state: directory
-        mode: "01775"
+        mode: "0755"
         path: "{{ ansible_user_dir }}/.local/share/fonts"
       tags: [nerdfonts]
 
@@ -97,7 +97,7 @@
     - name: Ensure local themes directory exists
       ansible.builtin.file:
         state: directory
-        mode: "01775"
+        mode: "0755"
         path: "{{ ansible_user_dir }}/.themes"
       tags: [gtk]
 
