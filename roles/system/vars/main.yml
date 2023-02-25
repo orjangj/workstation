@@ -34,7 +34,8 @@ system_packages: {
       python3,
       python3-pip,
       xset,
-      xclip
+      xclip,
+#      xorg-x11-drv-vesa,  # NEEDED on libvirt guest? and fbdev? and glamor?
 #TODO: check --> dnf group install "Hardware Support"
 # xdg-user-dirs, xdg-user-dirs-gtk??
 # wpa_supplicant
@@ -42,6 +43,7 @@ system_packages: {
     common: [
       acpi,
       alsa-utils,
+      autorandr,
       bash,
       bash-completion,
       bat,

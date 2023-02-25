@@ -3,7 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-distro = ENV['DISTRO'] || "ubuntu"
+distro = ENV['VM_DISTRO'] || "fedora"
 playbook = ENV['PLAYBOOK'] || "converge.yml"
 tags = ENV['TAGS'] || "never"
 
@@ -53,7 +53,30 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     v.customize ["modifyvm", :id, "--mouse", "usbtablet"]
   end
-  
+
+  # REF: https://vagrant-libvirt.github.io/vagrant-libvirt/configuration.html
+  config.vm.provider :libvirt do |v|
+    # ------------------
+    # Connection options
+    # ------------------
+    # See https://vagrant-libvirt.github.io/vagrant-libvirt/examples.html#qemu-session-support
+    #v.qemu_use_session = true  # If set, v.uri is qemu:///session, else uri is qemu:///system
+
+    # -----------------------
+    # Domain specific options
+    # -----------------------
+    v.memory = 8192
+    v.cpus = 4
+    v.graphics_type = "spice"
+    v.video_type = "virtio"
+    v.video_accel3d = true  # Consider setting v.kvm_hidden if misbehaving
+
+    # -------------
+    # Input options
+    # -------------
+    v.input :type => "tablet", :bus => "usb"
+  end
+
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
     ansible.playbook = playbook

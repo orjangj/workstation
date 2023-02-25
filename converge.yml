@@ -1,11 +1,13 @@
+# vim: set ft=yaml.ansible:
 ---
-- hosts: all
+- name: Workstation playbook
+  hosts: all
 
   vars_files:
     - config.yml
 
   pre_tasks:
-  # {{{ Pre-tasks
+    # {{{ Pre-tasks
     - name: Arch - Update package cache
       become: yes
       community.general.pacman:
@@ -61,17 +63,20 @@
         repo: "{{ item }}"
         depth: 1
         dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename }}"
+        version: "master"
+        update: false
       with_items:
-        - "https://github.com/orjangj/ansible-collection-editors"
-        - "https://github.com/orjangj/ansible-collection-virtualization"
-        - "https://github.com/orjangj/cookbook"
-        - "https://github.com/orjangj/neotest-ctest"
-        - "https://github.com/orjangj/polar.nvim"
+        - "git@github.com:orjangj/ansible-collection-editors.git"
+        - "git@github.com:orjangj/ansible-collection-virtualization.git"
+        - "git@github.com:orjangj/cookbook.git"
+        - "git@github.com:orjangj/neotest-ctest.git"
+        - "git@github.com:orjangj/polar.nvim.git"
       tags: [projects]
 
     - name: Ensure local fonts directory exists
       ansible.builtin.file:
         state: directory
+        mode: "01775"
         path: "{{ ansible_user_dir }}/.local/share/fonts"
       tags: [nerdfonts]
 
@@ -79,16 +84,28 @@
       ansible.builtin.unarchive:
         src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
         dest: "{{ ansible_user_dir }}/.local/share/fonts"
-        remote_src: yes
+        remote_src: true
       with_items:
-        - CascadiaCode
         - FiraCode
         - FiraMono
         - Hack
-        - Inconsolata
-        - Iosevka
-        - JetBrainsMono
         - Noto
         - Ubuntu
         - UbuntuMono
       tags: [nerdfonts]
+
+    - name: Ensure local themes directory exists
+      ansible.builtin.file:
+        state: directory
+        mode: "01775"
+        path: "{{ ansible_user_dir }}/.themes"
+      tags: [gtk]
+
+    - name: Install GTK themes
+      ansible.builtin.unarchive:
+        src: "{{ item }}"
+        dest: "{{ ansible_user_dir }}/.themes"
+        remote_src: true
+      with_items:
+        - "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz"
+      tags: [gtk]
