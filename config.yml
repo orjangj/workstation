@@ -42,6 +42,7 @@ system_hostname: "{{ hostname }}"
 
 xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
+  - "{{ playbook_dir }}/files/xorg/00-keyboard.conf"
 
 # }}}
 # {{{ Dotfiles

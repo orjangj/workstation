@@ -55,6 +55,7 @@ system_packages: {
       cmake,
       curl,
       doxygen,
+      dunst,
       feh,
       firefox,
       flameshot,

@@ -6,8 +6,8 @@
   vars_files:
     - config.yml
 
+  # Pre-tasks {{{
   pre_tasks:
-    # {{{ Pre-tasks
     - name: Arch - Update package cache
       become: yes
       community.general.pacman:
@@ -31,6 +31,7 @@
       tags: [always]
       when: ansible_distribution == 'Fedora'
   # }}}
+  # Roles {{{
   roles:
     - { role: system, tags: [system] }
     - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
@@ -47,16 +48,8 @@
     - { role: wallpaper, tags: [wallpaper] }
     - { role: stylua, tags: [stylua, neovim] }
     - { role: lazygit, tags: [lazygit, neovim] }
-
-    # TODO:
-    # - ansible_usr_id/dir vs owner: etc...
-    # - Make arch, fedora and debian work...
-    # - Rename repo to "workstation"
-    # - fix qtile for wayland -- separate x11 and wayland
-    # - pip packages in config.yml
-    # - dotfiles: compton --> picom... awesome wm... xinitrc?
-    # - startx -- bash_profile (or .profile)
-
+  # }}}
+  # Tasks {{{
   tasks:
     - name: Clone git projects
       ansible.builtin.git:
@@ -66,11 +59,12 @@
         version: "master"
         update: false
       with_items:
-        - "git@github.com:orjangj/ansible-collection-editors.git"
-        - "git@github.com:orjangj/ansible-collection-virtualization.git"
-        - "git@github.com:orjangj/cookbook.git"
-        - "git@github.com:orjangj/neotest-ctest.git"
-        - "git@github.com:orjangj/polar.nvim.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
       tags: [projects]
 
     - name: Ensure local fonts directory exists
@@ -109,3 +103,4 @@
       with_items:
         - "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz"
       tags: [gtk]
+  # }}}
