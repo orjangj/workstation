@@ -40,31 +40,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.provider :virtualbox do |v|
-    v.name = config.vm.hostname
-    v.memory = 8192
-    v.cpus = 4
-    v.gui = true
-    # Accept DNS traffic from the guest, but use host's OS API's to resolve the query
-    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-    # Required when using more than one virtual CPU
-    v.customize ["modifyvm", :id, "--ioapic", "on"]
-    # Nice to have
-    v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-    v.customize ["modifyvm", :id, "--mouse", "usbtablet"]
-  end
-
   # REF: https://vagrant-libvirt.github.io/vagrant-libvirt/configuration.html
   config.vm.provider :libvirt do |v|
-    # ------------------
-    # Connection options
-    # ------------------
     # See https://vagrant-libvirt.github.io/vagrant-libvirt/examples.html#qemu-session-support
     #v.qemu_use_session = true  # If set, v.uri is qemu:///session, else uri is qemu:///system
-
-    # -----------------------
-    # Domain specific options
-    # -----------------------
     v.memory = 8192
     v.cpus = 4
     v.graphics_type = "spice"
@@ -75,6 +54,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Input options
     # -------------
     v.input :type => "tablet", :bus => "usb"
+  end
+
+  config.trigger.before :up do |trigger|
+    trigger.info = "Initializing graphical console"
+    # NOTE: Libvirt creates VM with name corresponding to current working directory + _ + distro name.
+    trigger.run = { inline: "bash -c 'virt-viewer --connect qemu:///system --attach workstation_#{distro} &'" }
   end
 
   config.vm.provision "ansible" do |ansible|
