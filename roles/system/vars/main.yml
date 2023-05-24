@@ -35,6 +35,8 @@ system_packages: {
       python3-pip,
       xset,
       xclip,
+      setroubleshoot-server, # For debugging SELinux issues
+      policycoreutils-python-utils, # For debugging SELinux issues
 #      xorg-x11-drv-vesa,  # NEEDED on libvirt guest? and fbdev? and glamor?
 #TODO: check --> dnf group install "Hardware Support"
 # xdg-user-dirs, xdg-user-dirs-gtk??
@@ -56,6 +58,7 @@ system_packages: {
       curl,
       doxygen,
       dunst,
+      fd-find,
       feh,
       firefox,
       flameshot,
