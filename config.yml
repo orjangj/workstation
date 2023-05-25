@@ -88,12 +88,12 @@ pip_install_packages:
 # }}}
 # {{{ Terminal emulators
 
-kitty_version: "0.26.5"
+kitty_version: "0.28.1"
 kitty_with_optional_dependencies: true
 
 # }}}
 # {{{ Editors
-neovim_version: "v0.8.3"
+neovim_version: "v0.9.0"
 neovim_clone_dir: "{{ ansible_user_dir }}/projects/git"
 # }}}
 # {{{ Virtualization
