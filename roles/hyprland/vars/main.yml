@@ -1,0 +1,19 @@
+hyprland_dependencies: {
+    Archlinux: [
+      # TODO
+    ],
+    Fedora: [
+      ninja-build,
+      cmake,
+      meson,
+      gcc-c++,
+      libxcb-devel,
+      libX11-devel,
+      libwayland-server,
+      pixman-devel,
+      wayland-protocols-devel,
+      wayland-devel,
+      cairo-devel,
+      pango-devel
+    ],
+  }

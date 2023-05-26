@@ -49,15 +49,6 @@ xorg_configs:
 dotfiles_repo: "https://github.com/orjangj/dotfiles.git"
 # }}}
 # {{{ Window Manager
-sway_dependencies:
-  - swaybg
-  - swaylock
-  - swayidle
-  - waybar
-  - wofi
-  - xorg-xwayland
-  - wl-clipboard
-
 awesome_dependencies:
   - picom  # For compositing
   - feh  # For selecting random wallpaper
@@ -68,6 +59,9 @@ awesome_dependencies:
 qtile_backend: "x11"
 qtile_extra_dependencies:
   - feh
+
+hyprland_version: "v0.25.0"
+hyprland_clone_dir: "{{ ansible_user_dir }}/projects/git"
 
 # }}}
 #{{{Python

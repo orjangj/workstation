@@ -1,7 +1,7 @@
 ---
 - name: "Ensure foot and dependencies are installed"
   become: yes
-  community.general.pacman:
+  ansible.builtin.package:
     name: "{{ item }}"
   with_items:
     - foot

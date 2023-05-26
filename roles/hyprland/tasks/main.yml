@@ -1,0 +1,27 @@
+---
+- name: "Ensure build dependencies are installed"
+  become: yes
+  ansible.builtin.package:
+    name: "{{ hyprland_dependencies[ansible_distribution] }}"
+
+- name: Checkout repository
+  ansible.builtin.git:
+    repo: https://github.com/hyprwm/Hyprland.git
+    depth: 1
+    dest: "{{ neovim_clone_dir }}/hyprland"
+    version: "{{ hyprland_version }}"
+  register: clone
+
+- name: Compile
+  ansible.builtin.command:
+    chdir: "{{ hyprland_clone_dir }}/hyprland"
+    cmd: "meson _build && ninja -C _build"
+  register: compile
+  when: clone.changed
+
+- name: Install
+  become: yes
+  ansible.builtin.command:
+    chdir: "{{ hyprland_clone_dir }}/hyprland"
+    cmd: "ninja -C _build install"
+  when: compile.changed

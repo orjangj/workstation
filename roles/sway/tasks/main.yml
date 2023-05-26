@@ -1,11 +1,5 @@
 ---
 - name: "Ensure sway and dependencies are installed"
   become: yes
-  community.general.pacman:
-    name: "{{ ['sway'] + sway_dependencies }}"
-
-- name: Copy configurations in place
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ ansible_user_dir }}/.config"
-  with_items: "{{ sway_configs }}"
+  ansible.builtin.package:
+    name: "{{ ['sway'] + sway_extras[ansible_distribution] + sway_extras['Common'] }}"
