@@ -3,6 +3,7 @@
   become: yes
   ansible.builtin.package:
     name: "{{ waybar_packages[ansible_distribution] }}"
+  register: dependencies
 
 - name: Checkout repository
   ansible.builtin.git:
@@ -17,9 +18,10 @@
     chdir: "{{ waybar_clone_dir }}/waybar"
     cmd: "{{ item }}"
   with_items:
-    - "meson _build"
+    - "meson -Dexperimental=true _build"
     - "ninja -C _build"
   register: compile
+  when: clone.changed or dependencies.changed
 
 - name: Install
   become: yes

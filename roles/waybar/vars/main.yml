@@ -21,5 +21,6 @@ waybar_packages: {
       "upower-devel",
       "playerctl-devel",
       "date-devel",
+      "pulseaudio-libs-devel"
    ]
   }
