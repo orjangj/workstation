@@ -1,0 +1,5 @@
+---
+- name: Ensure package dependencies are installed
+  become: yes
+  ansible.builtin.package:
+    name: "{{ eww_packages[ansible_distribution] }}"

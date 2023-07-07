@@ -60,8 +60,11 @@ qtile_backend: "x11"
 qtile_extra_dependencies:
   - feh
 
-hyprland_version: "v0.25.0"
+hyprland_version: "v0.26.0"
 hyprland_clone_dir: "{{ ansible_user_dir }}/projects/git"
+
+waybar_version: "0.9.19"
+waybar_clone_dir: "{{ ansible_user_dir }}/projects/git"
 
 # }}}
 #{{{Python

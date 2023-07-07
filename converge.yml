@@ -39,6 +39,7 @@
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
     - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
     - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
+    - { role: hyprland, tags: [hyprland, wm], when: window_manager == 'hyprland' or 'hyprland' in ansible_run_tags }
     - { role: dotfiles, tags: [dotfiles] }
     - { role: alacritty, tags: [alacritty, terminal], when: terminal == 'alacritty' or 'alacritty' in ansible_run_tags }
     - { role: kitty, tags: [kitty, terminal], when: terminal == 'kitty' or 'kitty' in ansible_run_tags }
@@ -48,6 +49,7 @@
     - { role: wallpaper, tags: [wallpaper] }
     - { role: stylua, tags: [stylua, neovim] }
     - { role: lazygit, tags: [lazygit, neovim] }
+    - { role: eww, tags: [eww, wm] }
   # }}}
   # Tasks {{{
   tasks:

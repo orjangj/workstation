@@ -1,0 +1,25 @@
+waybar_packages: {
+    Fedora: [
+      "cmake",
+      "meson",
+      "scdoc",
+      "wayland-protocols-devel",
+      "clang-tools-extra",
+      "gobject-introspection-devel",
+      "libdbusmenu-gtk3-devel",
+      "libevdev-devel",
+      "fmt-devel",
+      "gtk3-devel",
+      "gtkmm3.0-devel",
+      "libinput-devel",
+      "jsoncpp-devel",
+      "libmpdclient-devel",
+      "libnl3-devel",
+      "libsigc++-devel",
+      "spdlog-devel",
+      "wayland-devel",
+      "upower-devel",
+      "playerctl-devel",
+      "date-devel",
+   ]
+  }

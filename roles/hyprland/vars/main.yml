@@ -7,6 +7,8 @@ hyprland_dependencies: {
       cmake,
       meson,
       gcc-c++,
+      libgudev-devel,
+      libinput-devel,
       libxcb-devel,
       libX11-devel,
       libwayland-server,
@@ -14,6 +16,15 @@ hyprland_dependencies: {
       wayland-protocols-devel,
       wayland-devel,
       cairo-devel,
-      pango-devel
+      pango-devel,
+      # Other deps?
+      glslang,
+      hwdata-devel,
+      libdisplay-info-devel,
+      libliftoff-devel,
+      xorg-x11-server-Xwayland-devel,
+      # User specific runtime deps
+      swaybg, # look into hyprpaper
+      waybar,
     ],
   }

@@ -1,0 +1,37 @@
+# vim: set ft=yaml.ansible:
+---
+- name: Hyprland
+  hosts: all
+
+  vars_files:
+    - config.yml
+
+  # Pre-tasks {{{
+  pre_tasks:
+    - name: Arch - Update package cache
+      become: yes
+      community.general.pacman:
+        update_cache: yes
+      tags: [always]
+      when: ansible_os_family == 'Archlinux'
+
+    - name: Debian - Update package cache
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3000
+      tags: [always]
+      when: ansible_os_family == 'Debian'
+
+    - name: Fedora - Update package cache
+      become: yes
+      ansible.builtin.dnf:
+        state: present
+        update_cache: yes
+      tags: [always]
+      when: ansible_distribution == 'Fedora'
+  # }}}
+  # Roles {{{
+  roles:
+    - { role: waybar, tags: [waybar] }
+  # }}}

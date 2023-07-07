@@ -87,6 +87,7 @@ system_packages: {
       xterm, # backup
       wget,
       wofi, # Wayland only
+      wlr-randr,
       # TODO
       #gtk3,
       #sof-firmware,

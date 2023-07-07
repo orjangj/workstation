@@ -1,20 +1,20 @@
 ---
-- name: "Ensure build dependencies are installed"
+- name: Ensure package dependencies are installed
   become: yes
   ansible.builtin.package:
-    name: "{{ hyprland_dependencies[ansible_distribution] }}"
+    name: "{{ waybar_packages[ansible_distribution] }}"
 
 - name: Checkout repository
   ansible.builtin.git:
-    repo: https://github.com/hyprwm/Hyprland.git
+    repo: https://github.com/Alexays/Waybar.git
     depth: 1
-    dest: "{{ neovim_clone_dir }}/hyprland"
-    version: "{{ hyprland_version }}"
+    dest: "{{ neovim_clone_dir }}/waybar"
+    version: "{{ waybar_version }}"
   register: clone
 
 - name: Compile
   ansible.builtin.command:
-    chdir: "{{ hyprland_clone_dir }}/hyprland"
+    chdir: "{{ waybar_clone_dir }}/waybar"
     cmd: "{{ item }}"
   with_items:
     - "meson _build"
@@ -24,6 +24,6 @@
 - name: Install
   become: yes
   ansible.builtin.command:
-    chdir: "{{ hyprland_clone_dir }}/hyprland"
+    chdir: "{{ waybar_clone_dir }}/waybar"
     cmd: "ninja -C _build install"
   when: compile.changed
