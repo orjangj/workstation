@@ -1,0 +1,6 @@
+---
+- name: Install Hyprland
+  become: yes
+  ansible.builtin.package:
+    name: hyprland
+
