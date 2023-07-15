@@ -41,11 +41,8 @@
     - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
     - { role: hyprland, tags: [hyprland, wm], when: window_manager == 'hyprland' or 'hyprland' in ansible_run_tags }
     - { role: dotfiles, tags: [dotfiles] }
-    - { role: alacritty, tags: [alacritty, terminal], when: terminal == 'alacritty' or 'alacritty' in ansible_run_tags }
-    - { role: kitty, tags: [kitty, terminal], when: terminal == 'kitty' or 'kitty' in ansible_run_tags }
-    - { role: foot, tags: [foot, terminal], when: terminal == 'foot' or 'foot' in ansible_run_tags }
+    - { role: kitty, tags: [kitty, terminal] }
     - { role: neovim, tags: [neovim, editor], when: editor == 'neovim' or 'neovim' in ansible_run_tags }
-    #- { role: vscode, tags: [vscode, editor], when: editor == 'vscode' or 'vscode' in ansible_run_tags }
     - { role: wallpaper, tags: [wallpaper] }
     - { role: stylua, tags: [stylua, neovim] }
     - { role: lazygit, tags: [lazygit, neovim] }
@@ -53,6 +50,11 @@
   # }}}
   # Tasks {{{
   tasks:
+    - name: Install python package dependencies
+      ansible.builtin.pip:
+        name: "{{ pip_install_packages }}"
+      tags: [python]
+
     - name: Clone git projects
       ansible.builtin.git:
         repo: "{{ item }}"

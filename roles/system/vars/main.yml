@@ -9,24 +9,9 @@ system_packages: {
       python3-pip,
     ],
     Archlinux: [
-      base,
-      base-devel,
-      glibc,  # build-essential?
-      linux,  # needed?
-      linux-firmware,  # needed?
-      linux-headers,  # needed?
       lm_sensors,
       python,
       python-pip,
-      #intel-ucode # TODO -- ansible_processor[1].find('Intel') != -1
-      #vulkan-intel # TODO
-      #amd-ucode # TODO -- ansible_processor[1].find('AMD') != -1
-      #vulkan-radeon # TODO
-      #radeontop # TODO
-      #networkmanager
-      #ntp
-      #firewalld
-      #sshd
     ],
     Fedora: [
       lm_sensors,
@@ -76,7 +61,7 @@ system_packages: {
       npm,  # neovim dependency
       openssl,
       picom,
-      ranger,
+      nnn,
       ripgrep,
       rofi,  # X11 only
       sudo,
@@ -88,6 +73,10 @@ system_packages: {
       wget,
       wofi, # Wayland only
       wlr-randr,
+      tldr,
+      grim,
+      tmux,
+      rsync,
       # TODO
       #gtk3,
       #sof-firmware,

@@ -81,6 +81,8 @@ pip_install_packages:
   - pytest
   - pytest-cov
   - khal
+  - autotiling  # sway
+  - miniterm
 
 # }}}
 # {{{ Terminal emulators

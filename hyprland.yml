@@ -6,6 +6,65 @@
   vars_files:
     - config.yml
 
+  vars:
+    dependencies:
+      Archlinux:
+        - xorg-xwayland
+        - imagemagick
+        - python
+        - python-pip
+      Fedora:
+        - xorg-x11-server-Xwayland
+        - ImageMagick
+        - python3
+        - python3-pip
+      common:
+        - acpi
+        - alsa-utils
+        - bash
+        - bash-completion
+        - bat
+        - brightnessctl
+        - cargo
+        - cmake
+        - coreutils
+        - curl
+        - doxygen
+        - dunst
+        - fd-find
+        - firefox
+        - flameshot
+        - fzf
+        - git
+        - grim
+        - gzip
+        - htop
+        - jq
+        - lm_sensors
+        - man-db
+        - make
+        - neofetch
+        - npm  # neovim dependency
+        - swaybg
+        - swaylock
+        - swayidle
+        - waybar
+        - wofi
+        - wl-clipboard
+        - wl-randr
+        - # TODO: Need a PDF reader/viewer ... and libreOffice suite?
+        - openssl
+        - nnn
+        - ripgrep
+        - rsync
+        - tar
+        - tldr
+        - tmux
+        - valgrind
+        - vim
+        - unzip
+        - wget
+
   # Pre-tasks {{{
   pre_tasks:
     - name: Arch - Update package cache
@@ -14,14 +73,6 @@
         update_cache: yes
       tags: [always]
       when: ansible_os_family == 'Archlinux'
-
-    - name: Debian - Update package cache
-      become: yes
-      ansible.builtin.apt:
-        update_cache: yes
-        cache_valid_time: 3000
-      tags: [always]
-      when: ansible_os_family == 'Debian'
 
     - name: Fedora - Update package cache
       become: yes
@@ -33,5 +84,76 @@
   # }}}
   # Roles {{{
   roles:
-    - { role: waybar, tags: [waybar] }
+    - { role: hyprland, tags: [hyprland] }
+    - { role: waybar, tags: [waybar], when: ansible_distribution == 'Fedora' }  # Need >=v0.9.19, but Fedora 38 only has 0.9.18
+    - { role: kitty, tags: [kitty] }
+    - { role: neovim, tags: [neovim] }
+    - { role: dotfiles, tags: [dotfiles] }
+    - { role: wallpaper, tags: [wallpaper] }
+    - { role: stylua, tags: [stylua, neovim] }
+    - { role: lazygit, tags: [lazygit, neovim] }
   # }}}
+  tasks:
+    - name: Install package dependencies
+      become: yes
+      ansible.builtin.package:
+        name: "{{ dependencies[ansible_distribution] + dependencies.common }}"
+      tags: [packages]
+
+    - name: Install python package dependencies
+      ansible.builtin.pip:
+        name: "{{ pip_install_packages }}"
+      tags: [python]
+
+    - name: Clone git projects
+      ansible.builtin.git:
+        repo: "{{ item }}"
+        depth: 1
+        dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename }}"
+        version: "master"
+        update: false
+      with_items:
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
+      tags: [projects]
+
+    - name: Ensure local fonts directory exists
+      ansible.builtin.file:
+        state: directory
+        mode: "0755"
+        path: "{{ ansible_user_dir }}/.local/share/fonts"
+      tags: [nerdfonts]
+
+    - name: Install nerdfonts
+      ansible.builtin.unarchive:
+        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
+        dest: "{{ ansible_user_dir }}/.local/share/fonts"
+        remote_src: true
+      with_items:
+        - FiraCode
+        - FiraMono
+        - Hack
+        - Noto
+        - Ubuntu
+        - UbuntuMono
+      tags: [nerdfonts]
+
+    - name: Ensure local themes directory exists
+      ansible.builtin.file:
+        state: directory
+        mode: "0755"
+        path: "{{ ansible_user_dir }}/.themes"
+      tags: [gtk]
+
+    - name: Install GTK themes
+      ansible.builtin.unarchive:
+        src: "{{ item }}"
+        dest: "{{ ansible_user_dir }}/.themes"
+        remote_src: true
+      with_items:
+        - "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz"
+      tags: [gtk]

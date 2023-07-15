@@ -2,12 +2,17 @@ References to check out:
 - https://github.com/luong-komorebi/Awesome-Linux-Software#audio
   - mortar
 
-
-
-- Make this repo a master workstation repo for all distros
-  - Rename repo
-  - Port ubuntu workstation repo
-  - Make vagrant setup support running different distros from env variable DISTRO (with arch as default)
+Arch
+- Installation
+  - See "arch-install-scripts"
+  - See "archinstall installer"
+  - See "Installation Guide"
+  - See "General Recommendations"
+- How to make Arch as stable as possible (possible pitfalls)
+  - Use time shift to backup?
+  - Limit use of AUR packages (especially *-git packages)
+  - See https://wiki.archlinux.org/title/System_maintenance
+- IRC channels?
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -75,9 +80,6 @@ TODO:
 
 - xterm -- should be installed as base (most WMs use this by default
         and would be good to have as a backup)
-
-- foot -- fallback font (to default) if preferred font is not installed
-
 - region/language -- see base install recommendations
 - bash profile -- how should it be used, best practices
 - sway client focused nord theme colors
@@ -99,9 +101,8 @@ TODO:
 
 - Look into errors from dmesg, sway etc..
 
-- mako -- Wayland notification daemon
 - base -- ensure time-date is set correctly (ntp?)
-. docker -- update collection so it can install on arch
+- docker -- update collection so it can install on arch
 - bootstrap
     - See https://github.com/4km3/archify/blob/master/bootstrap.yml
     - bootstrap a new installation
@@ -109,18 +110,6 @@ TODO:
         - installing base packages
         - setting up encrypted fs
         - etc..
-
-- ranger
-  - learn keybindings
-  - how to integrate dragon-drop?
-  - image preview with kitty when using foot/alacritty as terminal?
-
-- Terminals
- - alacritty
- - kitty
- - foot
-
-- WHY do I have gnome in org.gnome when using gsettings? Is gnome installed?
 
 - Create machine bootstrap playbook for partitioning/setup machine over SSH
 - Go through Arch general recommendations
