@@ -7,63 +7,57 @@
     - config.yml
 
   vars:
-    dependencies:
-      Archlinux:
-        - xorg-xwayland
-        - imagemagick
-        - python
-        - python-pip
-      Fedora:
-        - xorg-x11-server-Xwayland
-        - ImageMagick
-        - python3
-        - python3-pip
-      common:
-        - acpi
-        - alsa-utils
-        - bash
-        - bash-completion
-        - bat
-        - brightnessctl
-        - cargo
-        - cmake
-        - coreutils
-        - curl
-        - doxygen
-        - dunst
-        - fd-find
-        - firefox
-        - flameshot
-        - fzf
-        - git
-        - grim
-        - gzip
-        - htop
-        - jq
-        - lm_sensors
-        - man-db
-        - make
-        - neofetch
-        - npm  # neovim dependency
-        - swaybg
-        - swaylock
-        - swayidle
-        - waybar
-        - wofi
-        - wl-clipboard
-        - wl-randr
-        - # TODO: Need a PDF reader/viewer ... and libreOffice suite?
-        - openssl
-        - nnn
-        - ripgrep
-        - rsync
-        - tar
-        - tldr
-        - tmux
-        - valgrind
-        - vim
-        - unzip
-        - wget
+    dependencies: {
+      Archlinux: [xorg-xwayland, imagemagick, python, python-pip],
+      Fedora: [xorg-x11-server-Xwayland, ImageMagick, python3, python3-pip],
+      common: [
+        acpi,
+        alsa-utils,
+        bash,
+        bash-completion,
+        bat,
+        brightnessctl,
+        cargo,
+        cmake,
+        coreutils,
+        curl,
+        doxygen,
+        dunst,
+        fd-find,
+        firefox,
+        flameshot,
+        fzf,
+        git,
+        grim,
+        gzip,
+        htop,
+        jq,
+        lm_sensors,
+        man-db,
+        make,
+        neofetch,
+        npm,  # neovim dependency
+        swaybg,
+        swaylock,
+        swayidle,
+        waybar,
+        wofi;
+        wl-clipboard,
+        wl-randr,
+        # TODO: Need a PDF reader/viewer ... and libreOffice suite?
+        openssl,
+        nnn,
+        ripgrep,
+        rsync,
+        tar,
+        tldr,
+        tmux,
+        valgrind,
+        vim,
+        unzip,
+        wget
+      ]
+    }
 
   # Pre-tasks {{{
   pre_tasks:
