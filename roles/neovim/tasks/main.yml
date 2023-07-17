@@ -1,5 +1,5 @@
 ---
-- name: "Ensure build dependencies are installed"
+- name: Ensure dependencies are installed
   become: yes
   ansible.builtin.package:
     name: "{{ neovim_build_dependencies[ansible_distribution] }}"

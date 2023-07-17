@@ -2,7 +2,6 @@
 system_packages: {
     Debian: [
       aptitude,
-      #linux-firmware,  # needed?
       build-essential,
       lm-sensors,
       python3,
@@ -15,24 +14,15 @@ system_packages: {
     ],
     Fedora: [
       lm_sensors,
-      glibc, # exists? build-essential?
       python3,
       python3-pip,
       xset,
       xclip,
-      setroubleshoot-server, # For debugging SELinux issues
-      policycoreutils-python-utils, # For debugging SELinux issues
-#      xorg-x11-drv-vesa,  # NEEDED on libvirt guest? and fbdev? and glamor?
-#TODO: check --> dnf group install "Hardware Support"
-# xdg-user-dirs, xdg-user-dirs-gtk??
-# wpa_supplicant
     ],
     common: [
       acpi,
       alsa-utils,
       autorandr,
-      bash,
-      bash-completion,
       bat,
       #brave,
       brightnessctl,

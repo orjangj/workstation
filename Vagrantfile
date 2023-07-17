@@ -3,23 +3,27 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-distro = ENV['VM_DISTRO'] || "fedora"
-playbook = ENV['PLAYBOOK'] || "converge.yml"
+distro = ENV['VM_DISTRO'] || "arch"
+playbook = ENV['PLAYBOOK'] || "hyprland.yml"
 tags = ENV['TAGS'] || "never"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   case distro
   when "arch"
     config.vm.hostname = "arch"
-    config.vm.network :private_network, ip: "192.168.56.21"
+    #config.vm.network :private_network, ip: "192.168.56.21"
     config.vm.define :arch do |arch|
       config.vm.box = "archlinux/archlinux"
     end
+
+    # Ensure python3 is installed before running ansible provisioner
+    config.vm.provision "shell", inline: "pacman -Syy --needed --noconfirm python3"
   when "fedora"
     config.vm.hostname = "fedora"
-    config.vm.network :private_network, ip: "192.168.56.22"
+    #config.vm.network :private_network, ip: "192.168.56.22"
     # NOTE: fedora36+ has a change in how networks are configured
     # Vagrant doesn't seem to support that yet, and as a consequence vagrant
     # is unable to set a static IP... See https://github.com/hashicorp/vagrant/issues/12762
@@ -28,13 +32,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   when "debian"
     config.vm.hostname = "debian"
-    config.vm.network :private_network, ip: "192.168.56.23"
+    #config.vm.network :private_network, ip: "192.168.56.23"
     config.vm.define :debian do |debian|
       config.vm.box = "debian/bullseye64"
     end
   else
     config.vm.hostname = "ubuntu"
-    config.vm.network :private_network, ip: "192.168.56.30"
+    #config.vm.network :private_network, ip: "192.168.56.30"
     config.vm.define :ubuntu do |ubuntu|
       config.vm.box = "ubuntu/jammy64"
     end
@@ -59,14 +63,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.trigger.before :up do |trigger|
     trigger.info = "Initializing graphical console"
     # NOTE: Libvirt creates VM with name corresponding to current working directory + _ + distro name.
-    trigger.run = { inline: "bash -c 'virt-viewer --connect qemu:///system --attach workstation_#{distro} &'" }
+    trigger.run = { inline: "bash -c 'virt-viewer --wait --connect qemu:///system --attach workstation_#{distro} &'" }
+  end
+
+  config.trigger.after :reload do |trigger|
+    trigger.info = "Reconnecting graphical console"
+    # NOTE: Libvirt creates VM with name corresponding to current working directory + _ + distro name.
+    trigger.run = { inline: "bash -c 'virt-viewer --wait --connect qemu:///system --attach workstation_#{distro} &'" }
   end
 
   config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
     ansible.playbook = playbook
     ansible.verbose = "#{ENV['VERBOSE']}"
-    ansible.inventory_path = "vagrant/inventory"
+    #ansible.inventory_path = "vagrant/inventory"
     ansible.tags = tags
   end
 end

@@ -1,0 +1,42 @@
+---
+- name: "partitioning : Ensure dependencies are installed"
+  community.general.pacman:
+    name:
+      - glibc
+      - gptfdisk
+      - btrfs-progs
+
+- name: "partitioning : Gather {{ archiso_partition_device }} device information"
+  community.general.parted:
+    device: "{{ archiso_partition_device }}"
+    unit: MiB
+  register: device_info
+
+- debug:
+    msg: "{{ device_info }}"
+
+- name: "partitioning : User confirmation"
+  pause:
+    prompt: "All partitions from {{ archiso_partition_device }} will be erased. Press 'Enter' to continue or 'ctrl+c' and 'a' to abort"
+
+- name: "partition : Erase all partitions from {{ archiso_partition_device }}"
+  community.general.parted:
+    device: "{{ archiso_partition_device }}"
+    number: "{{ item.num }}"
+    state: absent
+  loop: "{{ device_info }}"
+
+- name: "partition : Create {{ partition.name }} partition"
+  community.general.parted:
+    device: "{{ archiso_partition_device }}"
+    name: "{{ partition.name }}"
+    label: "{{ partition.label }}"
+    number: "{{ partition.number }}"
+    part_start: "{{ partition.start }}"
+    part_end: "{{ partition.end }}"
+    flags: "{{ partition.flags }}"
+    state: present
+  loop: "{{ archiso_partitions }}"
+  loop_control:
+    loop_var: partition
+

@@ -1,0 +1,12 @@
+---
+- name: Ensure bash is installed
+  become: yes
+  ansible.builtin.package:
+    name:
+      - bash
+      - bash-completion
+
+- name: "Ensure bash is set as default shell for user '{{ bash_user }}'"
+  ansible.builtin.user:
+    name: "{{ bash_user }}"
+    shell: /bin/bash

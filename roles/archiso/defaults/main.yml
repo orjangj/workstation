@@ -1,5 +1,5 @@
 ---
-archiso_bootloader: "grub"
+archiso_bootloader: "systemd-boot"
 archiso_username: "archie"
 archiso_userpass: "archie"
 archiso_hostname: "archer"
@@ -39,7 +39,7 @@ archiso_mountpoints:
     partition: "{{ '/dev/mapper/cryptroot' if archiso_encryption_enable else root_part }}"
     fstype: "{{ 'btrfs' if archiso_btrfs_enable else 'ext4' }}"
 
-archiso_rootfs_type: "ext4"
+archiso_rootfs_type: "btrfs"
 archiso_rootfs_encrypted: false
 archiso_rootfs_encryption_password: ""
 

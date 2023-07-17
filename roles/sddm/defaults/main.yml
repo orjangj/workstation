@@ -1,5 +1,5 @@
 ---
 sddm_enable: true
 sddm_dependencies: []
-sddm_configs: []
+sddm_theme: ""
 

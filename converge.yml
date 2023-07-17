@@ -34,6 +34,7 @@
   # Roles {{{
   roles:
     - { role: system, tags: [system] }
+    - { role: bash, tags: [bash] }
     - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
     - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
     - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }

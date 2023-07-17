@@ -1,14 +1,30 @@
 ---
-- name: "Ensure sddm and dependencies are installed"
+- name: Ensure SDDM is installed
   become: yes
   ansible.builtin.package:
     name: "{{ ['sddm'] + sddm_dependencies }}"
 
-- name: Copy configuration files in place
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ ansible_user_dir }}/.config"
-  with_items: "{{ sddm_configs }}"
+- name: Install and configure custom theme
+  become: yes
+  when: sddm_theme
+  block:
+    - name: "Copy {{ sddm_theme | basename }} theme in place"
+      ansible.builtin.copy:  # Use synchronize instead?
+        src: "{{ sddm_theme }}"
+        dest: "/usr/share/sddm/themes/"
+
+    - name: Ensure SDDM config already exist
+      ansible.builtin.copy:
+        src: /usr/lib/sddm/sddm.conf.d/default.conf
+        dest: /etc/sddm.conf
+        force: no
+        remote_src: yes
+
+    - name: "Set {{ sddm_theme | basename }} as current theme"
+      ansible.builtin.lineinfile:
+        dest: /etc/sddm.conf
+        regexp: ^Current=
+        line: "Current={{ sddm_theme | basename }}"
 
 - name: "Ensure sddm is {{ 'enabled' if sddm_enable else 'disabled' }} on boot"
   become: yes

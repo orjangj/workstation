@@ -4,35 +4,22 @@
     msg: "This machine is not booted from the Arch install media!"
   when: ansible_nodename != 'archiso'
 
-# Can this be done with an ansible module?
-- name: Synchronize clock via NTP
-  command: timedatectl set-ntp true
-
-- name: Apply partitioning
+- name: Apply install scripts
   ansible.builtin.include_tasks: partition.yml
-
-- name: Apply encryption
-  ansible.builtin.include_tasks: encryption.yml
-  when: archiso_encryption_enable
-
-- name: Apply filesystem
-  ansible.builtin.include_tasks: filesystem.yml
-
-- name: Apply btrfs
-  ansible.builtin.include_tasks: btrfs.yml
-  when: archiso_btrfs_enable
-
-- name: Apply mountpoints
-  ansible.builtin.include_tasks: mount.yml
-
-- name: Apply pacstrap
-  ansible.builtin.include_tasks: pacstrap.yml
-
-- name: Apply fstab
-  ansible.builtin.include_tasks: fstab.yml
-
-# user, hostname, network, sshd, bootloader,
-  #
+  with_items:
+    - 01-preinstall.yml
+    - partition.yml
+    - encryption.yml  # when archiso_encryption_enable
+    - filesystem.yml
+    - btrfs.yml  # filesystem? when archiso_btrfs_enable?
+    - mount.yml
+    - locale.yml
+    - pacstrap.yml
+    - fstab.yml
+    - user.yml
+    - network.yml
+    - audio.yml
+    - drivers.yml  # network, microcode, bootloader, sshd?
 
 - name: Reboot system
   ansible.builtin.reboot:
