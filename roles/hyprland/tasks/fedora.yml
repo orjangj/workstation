@@ -8,7 +8,7 @@
   ansible.builtin.git:
     repo: https://github.com/hyprwm/Hyprland.git
     depth: 1
-    dest: "{{ neovim_clone_dir }}/hyprland"
+    dest: "{{ hyprland_clone_dir }}/hyprland"
     version: "{{ hyprland_version }}"
   register: clone
 

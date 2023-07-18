@@ -10,8 +10,13 @@ hyprland_dependencies: {
       libgudev-devel,
       libinput-devel,
       libxcb-devel,
+      libxkbcommon-devel,
       libX11-devel,
       libwayland-server,
+      libseat-devel,
+      mesa-libEGL-devel,
+      mesa-libgbm-devel,
+      vulkan-loader-devel,
       pixman-devel,
       wayland-protocols-devel,
       wayland-devel,
@@ -22,6 +27,8 @@ hyprland_dependencies: {
       hwdata-devel,
       libdisplay-info-devel,
       libliftoff-devel,
+      xcb-util-renderutil-devel,
+      xcb-util-wm-devel,
       xorg-x11-server-Xwayland-devel,
       # User specific runtime deps
       swaybg, # look into hyprpaper

@@ -60,16 +60,16 @@
       ansible.builtin.git:
         repo: "{{ item }}"
         depth: 1
-        dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename }}"
+        dest: "{{ ansible_user_dir }}/projects/git"
         version: "master"
         update: false
       with_items:
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
+        - "https://github.com/orjangj/ansible-collection-editors.git"
+        - "https://github.com/orjangj/ansible-collection-virtualization.git"
+        - "https://github.com/orjangj/cookbook.git"
+        - "https://github.com/orjangj/neobuild.git"
+        - "https://github.com/orjangj/neotest-ctest.git"
+        - "https://github.com/orjangj/polar.nvim.git"
       tags: [projects]
 
     - name: Ensure local fonts directory exists
