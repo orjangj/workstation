@@ -7,10 +7,10 @@
     - config.yml
 
   vars:
-    sddm_theme: "{{ playbook_dir }}/files/sddm/Nord"
-    sddm_dependencies:
-      - plasma-framework
-      - plasma-integration
+    #sddm_theme: "{{ playbook_dir }}/files/sddm/Nord"
+    #sddm_dependencies:
+    #  - plasma-framework
+    #  - plasma-integration
     package_dependencies:
       Archlinux:
         - xorg-xwayland
@@ -135,22 +135,6 @@
     #      - python3-python-language-server
     #  tags: [python]
 
-    - name: Clone git projects
-      ansible.builtin.git:
-        repo: "{{ item }}"
-        depth: 1
-        dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename }}"
-        version: "master"
-        update: false
-      with_items:
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
-      tags: [projects]
-
     - name: Ensure local fonts directory exists
       ansible.builtin.file:
         state: directory
@@ -187,3 +171,19 @@
       with_items:
         - "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz"
       tags: [gtk]
+
+    - name: Clone git projects
+      ansible.builtin.git:
+        repo: "{{ item }}"
+        depth: 1
+        dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename }}"
+        version: "master"
+        update: false
+      with_items:
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
+      tags: [projects]
