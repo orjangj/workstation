@@ -29,6 +29,10 @@
         - python-pytest
         - python-pytest-cov
         - fd
+        - sof-firmware
+        - bluez
+        - bluez-utils
+        - prettier
       Fedora:
         - xorg-x11-server-Xwayland
         - ImageMagick
@@ -85,6 +89,7 @@
         - tar
         - tldr
         - tmux
+        - tree
         - valgrind
         - vim
         - unzip
@@ -144,7 +149,7 @@
 
     - name: Install nerdfonts
       ansible.builtin.unarchive:
-        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/{{ item }}.zip"
+        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
         dest: "{{ ansible_user_dir }}/.local/share/fonts"
         remote_src: true
       with_items:
