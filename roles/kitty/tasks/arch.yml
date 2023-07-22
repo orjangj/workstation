@@ -1,6 +1,0 @@
----
-- name: "Ensure kitty is installed"
-  become: yes
-  community.general.pacman:
-    name: kitty
-
