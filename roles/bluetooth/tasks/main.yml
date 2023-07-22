@@ -1,0 +1,11 @@
+---
+- name: Ensure BlueZ and utilities are installed
+  become: yes
+  ansible.builtin.package:
+    name: "{{ bluetooth_packages[ansible_distribution] }}"
+
+- name: Ensure bluetooth service is enabled on boot
+  become: yes
+  ansible.builtin.service:
+    name: bluetooth
+    enabled: yes

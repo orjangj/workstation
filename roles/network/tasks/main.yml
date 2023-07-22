@@ -1,0 +1,19 @@
+---
+- name: Ensure NetworkManager and utilites are installed
+  become: yes
+  ansible.builtin.package:
+    name: "{{ network_packages[ansible_distribution] }}"
+
+- name: Ensure other network managing services are disabled on boot
+  become: yes
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: no
+  with_items:
+    - "systemd-networkd"
+
+- name: Ensure NetworkManager is enabled on boot
+  become: yes
+  ansible.builtin.service:
+    name: NetworkManager
+    enabled: yes

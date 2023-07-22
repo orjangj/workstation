@@ -1,0 +1,11 @@
+bluetooth_packages:
+  Archlinux:
+    - bluez
+    - bluez-utils
+    - bluez-tools
+  Debian:
+    - bluez
+    - bluez-tools
+  Fedora:
+    - bluez
+    - bluez-tools

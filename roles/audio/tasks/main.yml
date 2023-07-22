@@ -1,0 +1,4 @@
+---
+- name: Ensure PipeWire and utilities are installed
+  ansible.builtin.package:
+    name: "{{ audio_packages[ansible_distribution] }}"

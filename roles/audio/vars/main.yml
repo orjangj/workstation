@@ -1,0 +1,21 @@
+audio_packages:
+  Archlinux:
+    - gst-plugin-pipewire
+    - pipewire
+    - pipewire-alsa
+    - pipewire-jack
+    - pipewire-pulse
+    - wireplumber
+  Debian:
+    - gstreamer1.0-pipewire
+    - pipewire
+    - pipewire-alsa
+    - pipewire-pulse
+    - wireplumber
+  Fedora:
+    - pipewire
+    - pipewire-alsa
+    - pipewire-gstreamer
+    - pipewire-plugin-jack
+    - pipewire-pulseaudio
+    - wireplumber
