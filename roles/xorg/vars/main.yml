@@ -1,12 +1,7 @@
-xorg_packages: {
-  Debian: [
-    xorg
-  ],
-  Archlinux: [
-    xorg-server,
-    xorg-xinit
-  ],
-  Fedora: [
-    "@base-x"
-  ]
-  }
+xorg_packages:
+  Archlinux:
+    - xorg
+  Debian:
+    - xorg
+  Fedora:
+    - "@base-x"
