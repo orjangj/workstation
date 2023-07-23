@@ -1,5 +1,0 @@
----
-- name: "Ensure sway and dependencies are installed"
-  become: yes
-  ansible.builtin.package:
-    name: "{{ ['sway'] + sway_extras[ansible_distribution] + sway_extras['Common'] }}"
