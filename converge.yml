@@ -1,111 +1,61 @@
 # vim: set ft=yaml.ansible:
 ---
-- name: Workstation playbook
+- name: Common Workstation
+  gather_facts: false
   hosts: all
 
   vars_files:
-    - config.yml
+    - vars/packagegroups.yml
+    - vars/configs.yml
 
-  # Pre-tasks {{{
   pre_tasks:
-    - name: Arch - Update package cache
-      become: yes
-      community.general.pacman:
-        update_cache: yes
+    - name: Gather facts
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - facter
       tags: [always]
-      when: ansible_os_family == 'Archlinux'
 
-    - name: Debian - Update package cache
-      become: yes
-      ansible.builtin.apt:
-        update_cache: yes
-        cache_valid_time: 3000
-      tags: [always]
-      when: ansible_os_family == 'Debian'
-
-    - name: Fedora - Update package cache
-      become: yes
-      ansible.builtin.dnf:
+    - name: "Ensure package dependencies are installed"
+      become: true
+      ansible.builtin.package:
+        name: "{{ packagegroup[ansible_distribution] + packagegroup.common }}"
         state: present
-        update_cache: yes
-      tags: [always]
-      when: ansible_distribution == 'Fedora'
-  # }}}
-  # Roles {{{
-  roles:
-    - { role: system, tags: [system] }
-    - { role: bash, tags: [bash] }
-    - { role: xorg, tags: [xorg], when: display_server == 'xorg' or 'xorg' in ansible_run_tags }
-    - { role: sddm, tags: [sddm, dm], when: display_manager == 'sddm' or 'sddm' in ansible_run_tags }
-    - { role: awesome, tags: [awesome, wm], when: window_manager == 'awesome' or 'awesome' in ansible_run_tags }
-    - { role: qtile, tags: [qtile, wm], when: window_manager == 'qtile' or 'qtile' in ansible_run_tags }
-    - { role: sway, tags: [sway, wm], when: window_manager == 'sway' or 'sway' in ansible_run_tags }
-    - { role: hyprland, tags: [hyprland, wm], when: window_manager == 'hyprland' or 'hyprland' in ansible_run_tags }
-    - { role: dotfiles, tags: [dotfiles] }
-    - { role: kitty, tags: [kitty, terminal] }
-    - { role: neovim, tags: [neovim, editor], when: editor == 'neovim' or 'neovim' in ansible_run_tags }
-    - { role: wallpaper, tags: [wallpaper] }
-    - { role: stylua, tags: [stylua, neovim] }
-    - { role: lazygit, tags: [lazygit, neovim] }
-    - { role: eww, tags: [eww, wm] }
-  # }}}
-  # Tasks {{{
-  tasks:
-    - name: Install python package dependencies
-      ansible.builtin.pip:
-        name: "{{ pip_install_packages }}"
-      tags: [python]
+      tags: [package]
 
-    - name: Clone git projects
+  roles:
+    - { role: network, tags: network }
+    - { role: bluetooth, tags: bluetooth }
+    - { role: audio, tags: audio }
+    - { role: bash, tags: bash }
+    # - { role: locale, tags: locale }
+    # - { role: sddm, tags: sddm }
+    - { role: neovim, tags: neovim }
+    - { role: nerdfonts, tags: nerdfonts }
+    - { role: lazygit, tags: lazygit }
+    - { role: dotfiles, tags: dotfiles }
+    - { role: wallpaper, tags: wallpaper }
+    - { role: stylua, tags: stylua }
+    - { role: xorg, tags: xorg }
+    - { role: themes, tags: themes }
+    - { role: hyprland, tags: hyprland, when: ansible_distribution == "Fedora" }
+    - { role: waybar, tags: waybar, when: ansible_distribution == "Fedora" }
+
+  tasks:
+    - name: Clone personal git projects
       ansible.builtin.git:
         repo: "{{ item }}"
         depth: 1
-        dest: "{{ ansible_user_dir }}/projects/git"
+        dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename | replace('.git', '') }}"
         version: "master"
         update: false
       with_items:
-        - "https://github.com/orjangj/ansible-collection-editors.git"
-        - "https://github.com/orjangj/ansible-collection-virtualization.git"
-        - "https://github.com/orjangj/cookbook.git"
-        - "https://github.com/orjangj/neobuild.git"
-        - "https://github.com/orjangj/neotest-ctest.git"
-        - "https://github.com/orjangj/polar.nvim.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
+        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
       tags: [projects]
 
-    - name: Ensure local fonts directory exists
-      ansible.builtin.file:
-        state: directory
-        mode: "0755"
-        path: "{{ ansible_user_dir }}/.local/share/fonts"
-      tags: [nerdfonts]
-
-    - name: Install nerdfonts
-      ansible.builtin.unarchive:
-        src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
-        dest: "{{ ansible_user_dir }}/.local/share/fonts"
-        remote_src: true
-      with_items:
-        - FiraCode
-        - FiraMono
-        - Hack
-        - Noto
-        - Ubuntu
-        - UbuntuMono
-      tags: [nerdfonts]
-
-    - name: Ensure local themes directory exists
-      ansible.builtin.file:
-        state: directory
-        mode: "0755"
-        path: "{{ ansible_user_dir }}/.themes"
-      tags: [gtk]
-
-    - name: Install GTK themes
-      ansible.builtin.unarchive:
-        src: "{{ item }}"
-        dest: "{{ ansible_user_dir }}/.themes"
-        remote_src: true
-      with_items:
-        - "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz"
-      tags: [gtk]
   # }}}

@@ -5,6 +5,7 @@
     name:
       - bash
       - bash-completion
+    state: present
 
 - name: "Ensure bash is set as default shell for user '{{ bash_user }}'"
   ansible.builtin.user:

@@ -1,3 +1,4 @@
 ---
-lazygit_version: "latest"
+lazygit_version: "HEAD"
+lazygit_clone_dir: "{{ ansible_user_dir }}/.build"
 

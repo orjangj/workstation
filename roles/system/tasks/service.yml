@@ -1,6 +1,0 @@
-- name: "Ensure services are enabled or disabled"
-  become: yes
-  ansible.builtin.service:
-    name: "{{ item.name }}"
-    enabled: "{{ item.enabled }}"
-  loop: "{{ system_services }}"

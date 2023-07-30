@@ -1,0 +1,7 @@
+lazygit_packages:
+  Archlinux:
+    - go
+  Fedora:
+    - golang
+  Debian:
+    - golang

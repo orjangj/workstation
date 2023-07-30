@@ -1,0 +1,14 @@
+---
+dotfiles_repo: "https://github.com/orjangj/dotfiles.git"
+hyprland_version: "v0.26.0"
+lazygit_version: "v0.39.3"
+neovim_version: "v0.9.0"
+vagrant_plugins:
+  - vagrant-disksize
+  - vagrant-libvirt
+wallpaper_sources:
+  - https://github.com/orjangj/wallpapers
+waybar_version: "0.9.19"
+xorg_configs:
+  - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
+  - "{{ playbook_dir }}/files/xorg/00-keyboard.conf"

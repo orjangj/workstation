@@ -1,9 +1,0 @@
----
-- name: Create FAT32 filesystem in boot partition
-  general.community.filesystem:
-    dev: "{{ boot_part }}"
-    fstype: vfat
-    opts: -F32
-    force: yes
-
-- name: "Create {{ archiso_root_fstype }}"

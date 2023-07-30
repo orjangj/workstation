@@ -3,6 +3,7 @@
   become: yes
   ansible.builtin.package:
     name: "{{ bluetooth_packages[ansible_distribution] }}"
+    state: present
 
 - name: Ensure bluetooth service is enabled on boot
   become: yes

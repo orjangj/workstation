@@ -3,3 +3,4 @@
   become: yes
   ansible.builtin.package:
     name: "{{ eww_packages[ansible_distribution] }}"
+    state: present

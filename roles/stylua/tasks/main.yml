@@ -1,13 +1,12 @@
 ---
-- name: "Ensure stylua is installed (Debian)"
+- name: Ensure local bin directory exist
+  ansible.builtin.file:
+    state: directory
+    mode: "0755"
+    path: "{{ ansible_user_dir }}/.local/bin"
+
+- name: Ensure stylua is installed
   ansible.builtin.unarchive:
     src: "https://github.com/JohnnyMorganz/StyLua/releases/{{ stylua_version }}/download/stylua-linux.zip"
     dest: "{{ ansible_user_dir }}/.local/bin"
     remote_src: yes
-  when: ansible_os_family == 'Debian' or ansible_distribution == 'Fedora'
-
-- name: "Ensure stylua is installed (Arch)"
-  become: yes
-  community.general.pacman:
-    name: stylua
-  when: ansible_os_family == 'Archlinux'

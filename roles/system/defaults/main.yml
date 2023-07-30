@@ -1,8 +1,0 @@
----
-system_backend: "x11"  # x11, wayland or both
-system_hostname: ""
-system_user_name: ""
-system_user_administrator: yes
-system_user_directories: ""  # Relative to users' home directory
-system_user_sshkey_generate: yes
-system_user_sshkey_bits: 2048

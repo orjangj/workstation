@@ -1,6 +1,7 @@
+# vim: set ft=yaml.ansible:
 ---
 - name: "Ensure locales exists"
-  become: yes
+  become: true
   community.general.locale_gen:
     name: "{{ loc }}"
   with_items:

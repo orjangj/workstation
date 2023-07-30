@@ -4,7 +4,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 distro = ENV['VM_DISTRO'] || "arch"
-playbook = ENV['PLAYBOOK'] || "hyprland.yml"
+playbook = ENV['PLAYBOOK'] || "converge.yml"
 tags = ENV['TAGS'] || "never"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|

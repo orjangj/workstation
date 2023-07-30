@@ -3,6 +3,7 @@
   become: yes
   ansible.builtin.package:
     name: "{{ neovim_build_dependencies[ansible_distribution] }}"
+    state: present
 
 - name: Checkout repository
   ansible.builtin.git:

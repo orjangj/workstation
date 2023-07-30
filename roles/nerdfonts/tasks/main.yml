@@ -1,0 +1,19 @@
+# vim: set ft=yaml.ansible:
+---
+- name: Ensure local fonts directory exists
+  ansible.builtin.file:
+    state: directory
+    mode: "0755"
+    path: "{{ ansible_user_dir }}/.local/share/fonts"
+
+- name: Install nerdfonts
+  ansible.builtin.unarchive:
+    src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
+    dest: "{{ ansible_user_dir }}/.local/share/fonts"
+    remote_src: true
+  with_items:
+    - Hack
+    - Noto
+    - Ubuntu
+    - UbuntuMono
+  tags: [nerdfonts]

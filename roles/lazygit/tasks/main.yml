@@ -1,8 +1,27 @@
 ---
-- name: Apply Debian install method
-  ansible.builtin.include_tasks: debian.yml
-  when: ansible_os_family == 'Debian' or ansible_distribution == 'Fedora'
+- name: Ensure dependencies are installed
+  become: yes
+  ansible.builtin.package:
+    name: "{{ lazygit_packages[ansible_distribution] }}"
+  register: dependencies
 
-- name: Apply Arch install method
-  ansible.builtin.include_tasks: arch.yml
-  when: ansible_os_family == 'Archlinux'
+- name: Checkout repository
+  ansible.builtin.git:
+    repo: https://github.com/jesseduffield/lazygit.git
+    depth: 1
+    dest: "{{ lazygit_clone_dir }}/lazygit"
+    version: "{{ lazygit_version }}"
+  register: clone
+
+- name: Compile
+  ansible.builtin.command:
+    chdir: "{{ lazygit_clone_dir }}/lazygit"
+    cmd: "go build"
+  register: compile
+  when: clone.changed or dependencies.changed
+
+- name: Install
+  ansible.builtin.command:
+    chdir: "{{ lazygit_clone_dir }}/lazygit"
+    cmd: "go install"
+  when: compile.changed
