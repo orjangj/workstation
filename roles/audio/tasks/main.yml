@@ -1,5 +1,6 @@
 ---
 - name: Ensure PipeWire and utilities are installed
+  become: true
   ansible.builtin.package:
     name: "{{ audio_packages[ansible_distribution] }}"
     state: present

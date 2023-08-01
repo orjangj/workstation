@@ -19,6 +19,7 @@ packagegroup:
     - python-pytest
     - python-pytest-cov
     - fd
+    - pacman-contrib
     - polkit
     - prettier
     - github-cli

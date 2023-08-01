@@ -1,0 +1,3 @@
+---
+libvirt_user: "{{ ansible_user_id }}"
+libvirt_hypervisor: "kvm"

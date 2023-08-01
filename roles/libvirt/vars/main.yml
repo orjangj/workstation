@@ -1,0 +1,15 @@
+---
+libvirt_packages:
+  Archlinux:
+    - bridge-utils
+    - dnsmasq
+    - libvirt
+    - openbsd-netcat
+    - virt-manager
+    - virt-viewer
+    - qemu
+  Debian:
+    - libvirt-daemon-system
+    - qemu-system
+  Fedora:
+    - "@virtualization"

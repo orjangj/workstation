@@ -3,7 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-distro = ENV['VM_DISTRO'] || "arch"
+distro = ENV['VM_DISTRO'] || "fedora"
 playbook = ENV['PLAYBOOK'] || "converge.yml"
 tags = ENV['TAGS'] || "never"
 
@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   case distro
-  when "arch"
+  when "archlinux"
     config.vm.hostname = "arch"
     #config.vm.network :private_network, ip: "192.168.56.21"
     config.vm.define :arch do |arch|
@@ -21,6 +21,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Ensure python3 is installed before running ansible provisioner
     config.vm.provision "shell", inline: "pacman -Syy --needed --noconfirm python3"
+  when "debian"
+    config.vm.hostname = "debian"
+    #config.vm.network :private_network, ip: "192.168.56.23"
+    config.vm.define :debian do |debian|
+      config.vm.box = "debian/bookworm64"
+    end
   when "fedora"
     config.vm.hostname = "fedora"
     #config.vm.network :private_network, ip: "192.168.56.22"
@@ -28,19 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Vagrant doesn't seem to support that yet, and as a consequence vagrant
     # is unable to set a static IP... See https://github.com/hashicorp/vagrant/issues/12762
     config.vm.define :fedora do |fedora|
-      config.vm.box = "generic/fedora35"
-    end
-  when "debian"
-    config.vm.hostname = "debian"
-    #config.vm.network :private_network, ip: "192.168.56.23"
-    config.vm.define :debian do |debian|
-      config.vm.box = "debian/bullseye64"
-    end
-  else
-    config.vm.hostname = "ubuntu"
-    #config.vm.network :private_network, ip: "192.168.56.30"
-    config.vm.define :ubuntu do |ubuntu|
-      config.vm.box = "ubuntu/jammy64"
+      config.vm.box = "fedora/38-cloud-base"
     end
   end
 

@@ -1,0 +1,19 @@
+---
+- name: Ensure libvirt packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ libvirt_packages[ansible_distribution] }}"
+    state: present
+
+- name: Ensure libvirt daemon is enabled on boot
+  become: true
+  ansible.builtin.service:
+    name: libvirtd
+    enabled: true
+
+- name: "Ensure {{ libvirt_user }} is added to libvirt group"
+  become: true
+  ansible.builtin.user:
+    name: "{{ libvirt_user }}"
+    groups: libvirt
+    append: yes
