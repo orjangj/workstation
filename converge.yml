@@ -45,18 +45,18 @@
   tasks:
     - name: Clone personal git projects
       ansible.builtin.git:
-        repo: "{{ item }}"
+        repo: "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}{{ item }}"
         depth: 1
         dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename | replace('.git', '') }}"
         version: "master"
         update: false
       with_items:
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-editors.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/ansible-collection-virtualization.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/cookbook.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neobuild.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/neotest-ctest.git"
-        - "{{ 'https://github.com/' if ansible_user_id == 'vagrant' else 'git@github.com:' }}orjangj/polar.nvim.git"
+        - "orjangj/ansible-collection-editors.git"
+        - "orjangj/ansible-collection-virtualization.git"
+        - "orjangj/cookbook.git"
+        - "orjangj/neobuild.git"
+        - "orjangj/neotest-ctest.git"
+        - "orjangj/polar.nvim.git"
       tags: [projects]
 
   # }}}

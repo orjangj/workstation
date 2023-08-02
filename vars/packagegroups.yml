@@ -115,3 +115,4 @@ packagegroup:
     - rofi
     - i3lock
     - autorandr
+    - vagrant
