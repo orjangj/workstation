@@ -12,6 +12,7 @@ packagegroup:
     - molecule
     - neovim
     - lm_sensors
+    - linux-firmware
     - firefox
     - molecule-plugins
     - python-neovim
@@ -33,6 +34,7 @@ packagegroup:
     - python3-pytest-cov
     - python3-serial
     - firefox-esr
+    - firmware-linux
     - python3-setuptools
     - ansible-lint
     - black
@@ -53,6 +55,7 @@ packagegroup:
     - black
     - firefox
     - lm_sensors
+    - linux-firmware
     - python3-flake8
     - python3-docker
     - python3-molecule
