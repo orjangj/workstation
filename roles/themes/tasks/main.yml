@@ -1,14 +1,18 @@
 ---
-- name: Ensure local themes directory exists
+- name: Ensure local directories exist
   ansible.builtin.file:
     state: directory
     mode: "0755"
-    path: "{{ ansible_user_dir }}/.themes"
+    path: "{{ ansible_user_dir }}/{{ item }}"
+  with_items:
+    - ".themes"
+    - ".icons"
 
-- name: Install GTK themes
+- name: Install themes
   ansible.builtin.unarchive:
-    src: "{{ item }}"
-    dest: "{{ ansible_user_dir }}/.themes"
+    src: "{{ item.src }}"
+    dest: "{{ ansible_user_dir }}/{{ item.dest }}"
     remote_src: true
   with_items:
-    - "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz"
+    - { src: "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz", dest: ".themes" }
+    - { src: "https://github.com/alvatip/Nordzy-cursors/releases/download/v0.6.0/Nordzy-cursors.tar.gz", dest: ".icons"}
