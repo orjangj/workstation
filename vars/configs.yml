@@ -8,7 +8,7 @@ vagrant_plugins:
   - vagrant-libvirt
 wallpaper_sources:
   - https://github.com/orjangj/wallpapers
-#waybar_version: "0.9.19"  # >0.9.19 now available on Fedora 38 (needed for Hyprland features)
+waybar_version: "0.9.22"
 xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
   - "{{ playbook_dir }}/files/xorg/00-keyboard.conf"

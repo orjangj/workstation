@@ -40,7 +40,7 @@
     - { role: xorg, tags: xorg }
     - { role: themes, tags: themes }
     - { role: hyprland, tags: hyprland, when: ansible_distribution == "Fedora" }
-    # - { role: waybar, tags: waybar, when: ansible_distribution == "Fedora" }
+    - { role: waybar, tags: waybar, when: ansible_distribution == "Fedora" }
 
   tasks:
     - name: Clone personal git projects
