@@ -68,6 +68,9 @@ packagegroup:
     - fd-find
     - polkit
     - gh
+    - cppcheck
+    - flawfinder
+    - xset
     # missing
     # - prettier
   common:
@@ -119,3 +122,4 @@ packagegroup:
     - i3lock
     - autorandr
     - vagrant
+    - openocd
