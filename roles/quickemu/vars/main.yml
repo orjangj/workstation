@@ -1,0 +1,22 @@
+quickemu_dependencies: {
+    Fedora: [
+      bash,
+      coreutils,
+      edk2-tools,
+      grep,
+      jq,
+      lsb,
+      procps,
+      python3,
+      genisoimage,
+      usbutils,
+      util-linux,
+      sed,
+      spice-gtk-tools,
+      swtpm,
+      wget,
+      xdg-user-dirs,
+      xrandr,
+      unzip
+    ],
+  }
