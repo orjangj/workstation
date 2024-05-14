@@ -3,7 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-distro = ENV['VM_DISTRO'] || "debian"
+distro = ENV['VM_DISTRO'] || "fedora"
 playbook = ENV['PLAYBOOK'] || "converge.yml"
 tags = ENV['TAGS'] || "never"
 

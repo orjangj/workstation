@@ -24,6 +24,7 @@ packagegroup:
     - polkit
     - prettier
     - github-cli
+    - tokei
   Debian:
     - xwayland
     - imagemagick
@@ -46,6 +47,7 @@ packagegroup:
     # missing
     #- python3-molecule and friends
     #- prettier
+    #- tokei
   Fedora:
     - xorg-x11-server-Xwayland
     - ImageMagick
@@ -56,6 +58,7 @@ packagegroup:
     - firefox
     - lm_sensors
     - linux-firmware
+    - libvirt-devel
     - python3-flake8
     - python3-docker
     - python3-molecule
@@ -70,6 +73,7 @@ packagegroup:
     - gh
     - cppcheck
     - flawfinder
+    - tokei
     - xset
     # missing
     # - prettier
