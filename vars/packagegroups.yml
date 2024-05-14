@@ -75,6 +75,7 @@ packagegroup:
     - flawfinder
     - tokei
     - xset
+    - compat-lua-devel # Neovim: luarocks.nvim
     # missing
     # - prettier
   common:
