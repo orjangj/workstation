@@ -18,11 +18,11 @@
     chdir: "{{ neovim_clone_dir }}/neovim"
     params:
       CMAKE_BUILD_TYPE: RelWithDebInfo
+      CMAKE_INSTALL_PREFIX: "{{ ansible_user_dir }}/.local"
   register: compile
   when: clone.changed
 
 - name: Install
-  become: yes
   community.general.make:
     chdir: "{{ neovim_clone_dir }}/neovim"
     target: "install"

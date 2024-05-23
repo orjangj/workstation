@@ -2,7 +2,7 @@
 dotfiles_repo: "https://github.com/orjangj/dotfiles.git"
 hyprland_version: "v0.27.2"
 lazygit_version: "v0.40.2"
-neovim_version: "v0.9.4"
+neovim_version: "v0.10.0"
 vagrant_plugins:
   - vagrant-disksize
   - vagrant-libvirt
