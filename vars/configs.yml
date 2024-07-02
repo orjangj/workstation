@@ -12,4 +12,5 @@ waybar_version: "0.9.22"
 xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
   - "{{ playbook_dir }}/files/xorg/00-keyboard.conf"
-quickemu_version: "4.9.1"
+quickemu_version: "4.9.5"
+renode_version: "1.15.1"

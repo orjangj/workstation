@@ -1,22 +1,24 @@
-quickemu_dependencies: {
-    Fedora: [
-      bash,
-      coreutils,
-      edk2-tools,
-      grep,
-      jq,
-      lsb,
-      procps,
-      python3,
-      genisoimage,
-      usbutils,
-      util-linux,
-      sed,
-      spice-gtk-tools,
-      swtpm,
-      wget,
-      xdg-user-dirs,
-      xrandr,
-      unzip
-    ],
-  }
+quickemu_dependencies:
+  Fedora:
+    - bash
+    - coreutils
+    - curl
+    - edk2-tools
+    - genisoimage
+    - grep
+    - jq
+    - mesa-demos
+    - pciutils
+    - procps
+    - python3
+    - qemu
+    - sed
+    - socat
+    - spice-gtk-tools
+    - swtpm
+    - unzip
+    - usbutils
+    - util-linux
+    - xdg-user-dirs
+    - xrandr
+    #- zsync  # Not available on fedora (maybe copr)

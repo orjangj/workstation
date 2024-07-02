@@ -17,6 +17,6 @@ audio_packages:
     - pipewire
     - pipewire-alsa
     - pipewire-gstreamer
-    #- pipewire-plugin-jack  # results in conflict?
+    # - pipewire-plugin-jack  # results in conflict?
     - pipewire-pulseaudio
     - wireplumber

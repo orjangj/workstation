@@ -14,5 +14,6 @@
     dest: "{{ ansible_user_dir }}/{{ item.dest }}"
     remote_src: true
   with_items:
+    - { src: "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic.tar.xz", dest: ".themes" }
     - { src: "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz", dest: ".themes" }
-    - { src: "https://github.com/alvatip/Nordzy-cursors/releases/download/v0.6.0/Nordzy-cursors.tar.gz", dest: ".icons"}
+    - { src: "https://github.com/alvatip/Nordzy-cursors/releases/download/1.0.0/Nordzy-cursors.tar.gz", dest: ".icons"}

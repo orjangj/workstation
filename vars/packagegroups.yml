@@ -89,6 +89,7 @@ packagegroup:
     - cmake
     - coreutils
     - curl
+    - direnv
     - doxygen
     - dunst
     - flameshot

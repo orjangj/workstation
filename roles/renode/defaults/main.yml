@@ -1,0 +1,4 @@
+---
+renode_version: "1.15.1"
+renode_install_dir: "{{ ansible_user_dir }}/.build/renode"
+renode_download_url: "https://github.com/renode/renode/releases/download"
