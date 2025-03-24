@@ -1,8 +1,0 @@
----
-- name: Apply Arch install method
-  ansible.builtin.include_tasks: arch.yml
-  when: ansible_os_family == 'Archlinux'
-
-- name: Apply Fedora install method
-  ansible.builtin.include_tasks: fedora.yml
-  when: ansible_distribution == 'Fedora'

@@ -1,4 +1,0 @@
----
-waybar_version: "HEAD"  # branch, tag, commit, HEAD (latest)
-waybar_clone_dir: "{{ ansible_user_dir }}/.build"
-

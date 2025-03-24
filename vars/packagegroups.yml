@@ -8,6 +8,9 @@ packagegroup:
     - ansible-lint
     - python-black
     - flake8
+    - hyprland
+    - hypridle
+    - hyprlock
     - python-docker
     - molecule
     - neovim
@@ -56,14 +59,14 @@ packagegroup:
     - python3-ansible-lint
     - black
     - firefox
+    - hyprland
+    - hypridle
+    - hyprlock
     - lm_sensors
     - linux-firmware
     - libvirt-devel
     - python3-flake8
     - python3-docker
-    - python3-molecule
-    - python3-molecule-docker
-    - python3-molecule-podman
     - python3-neovim
     - python3-pyserial
     - python3-pytest
@@ -94,6 +97,7 @@ packagegroup:
     - dunst
     - flameshot
     - fzf
+    - gcovr
     - git
     - grim
     - gzip

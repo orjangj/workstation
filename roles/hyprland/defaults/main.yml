@@ -1,4 +1,0 @@
----
-hyprland_version: "HEAD"  # branch, tag, commit, HEAD (latest)
-hyprland_clone_dir: "{{ ansible_user_dir }}/.build"
-
