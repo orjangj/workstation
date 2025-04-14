@@ -117,6 +117,8 @@ packagegroup:
     - nnn
     - ripgrep
     - rsync
+    - slurp
+    - swappy
     - tar
     - tldr
     - tmux
