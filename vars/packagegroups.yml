@@ -136,3 +136,4 @@ packagegroup:
     - vagrant
     - openocd
     - foot
+    - foot-terminfo
