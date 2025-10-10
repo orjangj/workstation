@@ -137,3 +137,4 @@ packagegroup:
     - openocd
     - foot
     - foot-terminfo
+    - network-manager-applet
