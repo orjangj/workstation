@@ -39,7 +39,6 @@
     - { role: stylua, tags: stylua }
     - { role: xorg, tags: xorg }
     - { role: themes, tags: themes }
-    - { role: quickemu, tags: quickemu, when: ansible_distribution == "Fedora" }
     - { role: renode, tags: renode }
 
   tasks:

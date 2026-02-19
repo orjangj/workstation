@@ -10,5 +10,4 @@ wallpaper_sources:
 xorg_configs:
   - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
   - "{{ playbook_dir }}/files/xorg/00-keyboard.conf"
-quickemu_version: "4.9.7"
 renode_version: "1.15.1"
