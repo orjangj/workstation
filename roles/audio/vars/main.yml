@@ -7,12 +7,6 @@ audio_packages:
     - pipewire-pulse
     - wireplumber
     - sof-firmware  # TODO: This is only for intel right?
-  Debian:
-    - gstreamer1.0-pipewire
-    - pipewire
-    - pipewire-alsa
-    - pipewire-pulse
-    - wireplumber
   Fedora:
     - pipewire
     - pipewire-alsa

@@ -19,10 +19,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     # Ensure python3 is installed before running ansible provisioner
     config.vm.provision "shell", inline: "pacman -Syy --needed --noconfirm python3"
-  when "debian"
-    config.vm.define :debian do |debian|
-      config.vm.box = "debian/bookworm64"
-    end
   when "fedora"
     config.vm.define :fedora do |fedora|
       config.vm.box = "fedora/38-cloud-base"

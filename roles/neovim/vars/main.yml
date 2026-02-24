@@ -1,19 +1,4 @@
 neovim_build_dependencies: {
-  Debian: [
-    autoconf,
-    automake,
-    cmake,
-    curl,
-    doxygen,
-    gettext,
-    g++,
-    git,
-    libtool,
-    libtool-bin,
-    ninja-build,
-    pkg-config,
-    unzip
-  ],
   Archlinux: [
     base-devel,
     cmake,

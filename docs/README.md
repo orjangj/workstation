@@ -33,8 +33,6 @@ Common:
 
 ## Distributions
 
-### Debian
-
 ### Fedora
 
 ### Arch Linux

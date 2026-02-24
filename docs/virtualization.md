@@ -49,14 +49,7 @@ sudo dnf install @virtualization  # Mandatory and default packages
 sudo dnf group install --with-optional virtualization  # With optional packages included
 ```
 
-On Debian/Ubuntu, you'll have to pick the preferred packages personally (preferably precisely, and
-possibly perfectly):
-
-```bash
-sudo apt-get install virt-manager libvirt-bin qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
-```
-
-And on Arch Linux:
+On Arch Linux:
 
 ```bash
 sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat ebtables iptables

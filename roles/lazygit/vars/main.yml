@@ -3,5 +3,3 @@ lazygit_packages:
     - go
   Fedora:
     - golang
-  Debian:
-    - golang
