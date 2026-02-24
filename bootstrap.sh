@@ -1,6 +1,6 @@
 #!/bin/bash
 
-distro=$(uname -a | awk '{print $2}')
+distro=$(. /etc/os-release && echo "$ID")
 
 case $distro in
   archlinux)
