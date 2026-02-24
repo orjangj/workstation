@@ -30,7 +30,7 @@
     - { role: bash, tags: bash }
     - { role: libvirt, tags: [libvirt, virtualization] }
     # - { role: locale, tags: locale }
-    # - { role: sddm, tags: sddm }
+
     - { role: neovim, tags: neovim }
     - { role: nerdfonts, tags: nerdfonts }
     - { role: lazygit, tags: lazygit }

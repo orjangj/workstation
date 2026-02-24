@@ -25,7 +25,6 @@ Options:
 
 Common:
 - lightdm
-- sddm
 - gdm
 
 ### Desktop Environment & Window Manager
