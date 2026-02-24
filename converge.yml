@@ -37,7 +37,6 @@
     - { role: dotfiles, tags: dotfiles }
     - { role: wallpaper, tags: wallpaper }
     - { role: stylua, tags: stylua }
-    - { role: xorg, tags: xorg }
     - { role: themes, tags: themes }
     - { role: renode, tags: renode }
 

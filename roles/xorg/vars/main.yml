@@ -1,7 +1,0 @@
-xorg_packages:
-  Archlinux:
-    - xorg
-  Debian:
-    - xorg
-  Fedora:
-    - "@base-x"

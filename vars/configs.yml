@@ -7,7 +7,4 @@ vagrant_plugins:
   - vagrant-libvirt
 wallpaper_sources:
   - https://github.com/orjangj/wallpapers
-xorg_configs:
-  - "{{ playbook_dir }}/files/xorg/40-libinput.conf"
-  - "{{ playbook_dir }}/files/xorg/00-keyboard.conf"
 renode_version: "1.15.1"

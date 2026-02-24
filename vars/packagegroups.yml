@@ -77,14 +77,12 @@ packagegroup:
     - cppcheck
     - flawfinder
     - tokei
-    - xset
     - compat-lua-devel # Neovim: luarocks.nvim
     # missing
     # - prettier
   common:
     - acpi
     - alsa-utils
-    - awesome
     - bat
     - brightnessctl
     - btop
@@ -95,7 +93,6 @@ packagegroup:
     - direnv
     - doxygen
     - dunst
-    - flameshot
     - fzf
     - gcovr
     - git
@@ -129,10 +126,6 @@ packagegroup:
     - unzip
     - wget
     - zathura
-    - picom
-    - rofi
-    - i3lock
-    - autorandr
     - vagrant
     - openocd
     - foot
