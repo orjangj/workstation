@@ -11,6 +11,8 @@ packagegroup:
     - hyprland
     - hypridle
     - hyprlock
+    - qt5-wayland
+    - qt6-wayland
     - python-docker
     - molecule
     - neovim
@@ -62,6 +64,8 @@ packagegroup:
     - hyprland
     - hypridle
     - hyprlock
+    - qt5-qtwayland
+    - qt6-qtwayland
     - lm_sensors
     - linux-firmware
     - libvirt-devel
@@ -105,8 +109,6 @@ packagegroup:
     - fastfetch
     - npm
     - swaybg
-    - swaylock
-    - swayidle
     - waybar
     - wofi
     - wl-clipboard
@@ -133,3 +135,4 @@ packagegroup:
     - network-manager-applet
     - quickemu
     - pavucontrol
+    - xdg-desktop-portal-hyprland
