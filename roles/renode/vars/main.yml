@@ -1,10 +1,17 @@
 renode_dependencies:
+  Archlinux:
+    - mono
+    - gtk-sharp-2
+    - polkit
+    - screen
+    - gcc
+    - python
+    - python-pip
   Fedora:
     - mono-complete
     - polkit
     - gtk2
     - screen
-    #- uml-utilities  # Does not exist (alternative?)
     - gtk-sharp2
     - glibc-devel
     - gcc
