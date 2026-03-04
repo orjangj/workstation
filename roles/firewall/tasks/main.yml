@@ -1,0 +1,12 @@
+---
+- name: Ensure firewalld is installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ firewall_packages[ansible_distribution] }}"
+    state: present
+
+- name: Ensure firewalld is enabled on boot
+  become: true
+  ansible.builtin.service:
+    name: firewalld
+    enabled: true

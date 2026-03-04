@@ -1,0 +1,6 @@
+---
+firewall_packages:
+  Archlinux:
+    - firewalld
+  Fedora:
+    - firewalld
