@@ -11,7 +11,11 @@
     mode: "0755"
     path: "{{ renode_install_dir }}"
 
-# TODO: Might want to split this into two separate tasks to avoid downloading the archive on each invocation
+- name: Check if renode is already installed
+  ansible.builtin.stat:
+    path: "{{ renode_install_dir }}/renode"
+  register: renode_binary
+
 - name: "Download renode v{{ renode_version }}"
   ansible.builtin.unarchive:
     src: "{{ renode_download_url }}/v{{ renode_version }}/renode-{{ renode_version }}.linux-portable.tar.gz"
@@ -19,7 +23,7 @@
     remote_src: true
     extra_opts:
       - --strip-components=1
-  register: download
+  when: not renode_binary.stat.exists
 
 - name: Create symbolic link for executables
   ansible.builtin.file:
@@ -29,4 +33,3 @@
   loop:
     - renode
     - renode-test
-  when: download.changed

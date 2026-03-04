@@ -6,6 +6,11 @@
     mode: "0755"
     path: "{{ ansible_user_dir }}/.local/share/fonts"
 
+- name: Check if nerdfonts are already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.local/share/fonts/HackNerdFont-Regular.ttf"
+  register: nerdfonts_installed
+
 - name: Install nerdfonts
   ansible.builtin.unarchive:
     src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
@@ -16,4 +21,5 @@
     - Noto
     - Ubuntu
     - UbuntuMono
+  when: not nerdfonts_installed.stat.exists
   tags: [nerdfonts]
