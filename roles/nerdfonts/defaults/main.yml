@@ -1,7 +1,10 @@
 ---
 nerdfonts_version: "latest"
 nerdfonts_families:
+  - CascadiaCode
+  - FiraCode
   - Hack
+  - JetBrainsMono
   - Noto
   - Ubuntu
   - UbuntuMono
