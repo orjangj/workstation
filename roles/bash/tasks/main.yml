@@ -9,6 +9,7 @@
     state: present
 
 - name: "Ensure bash is set as default shell for user '{{ bash_user }}'"
+  become: true
   ansible.builtin.user:
     name: "{{ bash_user }}"
     shell: /bin/bash
