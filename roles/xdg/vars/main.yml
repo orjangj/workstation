@@ -1,0 +1,14 @@
+---
+xdg_packages:
+  Archlinux:
+    - xdg-desktop-portal
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-hyprland
+    - xdg-user-dirs
+    - xdg-utils
+  Fedora:
+    - xdg-desktop-portal
+    - xdg-desktop-portal-gtk
+    - xdg-desktop-portal-hyprland
+    - xdg-user-dirs
+    - xdg-utils

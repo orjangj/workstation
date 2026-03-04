@@ -1,0 +1,11 @@
+---
+- name: Ensure XDG packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ xdg_packages[ansible_distribution] }}"
+    state: present
+
+- name: Ensure XDG user directories are created
+  ansible.builtin.command:
+    cmd: xdg-user-dirs-update
+    creates: "{{ ansible_user_dir }}/.config/user-dirs.dirs"
