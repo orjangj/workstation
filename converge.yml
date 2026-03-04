@@ -13,7 +13,7 @@
       ansible.builtin.setup:
         gather_subset:
           - '!all'
-          - facter
+          - min
       tags: [always]
 
     - name: "Ensure package dependencies are installed"
