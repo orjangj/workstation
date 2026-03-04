@@ -30,6 +30,7 @@
     - { role: audio, tags: audio }
     - { role: gpu, tags: gpu }
     - { role: firewall, tags: firewall }
+    - { role: storage, tags: storage }
     - { role: bash, tags: bash }
     - { role: libvirt, tags: [libvirt, virtualization] }
     - { role: neovim, tags: neovim }

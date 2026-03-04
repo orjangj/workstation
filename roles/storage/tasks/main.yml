@@ -1,0 +1,31 @@
+---
+- name: Ensure fstrim timer is enabled
+  become: true
+  ansible.builtin.service:
+    name: fstrim.timer
+    enabled: true
+
+- name: Ensure zram-generator is installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ storage_zram_packages[ansible_distribution] }}"
+    state: present
+
+# Fedora ships zram-generator-defaults with a working config out of the box.
+# Arch does not include any config, so zram-generator does nothing without one.
+- name: Configure zram
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/systemd/zram-generator.conf
+    mode: "0644"
+    content: |
+      [zram0]
+      zram-size = min(ram, 8192)
+  when: ansible_distribution == "Archlinux"
+
+- name: Ensure systemd-zram-setup@zram0 is enabled
+  become: true
+  ansible.builtin.service:
+    name: systemd-zram-setup@zram0
+    enabled: true
+  when: ansible_distribution == "Archlinux"

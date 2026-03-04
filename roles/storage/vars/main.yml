@@ -1,0 +1,7 @@
+---
+storage_zram_packages:
+  Archlinux:
+    - zram-generator
+  Fedora:
+    - zram-generator
+    - zram-generator-defaults
