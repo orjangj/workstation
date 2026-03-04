@@ -14,6 +14,7 @@
         gather_subset:
           - '!all'
           - min
+          - hardware
       tags: [always]
 
     - name: "Ensure package dependencies are installed"
@@ -27,15 +28,19 @@
     - { role: network, tags: network }
     - { role: bluetooth, tags: bluetooth }
     - { role: audio, tags: audio }
+    - { role: gpu, tags: gpu }
+    - { role: firewall, tags: firewall }
     - { role: bash, tags: bash }
     - { role: libvirt, tags: [libvirt, virtualization] }
     - { role: neovim, tags: neovim }
     - { role: nerdfonts, tags: nerdfonts }
     - { role: lazygit, tags: lazygit }
     - { role: dotfiles, tags: dotfiles }
-    - { role: wallpaper, tags: wallpaper }
     - { role: stylua, tags: stylua }
-    - { role: themes, tags: themes }
+    - { role: theming, tags: theming }
+    - { role: polkit, tags: polkit }
+    - { role: xdg, tags: xdg }
+    - { role: sddm, tags: sddm }
     - { role: renode, tags: renode }
 
   tasks:

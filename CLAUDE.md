@@ -49,7 +49,7 @@ vagrant destroy
 
 ### Roles
 
-Each role lives in `roles/<name>/` with standard Ansible structure (`tasks/main.yml`, optional `defaults/` and `vars/`). Active roles in the playbook: network, bluetooth, audio, bash, libvirt, neovim, nerdfonts, lazygit, dotfiles, wallpaper, stylua, themes, renode.
+Each role lives in `roles/<name>/` with standard Ansible structure (`tasks/main.yml`, optional `defaults/` and `vars/`). Active roles in the playbook: network, bluetooth, audio, gpu, firewall, bash, libvirt, neovim, nerdfonts, lazygit, dotfiles, stylua, theming, polkit, xdg, sddm, renode.
 
 ### Key Patterns
 
