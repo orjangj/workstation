@@ -1,10 +1,10 @@
 ---
 dotfiles_repo: "https://github.com/orjangj/dotfiles.git"
-lazygit_version: "v0.40.2"
-neovim_version: "v0.10.0"
+lazygit_version: "v0.59.0"
+neovim_version: "v0.11.6"
 vagrant_plugins:
   - vagrant-disksize
   - vagrant-libvirt
 wallpaper_sources:
   - https://github.com/orjangj/wallpapers
-renode_version: "1.15.1"
+renode_version: "1.16.1"
