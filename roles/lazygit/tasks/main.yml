@@ -2,7 +2,8 @@
 - name: Ensure dependencies are installed
   become: yes
   ansible.builtin.package:
-    name: "{{ lazygit_packages[ansible_distribution] }}"
+    name: "{{ lazygit_packages[ansible_distribution] }}"
+    state: present
   register: dependencies
 
 - name: Checkout repository

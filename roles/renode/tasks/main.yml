@@ -3,6 +3,7 @@
   become: true
   ansible.builtin.package:
     name: "{{ renode_dependencies[ansible_distribution] }}"
+    state: present
 
 - name: Ensure renode install directory exists
   ansible.builtin.file:
