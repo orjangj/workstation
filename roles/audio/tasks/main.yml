@@ -4,3 +4,12 @@
   ansible.builtin.package:
     name: "{{ audio_packages[ansible_distribution] }}"
     state: present
+
+- name: Ensure Intel audio firmware is installed
+  become: true
+  ansible.builtin.package:
+    name: sof-firmware
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - "'GenuineIntel' in ansible_processor"

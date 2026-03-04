@@ -6,7 +6,6 @@ audio_packages:
     - pipewire-jack
     - pipewire-pulse
     - wireplumber
-    - sof-firmware  # TODO: This is only for intel right?
   Fedora:
     - pipewire
     - pipewire-alsa
