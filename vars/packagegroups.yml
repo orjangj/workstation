@@ -15,20 +15,19 @@ packagegroup:
     - qt6-wayland
     - python-docker
     - molecule
-    - neovim
     - lm_sensors
     - linux-firmware
     - firefox
     - molecule-plugins
-    - python-neovim
     - python-pyserial
     - python-pytest
     - python-pytest-cov
     - fd
     - pacman-contrib
-    - polkit
+    - pciutils
     - prettier
     - github-cli
+    - hyprpaper
     - tokei
   Fedora:
     - xorg-x11-server-Xwayland
@@ -45,25 +44,21 @@ packagegroup:
     - qt6-qtwayland
     - lm_sensors
     - linux-firmware
-    - libvirt-devel
     - python3-flake8
     - python3-docker
-    - python3-neovim
     - python3-pyserial
     - python3-pytest
     - python3-pytest-cov
     - fd-find
-    - polkit
     - gh
     - cppcheck
     - flawfinder
     - tokei
-    - compat-lua-devel # Neovim: luarocks.nvim
+    - hyprpaper
     # missing
     # - prettier
   common:
     - acpi
-    - alsa-utils
     - bat
     - brightnessctl
     - btop
@@ -109,7 +104,4 @@ packagegroup:
     - openocd
     - foot
     - foot-terminfo
-    - network-manager-applet
     - quickemu
-    - pavucontrol
-    - xdg-desktop-portal-hyprland

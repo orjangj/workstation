@@ -1,27 +1,27 @@
-neovim_build_dependencies: {
-  Archlinux: [
-    base-devel,
-    cmake,
-    curl,
-    git,
-    ninja,
-    tree-sitter,
-    unzip
-  ],
-  Fedora: [
-    autoconf,
-    automake,
-    cmake,
-    curl,
-    gcc,
-    gcc-c++,
-    gettext,
-    git,
-    libtool,
-    make,
-    ninja-build,
-    patch,
-    pkgconfig,
-    unzip
-  ]
-  }
+neovim_build_dependencies:
+  Archlinux:
+    - base-devel
+    - cmake
+    - curl
+    - git
+    - ninja
+    - python-neovim
+    - tree-sitter
+    - unzip
+  Fedora:
+    - autoconf
+    - automake
+    - cmake
+    - compat-lua-devel
+    - curl
+    - gcc
+    - gcc-c++
+    - gettext
+    - git
+    - libtool
+    - make
+    - ninja-build
+    - patch
+    - pkgconfig
+    - python3-neovim
+    - unzip

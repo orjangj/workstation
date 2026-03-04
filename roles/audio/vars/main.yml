@@ -1,15 +1,23 @@
 audio_packages:
   Archlinux:
+    - alsa-utils
     - gst-plugin-pipewire
+    - pamixer
+    - pavucontrol
     - pipewire
     - pipewire-alsa
     - pipewire-jack
     - pipewire-pulse
+    - playerctl
     - wireplumber
   Fedora:
+    - alsa-utils
+    - pamixer
+    - pavucontrol
     - pipewire
     - pipewire-alsa
     - pipewire-gstreamer
     # - pipewire-plugin-jack  # results in conflict?
     - pipewire-pulseaudio
+    - playerctl
     - wireplumber

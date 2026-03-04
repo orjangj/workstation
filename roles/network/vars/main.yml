@@ -1,6 +1,8 @@
 network_packages:
   Archlinux:
+    - network-manager-applet
     - networkmanager
   Fedora:
+    - network-manager-applet
     - NetworkManager
 
