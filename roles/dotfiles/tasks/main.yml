@@ -2,7 +2,7 @@
 - name: "Clone dotfiles bare repository"
   ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
-    bare: yes
+    bare: true
     dest: "{{ dotfiles_repo_dest }}"
     version: "{{ dotfiles_version }}"
   register: repo

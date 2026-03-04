@@ -9,4 +9,4 @@
   ansible.builtin.unarchive:
     src: "https://github.com/JohnnyMorganz/StyLua/releases/download/{{ stylua_version }}/stylua-linux-x86_64.zip"
     dest: "{{ ansible_user_dir }}/.local/bin"
-    remote_src: yes
+    remote_src: true

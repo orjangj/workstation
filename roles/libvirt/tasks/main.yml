@@ -16,4 +16,4 @@
   ansible.builtin.user:
     name: "{{ libvirt_user }}"
     groups: libvirt
-    append: yes
+    append: true

@@ -1,6 +1,6 @@
 ---
 - name: Ensure dependencies are installed
-  become: yes
+  become: true
   ansible.builtin.package:
     name: "{{ neovim_build_dependencies[ansible_distribution] }}"
     state: present
