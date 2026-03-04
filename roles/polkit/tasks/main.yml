@@ -1,0 +1,6 @@
+---
+- name: Ensure polkit authentication agent is installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ polkit_packages[ansible_distribution] }}"
+    state: present

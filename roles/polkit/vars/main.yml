@@ -1,0 +1,8 @@
+---
+polkit_packages:
+  Archlinux:
+    - polkit
+    - polkit-gnome
+  Fedora:
+    - polkit
+    - polkit-gnome
