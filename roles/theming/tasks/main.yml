@@ -1,0 +1,82 @@
+---
+- name: Ensure Qt theming packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ theming_qt_packages[ansible_distribution] }}"
+    state: present
+
+- name: Ensure local directories exist
+  ansible.builtin.file:
+    state: directory
+    mode: "0755"
+    path: "{{ ansible_user_dir }}/{{ item }}"
+  loop:
+    - ".themes"
+    - ".icons"
+
+- name: Clone Nordic theme repository
+  ansible.builtin.git:
+    repo: https://github.com/EliverLara/Nordic.git
+    depth: 1
+    dest: "{{ theming_nordic_clone_dir }}"
+    version: "{{ theming_nordic_version }}"
+  register: nordic_clone
+
+- name: Install Nordic GTK themes
+  ansible.builtin.copy:
+    src: "{{ theming_nordic_clone_dir }}/{{ item }}"
+    dest: "{{ ansible_user_dir }}/.themes/"
+    remote_src: true
+  loop:
+    - Nordic
+    - Nordic-darker
+  when: nordic_clone.changed
+
+- name: Check if icon themes are already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.icons/Nordzy-cursors"
+  register: icons_installed
+
+- name: Install icon and cursor themes
+  ansible.builtin.unarchive:
+    src: "{{ item.src }}"
+    dest: "{{ ansible_user_dir }}/{{ item.dest }}"
+    remote_src: true
+  loop:
+    - { src: "https://github.com/guillaumeboehm/Nordzy-cursors/releases/download/{{ theming_nordzy_cursors_version }}/Nordzy-cursors.tar.gz", dest: ".icons" }
+    - { src: "https://github.com/MolassesLover/Nordzy-icon/releases/download/{{ theming_nordzy_icon_version }}/Nordzy.tar.gz", dest: ".icons" }
+  when: not icons_installed.stat.exists
+
+- name: Check if Nordic SDDM theme is installed
+  ansible.builtin.stat:
+    path: "/usr/share/sddm/themes/{{ theming_sddm_theme }}"
+  register: sddm_theme_installed
+
+- name: Ensure SDDM themes directory exists
+  become: true
+  ansible.builtin.file:
+    path: /usr/share/sddm/themes
+    state: directory
+    mode: "0755"
+  when: not sddm_theme_installed.stat.exists
+
+- name: Install Nordic SDDM theme
+  become: true
+  ansible.builtin.copy:
+    src: "{{ theming_nordic_clone_dir }}/kde/sddm/{{ theming_sddm_theme }}"
+    dest: /usr/share/sddm/themes/
+    remote_src: true
+  when: not sddm_theme_installed.stat.exists
+
+- name: Ensure wallpaper download directory exists
+  ansible.builtin.file:
+    path: "{{ theming_wallpaper_dest }}"
+    state: directory
+    mode: "0755"
+
+- name: Download wallpaper sources
+  ansible.builtin.git:
+    repo: "{{ item }}"
+    depth: 1
+    dest: "{{ theming_wallpaper_dest }}/{{ item | basename }}"
+  loop: "{{ theming_wallpaper_sources }}"

@@ -1,3 +1,0 @@
----
-wallpaper_dest: "{{ ansible_user_dir }}/.local/share/backgrounds"
-wallpaper_sources: []

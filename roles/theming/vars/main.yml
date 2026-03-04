@@ -1,0 +1,10 @@
+---
+theming_qt_packages:
+  Archlinux:
+    - kvantum
+    - qt5ct
+    - qt6ct
+  Fedora:
+    - kvantum
+    - qt5ct
+    - qt6ct
