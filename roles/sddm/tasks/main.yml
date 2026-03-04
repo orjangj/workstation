@@ -1,0 +1,55 @@
+---
+- name: Ensure SDDM packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ sddm_packages[ansible_distribution] }}"
+    state: present
+
+- name: Ensure wayland-sessions directory exists
+  become: true
+  ansible.builtin.file:
+    path: /usr/share/wayland-sessions
+    state: directory
+    mode: "0755"
+
+- name: Check if Hyprland session file exists
+  ansible.builtin.stat:
+    path: /usr/share/wayland-sessions/hyprland.desktop
+  register: hyprland_session
+
+- name: Ensure Hyprland session file exists
+  become: true
+  ansible.builtin.copy:
+    dest: /usr/share/wayland-sessions/hyprland.desktop
+    mode: "0644"
+    content: |
+      [Desktop Entry]
+      Name=Hyprland
+      Comment=An intelligent dynamic tiling Wayland compositor
+      Exec=Hyprland
+      Type=Application
+  when: not hyprland_session.stat.exists
+
+- name: Configure SDDM theme
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/sddm.conf
+    mode: "0644"
+    content: |
+      [Theme]
+      Current={{ sddm_theme }}
+
+      [General]
+      InputMethod=
+
+- name: Ensure graphical target is the default boot target
+  become: true
+  ansible.builtin.command:
+    cmd: systemctl set-default graphical.target
+  changed_when: false
+
+- name: Ensure SDDM service is enabled on boot
+  become: true
+  ansible.builtin.service:
+    name: sddm
+    enabled: true
