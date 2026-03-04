@@ -19,10 +19,12 @@
     chdir: "{{ lazygit_clone_dir }}/lazygit"
     cmd: "go build"
   register: compile
+  changed_when: true
   when: clone.changed or dependencies.changed
 
 - name: Install
   ansible.builtin.command:
     chdir: "{{ lazygit_clone_dir }}/lazygit"
     cmd: "go install"
+  changed_when: true
   when: compile.changed
