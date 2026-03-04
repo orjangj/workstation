@@ -13,13 +13,9 @@
 
 - name: Install nerdfonts
   ansible.builtin.unarchive:
-    src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
+    src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ nerdfonts_version }}/{{ item }}.zip"
     dest: "{{ ansible_user_dir }}/.local/share/fonts"
     remote_src: true
-  loop:
-    - Hack
-    - Noto
-    - Ubuntu
-    - UbuntuMono
+  loop: "{{ nerdfonts_families }}"
   when: not nerdfonts_installed.stat.exists
   tags: [nerdfonts]
