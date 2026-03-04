@@ -28,6 +28,7 @@ packagegroup:
     - prettier
     - github-cli
     - hyprpaper
+    - noto-fonts-emoji
     - tokei
   Fedora:
     - xorg-x11-server-Xwayland
@@ -55,6 +56,7 @@ packagegroup:
     - flawfinder
     - tokei
     - hyprpaper
+    - google-noto-emoji-fonts
     # missing
     # - prettier
   common:
@@ -80,7 +82,6 @@ packagegroup:
     - make
     - fastfetch
     - npm
-    - swaybg
     - waybar
     - wofi
     - wl-clipboard
