@@ -1,0 +1,35 @@
+---
+gpu_packages_intel:
+  Archlinux:
+    - mesa
+    - vulkan-intel
+    - intel-media-driver
+    - libva-intel-driver
+  Fedora:
+    - mesa-dri-drivers
+    - mesa-vulkan-drivers
+    - intel-media-driver
+    - libva-intel-driver
+
+gpu_packages_amd:
+  Archlinux:
+    - mesa
+    - vulkan-radeon
+    - libva-mesa-driver
+    - mesa-vdpau
+  Fedora:
+    - mesa-dri-drivers
+    - mesa-vulkan-drivers
+    - mesa-va-drivers
+    - mesa-vdpau-drivers
+
+gpu_packages_nvidia:
+  Archlinux:
+    - nvidia
+    - nvidia-utils
+    - nvidia-settings
+    - libva-nvidia-driver
+  Fedora:
+    - akmod-nvidia
+    - xorg-x11-drv-nvidia
+    - nvidia-vaapi-driver

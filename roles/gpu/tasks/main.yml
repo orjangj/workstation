@@ -1,0 +1,45 @@
+---
+- name: Gather PCI device information
+  ansible.builtin.command:
+    cmd: lspci -nn
+  register: lspci_output
+  changed_when: false
+
+- name: Detect GPU vendor
+  ansible.builtin.set_fact:
+    gpu_vendor_intel: "{{ 'Intel' in lspci_output.stdout }}"
+    gpu_vendor_amd: "{{ 'AMD/ATI' in lspci_output.stdout }}"
+    gpu_vendor_nvidia: "{{ 'NVIDIA' in lspci_output.stdout }}"
+
+- name: Ensure RPM Fusion is enabled (Fedora + NVIDIA)
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+      - "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    state: present
+    disable_gpg_check: true
+  when:
+    - gpu_vendor_nvidia
+    - ansible_distribution == "Fedora"
+
+- name: Ensure Intel GPU drivers are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ gpu_packages_intel[ansible_distribution] }}"
+    state: present
+  when: gpu_vendor_intel
+
+- name: Ensure AMD GPU drivers are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ gpu_packages_amd[ansible_distribution] }}"
+    state: present
+  when: gpu_vendor_amd
+
+- name: Ensure NVIDIA GPU drivers are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ gpu_packages_nvidia[ansible_distribution] }}"
+    state: present
+  when: gpu_vendor_nvidia
