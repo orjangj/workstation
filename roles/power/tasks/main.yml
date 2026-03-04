@@ -1,0 +1,20 @@
+---
+- name: Ensure power management packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ power_packages[ansible_distribution] }}"
+    state: present
+
+- name: Ensure power-profiles-daemon is enabled
+  become: true
+  ansible.builtin.service:
+    name: power-profiles-daemon
+    enabled: true
+  when: ansible_distribution == "Archlinux"
+
+- name: Ensure tuned is enabled
+  become: true
+  ansible.builtin.service:
+    name: tuned
+    enabled: true
+  when: ansible_distribution == "Fedora"

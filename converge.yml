@@ -31,6 +31,7 @@
     - { role: gpu, tags: gpu }
     - { role: firewall, tags: firewall }
     - { role: storage, tags: storage }
+    - { role: power, tags: power }
     - { role: bash, tags: bash }
     - { role: libvirt, tags: [libvirt, virtualization] }
     - { role: neovim, tags: neovim }

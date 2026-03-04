@@ -1,0 +1,7 @@
+---
+power_packages:
+  Archlinux:
+    - power-profiles-daemon
+  Fedora:
+    - tuned
+    - tuned-ppd
