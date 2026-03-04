@@ -4,7 +4,7 @@
   become: true
   community.general.locale_gen:
     name: "{{ loc }}"
-  with_items:
+  loop:
     - en_US.UTF-8
     - nb_NO.UTF-8
   loop_control:

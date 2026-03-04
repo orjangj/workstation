@@ -48,7 +48,7 @@
         dest: "{{ ansible_user_dir }}/projects/git/{{ item | basename | replace('.git', '') }}"
         version: "master"
         update: false
-      with_items:
+      loop:
         - "orjangj/ansible-collection-editors.git"
         - "orjangj/ansible-collection-virtualization.git"
         - "orjangj/cookbook.git"

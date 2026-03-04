@@ -4,7 +4,7 @@
     state: directory
     mode: "0755"
     path: "{{ ansible_user_dir }}/{{ item }}"
-  with_items:
+  loop:
     - ".themes"
     - ".icons"
 
@@ -13,7 +13,7 @@
     src: "{{ item.src }}"
     dest: "{{ ansible_user_dir }}/{{ item.dest }}"
     remote_src: true
-  with_items:
+  loop:
     - { src: "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic.tar.xz", dest: ".themes" }
     - { src: "https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz", dest: ".themes" }
     - { src: "https://github.com/guillaumeboehm/Nordzy-cursors/releases/download/v2.4.0/Nordzy-cursors.tar.gz", dest: ".icons"}

@@ -9,4 +9,4 @@
     repo: "{{ item }}"
     depth: 1
     dest: "{{ wallpaper_dest }}/{{ item | basename }}"
-  with_items: "{{ wallpaper_sources }}"
+  loop: "{{ wallpaper_sources }}"

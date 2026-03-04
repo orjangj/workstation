@@ -10,7 +10,7 @@
   ansible.builtin.service:
     name: "{{ item }}"
     enabled: false
-  with_items:
+  loop:
     - "systemd-networkd"
 
 - name: Ensure NetworkManager is enabled on boot

@@ -11,7 +11,7 @@
     src: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/{{ item }}.zip"
     dest: "{{ ansible_user_dir }}/.local/share/fonts"
     remote_src: true
-  with_items:
+  loop:
     - Hack
     - Noto
     - Ubuntu

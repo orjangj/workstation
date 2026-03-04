@@ -26,7 +26,7 @@
     src: "{{ renode_install_dir }}/{{ item }}"
     dest: "{{ ansible_user_dir }}/.local/bin/{{ item }}"
     state: link
-  with_items:
+  loop:
     - renode
     - renode-test
   when: download.changed
