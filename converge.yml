@@ -47,10 +47,6 @@
         version: "master"
         update: false
       loop:
-        - "orjangj/ansible-collection-editors.git"
-        - "orjangj/ansible-collection-virtualization.git"
-        - "orjangj/cookbook.git"
-        - "orjangj/neobuild.git"
         - "orjangj/neotest-ctest.git"
         - "orjangj/polar.nvim.git"
       tags: [projects]
