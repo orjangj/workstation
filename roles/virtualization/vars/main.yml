@@ -1,0 +1,23 @@
+---
+virtualization_libvirt_packages:
+  Archlinux:
+    - bridge-utils
+    - dnsmasq
+    - libvirt
+    - openbsd-netcat
+    - qemu
+    - virt-manager
+    - virt-viewer
+  Fedora:
+    - "@virtualization"
+    - libvirt-devel
+
+virtualization_packages:
+  Archlinux:
+    - podman
+    - quickemu
+    - vagrant
+  Fedora:
+    - podman
+    - quickemu
+    - vagrant

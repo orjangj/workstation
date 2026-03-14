@@ -1,15 +1,22 @@
 ---
-- name: Gather PCI device information
-  ansible.builtin.command:
-    cmd: lspci -nn
-  register: lspci_output
+- name: Ensure pciutils is installed
+  become: true
+  ansible.builtin.package:
+    name: pciutils
+    state: present
+
+- name: Gather VGA/3D controller information
+  ansible.builtin.shell:
+    cmd: lspci -nn | grep -E 'VGA|3D|Display'
+  register: gpu_lspci_output
   changed_when: false
+  failed_when: false
 
 - name: Detect GPU vendor
   ansible.builtin.set_fact:
-    gpu_vendor_intel: "{{ 'Intel' in lspci_output.stdout }}"
-    gpu_vendor_amd: "{{ 'AMD/ATI' in lspci_output.stdout }}"
-    gpu_vendor_nvidia: "{{ 'NVIDIA' in lspci_output.stdout }}"
+    gpu_vendor_intel: "{{ 'Intel' in gpu_lspci_output.stdout }}"
+    gpu_vendor_amd: "{{ 'AMD/ATI' in gpu_lspci_output.stdout }}"
+    gpu_vendor_nvidia: "{{ 'NVIDIA' in gpu_lspci_output.stdout }}"
 
 - name: Ensure RPM Fusion is enabled (Fedora + NVIDIA)
   become: true

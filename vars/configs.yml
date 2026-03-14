@@ -1,10 +1,6 @@
 ---
 dotfiles_repo: "https://github.com/orjangj/dotfiles.git"
 lazygit_version: "v0.59.0"
-neovim_version: "v0.11.6"
-vagrant_plugins:
-  - vagrant-disksize
-  - vagrant-libvirt
 theming_wallpaper_sources:
   - https://github.com/orjangj/wallpapers
 renode_version: "1.16.1"
@@ -14,6 +10,5 @@ nerdfonts_families:
   - Noto
   - Ubuntu
   - UbuntuMono
-theming_nordic_version: "v2.2.0"
 theming_nordzy_cursors_version: "v2.4.0"
 theming_nordzy_icon_version: "1.8.7"

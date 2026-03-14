@@ -1,0 +1,3 @@
+---
+terminal_shell: "bash"  # bash or zsh
+terminal_user: "{{ ansible_user_id }}"

@@ -1,29 +1,8 @@
 ---
-- name: Ensure dependencies are installed
-  become: true
-  ansible.builtin.package:
-    name: "{{ neovim_build_dependencies[ansible_distribution] }}"
-    state: present
+- name: Install Neovim from package
+  ansible.builtin.include_tasks: package.yml
+  when: neovim_install_method == "package"
 
-- name: Checkout repository
-  ansible.builtin.git:
-    repo: https://github.com/neovim/neovim.git
-    depth: 1
-    dest: "{{ neovim_clone_dir }}/neovim"
-    version: "{{ neovim_version }}"
-  register: clone
-
-- name: Compile
-  community.general.make:
-    chdir: "{{ neovim_clone_dir }}/neovim"
-    params:
-      CMAKE_BUILD_TYPE: RelWithDebInfo
-      CMAKE_INSTALL_PREFIX: "{{ ansible_user_dir }}/.local"
-  register: compile
-  when: clone.changed
-
-- name: Install
-  community.general.make:
-    chdir: "{{ neovim_clone_dir }}/neovim"
-    target: "install"
-  when: compile.changed
+- name: Install Neovim from source
+  ansible.builtin.include_tasks: source.yml
+  when: neovim_install_method == "source"

@@ -1,8 +1,6 @@
 ---
-theming_nordic_version: "latest"
-theming_nordic_clone_dir: "{{ ansible_user_dir }}/.build/Nordic"
+theming_nordic_version: "8d09398565686b09fbee5d362a971ed6e0aefb94"
 theming_nordzy_cursors_version: "latest"
 theming_nordzy_icon_version: "latest"
-theming_sddm_theme: "Nordic"
 theming_wallpaper_dest: "{{ ansible_user_dir }}/.local/share/backgrounds"
 theming_wallpaper_sources: []

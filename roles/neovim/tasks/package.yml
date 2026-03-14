@@ -1,0 +1,6 @@
+---
+- name: Ensure Neovim packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ neovim_packages[ansible_distribution] }}"
+    state: present

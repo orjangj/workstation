@@ -1,0 +1,16 @@
+---
+hardware_packages:
+  Archlinux:
+    - dmidecode
+    - linux-firmware
+    - lm_sensors
+    - smartmontools
+    - upower
+    - usbutils
+  Fedora:
+    - dmidecode
+    - linux-firmware
+    - lm_sensors
+    - smartmontools
+    - upower
+    - usbutils

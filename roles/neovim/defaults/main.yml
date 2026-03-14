@@ -1,4 +1,5 @@
 ---
-neovim_version: "HEAD"  # branch, tag, commit, HEAD (latest)
+# Installation method: "package" or "source"
+neovim_install_method: "package"
+neovim_version: "stable"  # branch, tag, or commit — only used with source
 neovim_clone_dir: "{{ ansible_user_dir }}/.build"
-

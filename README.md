@@ -9,13 +9,7 @@ Ansible-based provisioning for a Hyprland development workstation. Takes a minim
 
 ## Prerequisites
 
-A minimal install of Arch Linux or Fedora with a user account and network access.
-
-**Fedora (optional):** Speed up package downloads by adding to `/etc/dnf/dnf.conf`:
-
-```
-max_parallel_downloads=10
-```
+A minimal install of Arch Linux or Fedora with a user account and network access. DNF parallel downloads and fastest mirror are configured automatically by the playbook.
 
 ## Quick Start
 
@@ -64,6 +58,7 @@ roles/
 
 | Role | Description |
 |------|-------------|
+| hardware | Base hardware support (firmware, sensors, diagnostics) |
 | network | NetworkManager and applet |
 | bluetooth | BlueZ bluetooth stack |
 | audio | PipeWire audio stack with ALSA, PulseAudio compatibility, and media controls |
@@ -71,15 +66,16 @@ roles/
 | firewall | firewalld |
 | storage | SSD TRIM timer and zram compressed swap |
 | power | Power profile management (power-profiles-daemon / tuned) |
-| bash | Set bash as default shell |
-| libvirt | QEMU/KVM virtualization with virt-manager |
-| neovim | Build Neovim from source |
+| hyprland | Hyprland compositor with ecosystem tools (hypridle, hyprlock, hyprpaper, waybar, wofi, etc.) |
+| terminal | Terminal emulators (kitty, foot) and shell configuration (bash/zsh) |
+| virtualization | QEMU/KVM with virt-manager, Vagrant, Podman, quickemu |
+| devtools | C/C++ and embedded development tools |
+| neovim | Neovim (package or source install) |
 | nerdfonts | Nerd Font families |
 | lazygit | Build lazygit from source |
 | dotfiles | Deploy dotfiles via bare git repository |
-| stylua | Lua formatter for Neovim |
-| theming | Nordic GTK/Qt themes, Nordzy icons and cursors, SDDM theme, wallpapers |
-| polkit | polkit-gnome authentication agent |
+| theming | Nordic GTK/Qt themes, Nordzy icons and cursors, Breeze SDDM theme, wallpapers |
+| polkit | polkit authentication agent |
 | xdg | XDG desktop portals and user directories |
 | sddm | SDDM display manager with Hyprland session |
 | renode | Renode hardware simulation framework |
@@ -94,9 +90,9 @@ Global configuration lives in two files under `vars/`:
 Role defaults can be overridden in `vars/configs.yml`. For example:
 
 ```yaml
-neovim_version: "v0.11.6"
+lazygit_version: "v0.59.0"
 nerdfonts_version: "v3.4.0"
-theming_nordic_version: "v2.2.0"
+theming_nordzy_cursors_version: "v2.4.0"
 ```
 
 ## Testing
@@ -111,14 +107,16 @@ VM_DISTRO=fedora vagrant up
 VM_DISTRO=archlinux vagrant up
 
 # Run specific roles
-VM_DISTRO=fedora TAGS=gpu,theming,sddm vagrant up
+TAGS=gpu,theming,sddm vagrant provision
 
 # Enable verbose output
 VERBOSE=v vagrant up
+
+# Launch graphical console
+DISPLAY_CONSOLE=1 vagrant up
 
 # Tear down
 vagrant destroy
 ```
 
-The VM is configured with 8GB RAM, 4 CPUs, and SPICE graphics. `virt-viewer` is launched automatically for graphical console access.
-
+The VM automatically uses half the host's RAM and CPU cores, with a 40GB disk and SPICE graphics.

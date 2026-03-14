@@ -1,0 +1,6 @@
+---
+- name: Ensure C/C++ development tools are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ devtools_packages[ansible_distribution] }}"
+    state: present

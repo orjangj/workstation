@@ -1,0 +1,9 @@
+---
+- name: Configure libvirt
+  ansible.builtin.include_tasks: libvirt.yml
+
+- name: Ensure virtualization tools are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ virtualization_packages[ansible_distribution] }}"
+    state: present

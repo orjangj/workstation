@@ -1,0 +1,9 @@
+---
+- name: Ensure terminal emulators are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ terminal_packages[ansible_distribution] }}"
+    state: present
+
+- name: Configure shell
+  ansible.builtin.include_tasks: "{{ terminal_shell }}.yml"

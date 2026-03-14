@@ -1,7 +1,9 @@
 ---
 power_packages:
   Archlinux:
+    - acpi
     - power-profiles-daemon
   Fedora:
+    - acpi
     - tuned
     - tuned-ppd

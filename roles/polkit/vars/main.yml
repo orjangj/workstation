@@ -2,7 +2,7 @@
 polkit_packages:
   Archlinux:
     - polkit
-    - polkit-gnome
+    - polkit-kde-agent
   Fedora:
     - polkit
-    - polkit-gnome
+    - polkit-kde

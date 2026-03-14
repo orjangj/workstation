@@ -17,6 +17,16 @@
           - hardware
       tags: [always]
 
+    - name: Optimize DNF configuration
+      become: true
+      ansible.builtin.blockinfile:
+        path: /etc/dnf/dnf.conf
+        block: |
+          max_parallel_downloads=10
+          fastestmirror=True
+      when: ansible_distribution == "Fedora"
+      tags: [always]
+
     - name: "Ensure package dependencies are installed"
       become: true
       ansible.builtin.package:
@@ -25,6 +35,7 @@
       tags: [package]
 
   roles:
+    - { role: hardware, tags: hardware }
     - { role: network, tags: network }
     - { role: bluetooth, tags: bluetooth }
     - { role: audio, tags: audio }
@@ -32,13 +43,14 @@
     - { role: firewall, tags: firewall }
     - { role: storage, tags: storage }
     - { role: power, tags: power }
-    - { role: bash, tags: bash }
-    - { role: libvirt, tags: [libvirt, virtualization] }
+    - { role: hyprland, tags: hyprland }
+    - { role: terminal, tags: terminal }
+    - { role: virtualization, tags: [virtualization, libvirt] }
+    - { role: devtools, tags: devtools }
     - { role: neovim, tags: neovim }
     - { role: nerdfonts, tags: nerdfonts }
     - { role: lazygit, tags: lazygit }
     - { role: dotfiles, tags: dotfiles }
-    - { role: stylua, tags: stylua }
     - { role: theming, tags: theming }
     - { role: polkit, tags: polkit }
     - { role: xdg, tags: xdg }

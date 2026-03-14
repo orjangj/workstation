@@ -1,0 +1,18 @@
+---
+- name: Ensure dnf copr plugin is installed
+  become: true
+  ansible.builtin.package:
+    name: dnf-plugins-core
+    state: present
+
+- name: Ensure COPR repo is enabled
+  become: true
+  community.general.copr:
+    name: "{{ hyprland_copr_repo }}"
+    state: enabled
+
+- name: Ensure Hyprland is installed (from COPR)
+  become: true
+  ansible.builtin.package:
+    name: hyprland
+    state: present

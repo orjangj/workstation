@@ -1,0 +1,24 @@
+---
+devtools_packages:
+  Archlinux:
+    - base-devel
+    - cmake
+    - clang
+    - cppcheck
+    - gdb
+    - make
+    - ninja
+    - openocd
+    - valgrind
+  Fedora:
+    - cmake
+    - clang-tools-extra
+    - cppcheck
+    - flawfinder
+    - gcc
+    - gcc-c++
+    - gdb
+    - make
+    - ninja-build
+    - openocd
+    - valgrind

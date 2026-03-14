@@ -1,0 +1,20 @@
+---
+- name: Check if Hyprland is available in official repos
+  become: true
+  ansible.builtin.package:
+    name: hyprland
+    state: present
+  register: hyprland_install
+  ignore_errors: "{{ ansible_distribution == 'Fedora' }}"
+
+- name: Install Hyprland from COPR
+  ansible.builtin.include_tasks: copr.yml
+  when:
+    - ansible_distribution == "Fedora"
+    - hyprland_install is failed
+
+- name: Ensure Hyprland dependency packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ hyprland_packages[ansible_distribution] }}"
+    state: present

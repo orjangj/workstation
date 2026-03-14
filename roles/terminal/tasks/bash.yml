@@ -1,4 +1,3 @@
-# vim: set ft=yaml.ansible:
 ---
 - name: Ensure bash is installed
   become: true
@@ -8,8 +7,8 @@
       - bash-completion
     state: present
 
-- name: "Ensure bash is set as default shell for user '{{ bash_user }}'"
+- name: "Ensure bash is set as default shell for user '{{ terminal_user }}'"
   become: true
   ansible.builtin.user:
-    name: "{{ bash_user }}"
+    name: "{{ terminal_user }}"
     shell: /bin/bash

@@ -1,0 +1,32 @@
+---
+hyprland_packages:
+  Archlinux:
+    - brightnessctl
+    - dunst
+    - grim
+    - hypridle
+    - hyprlock
+    - hyprpaper
+    - slurp
+    - swappy
+    - waybar
+    - wl-clipboard
+    - wofi
+    - xorg-xwayland
+    - qt5-wayland
+    - qt6-wayland
+  Fedora:
+    - brightnessctl
+    - dunst
+    - grim
+    - hypridle
+    - hyprlock
+    - hyprpaper
+    - slurp
+    - swappy
+    - waybar
+    - wl-clipboard
+    - wofi
+    - xorg-x11-server-Xwayland
+    - qt5-qtwayland
+    - qt6-qtwayland

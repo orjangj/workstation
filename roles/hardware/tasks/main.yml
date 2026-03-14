@@ -1,0 +1,6 @@
+---
+- name: Ensure hardware packages are installed
+  become: true
+  ansible.builtin.package:
+    name: "{{ hardware_packages[ansible_distribution] }}"
+    state: present
