@@ -1,2 +1,6 @@
 ---
-sddm_theme: "breeze"
+sddm_theme: "sddm-astronaut-theme"
+sddm_astronaut_version: "master"
+# Available flavors: https://github.com/Keyitdev/sddm-astronaut-theme
+# Video backgrounds require additional codecs (e.g. gstreamer plugins)
+sddm_astronaut_flavor: "astronaut"

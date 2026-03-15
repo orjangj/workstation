@@ -5,7 +5,7 @@ Ansible-based provisioning for a Hyprland development workstation. Takes a minim
 ## Supported Distributions
 
 - Arch Linux
-- Fedora
+- Fedora 43+
 
 ## Prerequisites
 

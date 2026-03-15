@@ -8,9 +8,3 @@ theming_qt_packages:
     - kvantum
     - qt5ct
     - qt6ct
-
-theming_sddm_packages:
-  Archlinux:
-    - sddm-kcm
-  Fedora:
-    - sddm-breeze

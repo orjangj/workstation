@@ -35,12 +35,6 @@
     - { src: "https://github.com/MolassesLover/Nordzy-icon/releases/download/{{ theming_nordzy_icon_version }}/Nordzy.tar.gz", dest: ".icons" }
   when: not icons_installed.stat.exists
 
-- name: Ensure SDDM theme is installed
-  become: true
-  ansible.builtin.package:
-    name: "{{ theming_sddm_packages[ansible_distribution] }}"
-    state: present
-
 - name: Ensure wallpaper download directory exists
   ansible.builtin.file:
     path: "{{ theming_wallpaper_dest }}"

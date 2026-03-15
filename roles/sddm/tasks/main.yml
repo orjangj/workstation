@@ -30,7 +30,21 @@
       Type=Application
   when: not hyprland_session.stat.exists
 
-- name: Configure SDDM theme
+- name: Clone sddm-astronaut-theme
+  become: true
+  ansible.builtin.git:
+    repo: https://github.com/Keyitdev/sddm-astronaut-theme.git
+    dest: /usr/share/sddm/themes/sddm-astronaut-theme
+    version: "{{ sddm_astronaut_version }}"
+
+- name: Configure astronaut theme flavor
+  become: true
+  ansible.builtin.lineinfile:
+    path: /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop
+    regexp: "^ConfigFile="
+    line: "ConfigFile=Themes/{{ sddm_astronaut_flavor }}.conf"
+
+- name: Configure SDDM
   become: true
   ansible.builtin.copy:
     dest: /etc/sddm.conf
@@ -50,6 +64,6 @@
 
 - name: Ensure SDDM service is enabled on boot
   become: true
-  ansible.builtin.service:
-    name: sddm
-    enabled: true
+  ansible.builtin.command:
+    cmd: systemctl enable sddm --force
+  changed_when: false

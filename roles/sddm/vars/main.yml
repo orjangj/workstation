@@ -5,9 +5,11 @@ sddm_packages:
     - qt6-5compat
     - qt6-declarative
     - qt6-svg
+    - qt6-multimedia
   Fedora:
     - sddm
     - sddm-wayland-generic
     - qt6-qt5compat
     - qt6-qtdeclarative
     - qt6-qtsvg
+    - qt6-qtmultimedia
