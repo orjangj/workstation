@@ -19,6 +19,7 @@ packagegroup:
     - gh
     - tokei
     - google-noto-emoji-fonts
+    - git-clang-format
   common:
     - bat
     - btop
@@ -44,3 +45,4 @@ packagegroup:
     - unzip
     - wget
     - zathura
+    - tio
