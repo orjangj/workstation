@@ -1,0 +1,19 @@
+---
+# Edits the .repo files directly: community.general.copr queries the COPR API
+# even for state=disabled and fails when the repo has no chroot for this release.
+- name: Find COPR repo files to disable
+  ansible.builtin.find:
+    paths: /etc/yum.repos.d
+    patterns: "{{ hyprland_copr_disable | map('replace', '/', ':')
+                  | map('regex_replace', '^(.*)$', '_copr:copr.fedorainfracloud.org:\\1.repo') | list }}"
+  register: hyprland_copr_disable_files
+
+- name: Ensure COPR repos are disabled
+  become: true
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    regexp: '^enabled=1$'
+    replace: 'enabled=0'
+  loop: "{{ hyprland_copr_disable_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"

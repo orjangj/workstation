@@ -5,6 +5,11 @@
     name: dnf-plugins-core
     state: present
 
+- name: Disable retired COPR repos
+  ansible.builtin.include_tasks: copr_disable.yml
+  vars:
+    hyprland_copr_disable: "{{ hyprland_copr_obsolete }}"
+
 - name: Ensure COPR repo is enabled
   become: true
   community.general.copr:

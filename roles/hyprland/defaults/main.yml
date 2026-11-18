@@ -1,2 +1,48 @@
 ---
-hyprland_copr_repo: "solopasha/hyprland"
+# Fedora only: "local" builds the stack from files/specs with mock, "copr" uses hyprland_copr_repo
+hyprland_source: local
+
+hyprland_copr_repo: "sdegler/hyprland"
+
+# Retired COPR repos, disabled on every Fedora run
+hyprland_copr_obsolete:
+  - solopasha/hyprland
+
+hyprland_local_dir: /var/cache/hyprland-rpm
+hyprland_local_chroot: "fedora-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}"
+
+# Build order matters: each package may only depend on packages above it
+hyprland_local_specs:
+  - hyprutils
+  - hyprwayland-scanner
+  - hyprland-protocols
+  - glaze
+  - hyprlang
+  - hyprwire
+  - aquamarine
+  - hyprgraphics
+  - hyprcursor
+  - hyprtoolkit
+  - hyprland-guiutils
+  - hyprland
+  - hypridle
+  - hyprlock
+  - hyprpaper
+  - xdg-desktop-portal-hyprland
+
+# Runtime packages kept at the newest local build (build-only packages excluded)
+hyprland_local_install:
+  - hyprutils
+  - hyprlang
+  - hyprwire
+  - aquamarine
+  - hyprgraphics
+  - hyprcursor
+  - hyprtoolkit
+  - hyprland-guiutils  # dialogs; 0.57 warns at startup when missing
+  - hyprland
+  - hyprland-uwsm  # "Hyprland (uwsm-managed)" login entry, built from hyprland.spec
+  - hypridle
+  - hyprlock
+  - hyprpaper
+  - xdg-desktop-portal-hyprland

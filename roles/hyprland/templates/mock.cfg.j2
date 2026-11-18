@@ -1,0 +1,14 @@
+include('/etc/mock/{{ hyprland_local_chroot }}.cfg')
+
+config_opts['macros']['%dist'] = '{{ hyprland_local_dist }}'
+
+# Prefer earlier chain results over same-name packages in the Fedora repos
+config_opts['dnf.conf'] += """
+[hyprland-local]
+name=hyprland-local
+baseurl=file://{{ hyprland_local_dir }}/repo/results/{{ hyprland_local_chroot }}/
+priority=1
+gpgcheck=0
+metadata_expire=0
+skip_if_unavailable=True
+"""

@@ -57,7 +57,7 @@ Each role lives in `roles/<name>/` with standard Ansible structure (`tasks/main.
 
 - **Multi-distro support**: Tasks use `ansible.builtin.package` for distro-agnostic installs; conditional logic uses `ansible_distribution`
 - **Self-contained roles**: Each role owns all its packages and dependencies
-- **COPR fallback**: Hyprland role tries official repos first, falls back to COPR on Fedora
+- **Hyprland on Fedora**: Fedora does not ship Hyprland. `hyprland_source: local` (default) builds the stack with mock from vendored spec files in `roles/hyprland/files/specs/` into a local dnf repo; `hyprland_source: copr` uses `hyprland_copr_repo`
 - **Source compilation**: Some tools (neovim, lazygit) can optionally be built from source and installed to `~/.local/`
 - **User-aware paths**: Uses `ansible_user_dir` and `ansible_user_id`; distinguishes vagrant test users from real users for git clone URLs (HTTPS vs SSH)
 - **Idempotent tasks**: All tasks designed to be safely re-run
