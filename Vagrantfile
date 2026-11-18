@@ -11,6 +11,16 @@ display = ENV['DISPLAY_CONSOLE'] || false
 host_memory = `grep MemTotal /proc/meminfo`.split[1].to_i / 1024
 host_cpus = `nproc`.to_i
 
+# 3D acceleration (SPICE GL) needs a render node QEMU can use. Without one set,
+# libvirt takes the first /dev/dri/renderD* it finds; on hybrid laptops that can
+# be the NVIDIA GPU, whose EGL fails inside the libvirt sandbox (EGL_NOT_INITIALIZED).
+# Pick the first render node not driven by nvidia (Intel/AMD, Mesa).
+render_node = Dir.glob("/sys/class/drm/renderD*").sort.map { |n|
+  driver = File.join(n, "device", "driver")
+  [File.basename(n), File.exist?(driver) ? File.basename(File.realpath(driver)) : nil]
+}.find { |_, driver| driver && driver != "nvidia" }&.first
+render_node &&= "/dev/dri/#{render_node}"
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #config.vagrant.plugins = "vagrant-libvirt"
   config.ssh.insert_key = false
@@ -45,10 +55,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.graphics_type = "spice"
     v.video_type = "virtio"
 
+    # vagrant-libvirt has no render node option, see the StartDomain trigger below
+    v.video_accel3d = !render_node.nil?
+    v.graphics_gl = !render_node.nil?
+
     # -------------
     # Input options
     # -------------
     v.input :type => "tablet", :bus => "usb"
+  end
+
+  # Runs after vagrant-libvirt defines the domain and before it starts (first boot
+  # included). StartDomain keeps the rendernode attribute when it syncs the XML.
+  if render_node
+    config.trigger.before :"VagrantPlugins::ProviderLibvirt::Action::StartDomain", type: :action do |trigger|
+      trigger.info = "Pinning SPICE GL render node to #{render_node}"
+      trigger.run = { inline: "virt-xml --connect qemu:///system workstation_#{distro} --edit --graphics gl.enable=yes,gl.rendernode=#{render_node}" }
+    end
   end
 
   if display
