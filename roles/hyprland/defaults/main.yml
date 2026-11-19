@@ -29,6 +29,7 @@ hyprland_local_specs:
   - hyprlock
   - hyprpaper
   - xdg-desktop-portal-hyprland
+  - uwsm  # not in Fedora repos; runtime dependency of hyprland-uwsm
 
 # Runtime packages kept at the newest local build (build-only packages excluded)
 hyprland_local_install:
@@ -46,3 +47,4 @@ hyprland_local_install:
   - hyprlock
   - hyprpaper
   - xdg-desktop-portal-hyprland
+  - uwsm
